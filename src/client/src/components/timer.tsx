@@ -13,7 +13,7 @@ const Timer = () => {
     minutes,
     start,
     pause,
-    isRunning,
+    // isRunning,
   } = useStopwatch({ autoStart: false })
 
   useEffect(() => {
