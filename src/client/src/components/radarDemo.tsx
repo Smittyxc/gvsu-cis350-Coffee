@@ -55,12 +55,7 @@ const RadarDemo = () => {
       )
     )
   }
-  useEffect(() =>
-    console.log(rating),
-    [rating]
-  )
 
-  
   return (
     <div className='min-h-screen w-full'>
       <div className='h-100 w-full grid grid-rows-2 justify-center items-center'>
@@ -94,11 +89,12 @@ const RadarDemo = () => {
           </RadarChart>
         </ResponsiveContainer>
       </div>
-      <div className='h-200 flex justify-center'>
-        <ResponsiveContainer width="90%" height="100%">
-          <Treemap data={treeMapData} dataKey="size" aspectRatio={4 / 2} stroke="#fff" fill="#8884d8" />
-        </ResponsiveContainer>
+      <div className='flex flex-col justify-center items-center gap-4 h-200'>
+          <ResponsiveContainer width="90%" height="100%">
+            <Treemap data={treeMapData} dataKey="size" aspectRatio={4 / 2} stroke="#fff" fill="#8884d8" />
+          </ResponsiveContainer>
       </div>
+  
     </div>
   )
 }

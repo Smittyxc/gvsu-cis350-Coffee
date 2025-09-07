@@ -36,10 +36,14 @@ const Demo = () => {
         </div>
       </form>
       <Link to="/radar">
-        <Button variant='default' className=''>Radar</Button>
+        <Button variant='default' className=''>Dashboard</Button>
       </Link>
+      <Link to="/timer">
+        <Button variant='default' className=''>Timer</Button>
+      </Link>
+      <Link to="/shadcn"></Link>
       <Link to="/shadcn">
-        <Button variant='default' className=''>Shadcn</Button>
+        <Button variant='default' className=''>Test</Button>
       </Link>
       <PWABadge />
     </div>
