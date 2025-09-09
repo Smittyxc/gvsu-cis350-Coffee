@@ -4,8 +4,39 @@ import { Check, Pause, Play, X } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 
+
+const recipe = [
+  {
+    endTime: 5,
+    type: "Bloom",
+    description: "Pour 40mL to evenly wet coffee bed",
+    targetWeight: 40
+  },
+  {
+    endTime: 10,
+    type: "Wait",
+    description: "Let coffee bloom for 30sec",
+    targetWeight: 40
+  },
+  {
+    endTime: 20,
+    type: "Pour",
+    description: "Pour 40mL to evenly wet coffee bed",
+    targetWeight: 40
+  },
+  {
+    endTime: 25,
+    type: "Complete",
+    description: "Enjoy your hard work!",
+    targetWeight: 40
+  }
+]
+
 const Timer = () => {
   const [isComplete, setIsComplete] = useState(false)
+  const [stepIndex, setStepIndex] = useState(0)
+
+  const step = recipe[stepIndex]
 
   const {
     totalSeconds,
@@ -17,11 +48,25 @@ const Timer = () => {
   } = useStopwatch({ autoStart: false })
 
   useEffect(() => {
-    if (totalSeconds >= 10) {
+    if (step.type === "Complete") {
       pause()
       setIsComplete(true)
     }
+    else if (totalSeconds >= step.endTime) {
+      setStepIndex(prev => prev + 1)
+    }
   }, [totalSeconds, isComplete])
+
+  type StepType = 'Pour' | 'Wait' | 'Bloom' | 'Complete'
+
+  const color = {
+    Pour: 'bg-sky-200',
+    Wait: 'bg-gray-200',
+    Bloom: 'bg-fuchsia-200',
+    Complete: 'bg-lime-200'
+  }
+
+  const bgColor = color[step.type as StepType]
 
   return (
     <div className='w-full min-h-screen flex flex-col items-center justify-between py-8 gap-4'>
@@ -30,18 +75,10 @@ const Timer = () => {
           <span>{String(minutes).padStart(2, '0')}</span>:<span>{String(seconds).padStart(2, '0')}</span>
         </div>
       </div>
-      {isComplete ? (
-        <div className='h-36 w-3/4 bg-lime-200 flex flex-col items-center justify-evenly p-2 shadow-lg rounded-2xl animate-in'>
-          <h1 className='text-2xl text-lime-700 font-bold'>Brew Completed</h1>
-          <p className='text-gray-600'>Enjoy your hard work!</p>
+        <div className={`h-36 w-3/4 ${bgColor} flex flex-col items-center justify-evenly p-2 shadow-lg rounded-2xl animate-in`}>
+          <h1 className='text-2xl text-gray-700 font-bold'>{step.type}</h1>
+          <p className='text-gray-600'>{step.description}</p>
         </div>
-      ) : (
-        <div className='h-36 w-3/4 bg-sky-200 flex flex-col items-center justify-evenly p-2 shadow-lg rounded-2xl'>
-          <h1 className='text-2xl text-sky-700 font-bold'>Pour</h1>
-          <p className='text-gray-600'>Pour 50mL until 2:30</p>
-        </div>
-      )}
-
       <div className='flex gap-4 items-center'>
         {isComplete ? (
           <>
