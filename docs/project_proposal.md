@@ -52,6 +52,7 @@ __User Account__:
  There are several features our ideal app will support: the ability for users to add bags of coffee to their account; the ability for users to add, edit, and delete pour over recipes to be used in the brew guide; the ability for users to use their recipes in a timer-like guide that prompts certain brewing actions at certain time points; and the ability to log data on their coffee. The dashboard feature aims to incorporate visualizations on bags of coffee and lifetime coffee statistics, some being:
 
 ### 2.1.4 Non-Functional Requirements
+
 - The PWA will function correctly in both Android and IOS environments
 - The codebase will be well-documented and adhere to best industry practices to ensure maintainability
 
@@ -66,14 +67,19 @@ Our team has selected a conventional technology stack of Node, Express, React, a
 
 # Method/Approach
 
-(What is your estimated "plan of attack" for developing this project)
+Our approach to this project will be base on Agile/Scrum; we intend to have weekly meetings where we can create a backlog, assign tasks, build sprints, and give updates on the previous week's work. Although we will each have our own tasks, it is important to us to still learn about other's work and understand how it's being implemented. It will be a very incremental process where we portion out work into appropriate story-points and assess our burndown to gauge how quickly we can work. Hopefully, we can learn to rate tasks accurately and improve our metrics as we progress. 
 
 # Estimated Timeline
 
-(Figure out what your major milestones for this project will be, including how long you anticipate it *may* take to reach that point)
+- Sept. 8 - Sept. 21: planning and prelimary diagrams/UI design
+- Sept. 22 - Oct. 31: build phase 
 
 # Anticipated Problems
 
-(Describe any problems you foresee that you will need to overcome)
+- Understand domain and user needs
+- Learning new technologies (Node, Express, Postgres)
+- Maintaining thorough documentation and logs
+
+
 
 Remember this is a living document is expected to be changed as you make progress on your project.
