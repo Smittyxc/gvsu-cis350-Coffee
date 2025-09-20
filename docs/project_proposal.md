@@ -8,7 +8,7 @@ Team name: __Coffee__
 Team members:
 - Matt Smith
 - Jaden Henderson
-- Third Dude
+- Joshua Burgenmeyer
 
 # 1. Abstract
 In the world of specialty coffee, coffee is much more than a quick source of caffeine in the morning. Enthusiasts tend to have a methodical approach to their coffee preparation that involves the control of many variables with the goal of producing a bright and flavorful cup of coffee. Some of these variables include coffee bean variety, grind size, water mineral content, water temperature, pour technique, timing of pours, and agitation of the coffee ground bed. During the brewing process, managing these factors can become a headache, especially because of its time sensitivity. Although apps exist for different brew styles (Aeropress, espresso), there is a market gap for a brew guide aimed at pour over coffee. Existing apps lack nuances specific to pour overs and additionally do not faciliate meaningful data tracking, hindering users' ability to dial in coffee to perfection.
