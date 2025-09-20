@@ -5,7 +5,7 @@ In the world of specialty coffee, enthusiasts go to great lengths to perfect the
 # Team Members and Roles
 
 * [Matt Smith](https://github.com/Smittyxc/CIS350-HW2-Smith) (Role 1, Role 2)
-* Member 2 (Role 3, Role 4)
+* Jaden Henderson (Role 3, Role 4)
 * Member 3 (Role 5, Role 6)
 
 # Prerequisites
