@@ -71,8 +71,13 @@ Our approach to this project will be base on Agile/Scrum; we intend to have week
 
 # Estimated Timeline
 
-- Sept. 8 - Sept. 21: planning and prelimary diagrams/UI design
-- Sept. 22 - Oct. 31: build phase 
+- Sept. 8 - Sept. 26: Planning and prelimary diagrams/UI design
+- Sept. 26 - Oct. 31: Build phase 
+    - Build Supabase DB
+    - React frontend
+    - Node backend
+- Nov. 1 - 31: Testing, revision, and completion of documentation
+
 
 # Anticipated Problems
 
