@@ -6,7 +6,7 @@ In the world of specialty coffee, enthusiasts go to great lengths to perfect the
 
 * [Matt Smith](https://github.com/Smittyxc/CIS350-HW2-Smith) (Database, Testing)
 * Jaden Henderson (Role 3, Role 4)
-* [Joshua Burgenmeyer](https://github.com/burgenmj/CIS350-HW2-BURGENMEYER) (Role 5, Role 6)
+* [Joshua Burgenmeyer](https://github.com/burgenmj/CIS350-HW2-BURGENMEYER) (Frontend, UI/UX Design)
 
 # Prerequisites
 
