@@ -26,35 +26,37 @@ Intended users fall into two distinct groups:
 
 ### 2.1.3 Functional Requirements
 __Data Logging__:
-1. Users will be able to adds bags of coffee and related information to their profile
-2. Users will be able to enter the following brew metrics that are associated with a specific recipe and bag of coffee.
-    - Clarity, acidity, sweetness, body, and flavor on a  1 - 5 scale
-    - Overall score from 1 - 10
-
+- R1: The system shall handle the addition of bags of coffee and related information to their profile
+- R2: The system shall allow users to enter brew metrics that are associated with a specific recipe and bag of coffee.
+    
 __Recipe Management__:
-1. Users will be able to create, modify, and delete recipes consisting of a name, dripper, coffee dose, grinder, grind size, water temperature, and a sequenital of timed steps
-2. Each step will include a description and end time. 
-3. Users will be able to view, search, and filter their recipe library.
+- R3: The recipe library shall handle the creation recipes consisting of a name, dripper, coffee dose, grinder, grind size, water temperature, and a sequence of timed steps.
+- R4: The recipe library shall handle the modification and deletion of recipes.
+- R5: The recipe library shall allow users to view, search, and filter their recipes.
 
 __Brew Timer__:
-1. Users will be able to select a recipe and be taken to the brew guide feature
-2. Users will be able to start and pause the guide
-3. The system will provide a visual and audio cue at the changing of a step
-4. Users wil be able to, upon completion of a brew, log results on their coffee.
+- R6: The system shall enter the brew guide feature on the click of a specific recipe.
+- R7: The brew guide shall handle pausing and starting of the brew timer.
+- R8: The brew guide shall provide a visual and audio cue at the changing of a step
+- R9. The brew guide shall take users to a data entry form upon completion of a brew.
 
 __Data Visualization__:
-1. Users can view a radar graph composed of clarity, acidity, sweetness, body, and flavor for each recent bag of coffee.
-2. Users can view a Tree graph of the total number of cups of coffee they've drank of a certain subspecies, country, or processing method.
-3. Users can view the remaining coffee left in a bag and receive a notifcation when it falls beneath a set weight.
-4. Users can view their average ranking of coffees based on country, processing method, recipe, or coffee type.
+- R10: The dashboard shall create a radar graph composed of clarity, acidity, sweetness, body, and flavor for each recent bag of coffee.
+- R11: The dashboard shall create a Tree graph of the total number of cups of coffee they've drank of a certain subspecies, country, or processing method.
+- R12: The dashboard shall calculate the remaining coffee left in a bag 
+- R13: The dashboard shall notify users when the amount of coffee remaining falls below a specified threshold.
+- R14: The dashboard shall display average ranking of coffees based on country, processing method, recipe, or coffee type.
 
 __User Account__:
  There are several features our ideal app will support: the ability for users to add bags of coffee to their account; the ability for users to add, edit, and delete pour over recipes to be used in the brew guide; the ability for users to use their recipes in a timer-like guide that prompts certain brewing actions at certain time points; and the ability to log data on their coffee. The dashboard feature aims to incorporate visualizations on bags of coffee and lifetime coffee statistics, some being:
 
 ### 2.1.4 Non-Functional Requirements
 
-- The PWA will function correctly in both Android and IOS environments
-- The codebase will be well-documented and adhere to best industry practices to ensure maintainability
+- N1: The PWA shall function correctly in both Android and IOS environments.
+- N2: The codebase shall be well-documented and adhere to best industry practices to ensure maintainability.
+- N3. The system shall be intuitive so that users can start and complete their first brew session without needing a tutorial.
+- N4. The system shall be designed primarily for mobile use.
+
 
 
 
