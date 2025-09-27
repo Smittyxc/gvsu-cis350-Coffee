@@ -1,0 +1,27 @@
+# Meeting Minutes 
+
+Team name: __Coffee__
+
+Members present: 
+- Matt
+- Jaden
+- Josh
+
+Date: __9/26/2025__
+
+Time: __4:50pm__
+
+### Discussion points:
+
+* Covered updates to project proposal: functional and nonfunctional requirements, timeline.
+* Clarified developer roles: can be what your working on or also team lead, etc.
+* Order of development: start with backend and login/user authentication, then database. Build database from UML diagram. Link front and backend whenever possible.
+* Figma diagrams can be numbered if new ones are created. 
+
+### Goals for next week (include responsibilities)
+
+* Update project proposal: artifacts, timeline, and roles.
+* Create a plan for starting development.
+* Create Jira tickets from the plan.
+* Start development.
+
