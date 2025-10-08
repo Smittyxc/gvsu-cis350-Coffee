@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { signUpNewUser } from "@/lib/auth";
+import { Coffee } from "lucide-react";
 import { FormEvent, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -20,12 +21,7 @@ interface Signup1Props {
 
 const Signup = ({
   heading = "Signup",
-  logo = {
-    url: "https://www.shadcnblocks.com",
-    src: "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/logos/shadcnblockscom-wordmark.svg",
-    alt: "logo",
-    title: "shadcnblocks.com",
-  },
+
   buttonText = "Create Account",
   signupText = "Already a user?",
 }: Signup1Props) => {
@@ -67,19 +63,15 @@ const Signup = ({
 
 
   return (
-    <section className="bg-muted h-screen">
+    <div className='flex flex-col w-full min-h-screen items-center justify-center bg-gradient-to-b from-blue-700 from-50% to-neutral-50 to-50%'>
       <div className="flex h-full items-center justify-center">
         {/* Logo */}
         <div className="flex flex-col items-center gap-6 lg:justify-start">
-          <a href={logo.url}>
-            <img
-              src={logo.src}
-              alt={logo.alt}
-              title={logo.title}
-              className="h-10 dark:invert"
-            />
-          </a>
-          <form onSubmit={handleSubmit} className="min-w-sm border-muted bg-background flex w-full max-w-sm flex-col items-center gap-y-4 rounded-md border px-6 py-8 shadow-md">
+            <div className="flex gap-6">
+              <Coffee size={48} color="#ffffff" />
+              <h1 className="text-5xl text-white font-semibold">Best<span className="font-light">Brew</span></h1>
+            </div>
+            <form onSubmit={handleSubmit} className="min-w-sm border-muted bg-background flex w-full max-w-sm flex-col items-center gap-y-4 rounded-md border px-6 py-8 shadow-md">
             {heading && <h1 className="text-xl font-semibold">{heading}</h1>}
             <Input
               type="email"
@@ -120,7 +112,7 @@ const Signup = ({
           </div>
         </div>
       </div>
-    </section>
+    </div>
   );
 };
 

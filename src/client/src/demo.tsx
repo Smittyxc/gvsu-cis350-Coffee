@@ -1,7 +1,6 @@
 import PWABadge from './PWABadge.tsx'
 import { Button } from './components/ui/button.tsx'
 import { Link, useNavigate } from 'react-router-dom'
-import { useAuth } from './context/AuthContext.tsx'
 import { signOut } from './lib/auth.tsx'
 
 
