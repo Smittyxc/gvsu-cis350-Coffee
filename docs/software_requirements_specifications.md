@@ -9,7 +9,8 @@ __Coffee Bag Logging__:
 - FR2: The system shall track remaining grams of coffee based on amount of brews performed with it.
 - FR3: The system shall allow users to copy previous bags of coffee as a template.
 - FR4: The system shall track the number of days past roast date for a bag of coffee.
-__Brew Result Loggin__:
+
+__Brew Result Login__:
 - FR5: The system shall allow users to enter brew results that are associated with a specific recipe and bag of coffee.
 - FR6: Brew results in the system shall consist of flavor notes, recipe used, brightness, bitterness, acidity, sweetness, and balance. 
 - FR6: The system shall display a list of brew results by date per bag of coffee.
@@ -28,6 +29,7 @@ __Brew Timer__:
 
 __Data Visualization__:
 - FR14: The dashboard shall create a radar graph composed of clarity, acidity, sweetness, body, and flavor for each recent bag of coffee.
+- (_The following dashboard features will be implemented if sufficient time exist._)
 - FR15: The dashboard shall create a Tree graph of the total number of cups of coffee they've drank of a certain subspecies, country, or processing method.
 - FR16: The dashboard shall calculate the remaining coffee left in a bag 
 - FR17: The dashboard shall notify users when the amount of coffee remaining falls below a specified threshold.
@@ -42,18 +44,18 @@ __Usability__:
 - NF4: The system's UI shall retain a simplistic and minimal design
 
 __Security & Privacy__:
-- NF5: The system shall acheive secure register and sign-in through Supabase's Auth system
+- NF5: The system shall achieve secure register and sign-in through Supabase's Auth system
 - NF6: The system shall use row level secure in its database.
 - NF7: The system shall use JWTs for for user authentication with every API call. 
 - NF8: Recipes shall remain private by default.
 - NF9: Public recipes shall not be editable by users unless copied first.
 - NF10: Unsuccessful logins shall be recorded in Supabase Auth logs.
-- NF11: Users shal receive email notification of important setting changes to their profile.
+- NF11: Users shall receive email notification of important setting changes to their profile.
 
 __Organizational__:
 - NF12: The system's development shall be documented in Jira logs and repo documents.
 - NF13: Source code shall be documented to provide a high level overview of each function, component, and API endpoint.
-- NF14: Source code shall adhere to Typescript standards for improved readability and maintainence.
+- NF14: Source code shall adhere to Typescript standards for improved readability and maintenance.
 
 __Scalability__:
 - NF15: Storage usage shall not exceed the free tier of Supabase.
