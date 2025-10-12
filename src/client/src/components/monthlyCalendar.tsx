@@ -12,21 +12,26 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
 
-export function Calendar22() {
-  const [open, setOpen] = React.useState(false)
-  const [date, setDate] = React.useState<Date | undefined>(undefined)
+interface MonthlyCalendarProps {
+  value: string | undefined;
+  onDateChange: (date: Date | undefined) => void;
+}
 
+export function MonthlyCalendar({ value, onDateChange }: MonthlyCalendarProps) {
+  const [open, setOpen] = React.useState(false)
+  // const [date, setDate] = React.useState<Date | undefined>(undefined)
+  const date = value ? new Date(value) : undefined
   return (
-    <div className="flex flex-col gap-3">
-      <Label htmlFor="date" className="px-1">
-        Date of birth
+    <div className="flex flex-col gap-1">
+      <Label htmlFor="date" className="">
+        Roast Date 
       </Label>
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
           <Button
             variant="outline"
             id="date"
-            className="w-48 justify-between font-normal"
+            className="w-64 justify-between font-normal"
           >
             {date ? date.toLocaleDateString() : "Select date"}
             <ChevronDownIcon />
@@ -38,7 +43,7 @@ export function Calendar22() {
             selected={date}
             captionLayout="dropdown"
             onSelect={(date) => {
-              setDate(date)
+              onDateChange(date)
               setOpen(false)
             }}
           />

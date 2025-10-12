@@ -4,7 +4,9 @@ import { Login } from "@/components/ui/login"
 import { Signup } from "@/components/ui/signup"
 import Demo from "@/demo"
 import RadarDemo from "@/components/radarDemo"
-import { ShadcnDemo } from "@/components/shadcnDemo"
+import { CoffeeBagEntry } from "@/components/coffeeBagEntry"
+import Timer from "@/components/timer"
+import CoffeeBagView from "@/components/coffeeBagView"
 
 export const router = createBrowserRouter([
   {path: "/", element: <App />},
@@ -12,6 +14,10 @@ export const router = createBrowserRouter([
   {path: "/login", element: <Login />},
   {path: "/demo", element: <Demo />},
   {path: "/radar", element: <RadarDemo />},
-  {path: "/shadcn", element: <ShadcnDemo />},
+  {path: "/coffeeEntry", element: <CoffeeBagEntry />},
+  {path: "/timer", element: <Timer />},
+  {path: "/addcoffee", element: <CoffeeBagEntry />},
+  {path: "/viewcoffees", element: <CoffeeBagView />},
+
 
 ])

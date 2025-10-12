@@ -35,6 +35,7 @@ const recipe = [
 const Timer = () => {
   const [isComplete, setIsComplete] = useState(false)
   const [stepIndex, setStepIndex] = useState(0)
+  const [isRunning, setIsRunning] = useState(false)
 
   const step = recipe[stepIndex]
 
@@ -46,6 +47,16 @@ const Timer = () => {
     pause,
     // isRunning,
   } = useStopwatch({ autoStart: false })
+
+  const handleStart = () => {
+    start()
+    setIsRunning(true)
+  }
+
+  const handlePause = () => {
+    pause()
+    setIsRunning(false)
+  }
 
   useEffect(() => {
     if (step.type === "Complete") {
@@ -93,10 +104,10 @@ const Timer = () => {
           </>
         ) : (
           <>
-            <Button variant="secondary" className='rounded-full size-20 bg-gray-200 border-gray-300 hover:bg-gray-200' onClick={pause}>
+            <Button variant="secondary" className='rounded-full size-20 bg-gray-200 border-gray-300 hover:bg-gray-300' onClick={handlePause}>
               <Pause className="size-12 stroke-gray-400" />
             </Button>
-            <Button variant="secondary" className='rounded-full size-20 bg-lime-200 border-lime-300 hover:bg-lime-200' onClick={start}>
+            <Button variant="secondary" className={`rounded-full size-20 ${isRunning ? 'bg-gray-200' : 'bg-lime-200'} border-lime-300 hover:bg-lime-200`} onClick={handleStart}>
               <Play className="size-12 stroke-lime-400" />
             </Button>
           </>
