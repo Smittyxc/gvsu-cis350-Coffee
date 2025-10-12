@@ -1,12 +1,10 @@
 import { Coffee, Plus, X } from "lucide-react";
 import { CoffeeBag } from "./coffeeBagEntry";
-import Header from "./header";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { format } from "date-fns";
 import { coffeeProducingCountries, varieties, getLabelFromValue } from "@/lib/coffeeOptions.ts"
 import { PopoverClose } from "@radix-ui/react-popover";
 import { Link } from "react-router-dom";
-import Footer from "./footer";
 
 
 const sampleCoffeeBags: CoffeeBag[] = [
@@ -50,8 +48,7 @@ const sampleCoffeeBags: CoffeeBag[] = [
 
 const CoffeeBagView = () => {
   return (
-    <div className="h-screen flex flex-col items-center justify-start w-full">
-      <Header />
+    <div className="h-full flex flex-col items-center justify-start w-full">
       <h1 className="text-3xl font-semibold py-2">Your Coffees</h1>
         <Link to='/addcoffee' className="fixed bottom-16 right-3">
           <div className="flex justify-center items-center bg-blue-600 shadow-md rounded-full size-16">
@@ -91,7 +88,6 @@ const CoffeeBagView = () => {
           )
        )}
       </div>
-      <Footer />
     </div>
   )
 }

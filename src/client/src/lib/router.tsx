@@ -7,17 +7,36 @@ import RadarDemo from "@/components/radarDemo"
 import { CoffeeBagEntry } from "@/components/coffeeBagEntry"
 import Timer from "@/components/timer"
 import CoffeeBagView from "@/components/coffeeBagView"
+import BrewResultEntry from "@/components/brewResultEntry"
+import Layout from "@/layout"
 
 export const router = createBrowserRouter([
   {path: "/", element: <App />},
   {path: '/signup', element: <Signup />},
   {path: "/login", element: <Login />},
-  {path: "/demo", element: <Demo />},
+  // {path: "/demo", element: <Demo />},
   {path: "/radar", element: <RadarDemo />},
-  {path: "/coffeeEntry", element: <CoffeeBagEntry />},
   {path: "/timer", element: <Timer />},
-  {path: "/addcoffee", element: <CoffeeBagEntry />},
-  {path: "/viewcoffees", element: <CoffeeBagView />},
+  {path: "/", 
+    element: <Layout />,
+    children: [
+      {
+        index: true,
+        element: <Demo />
+      },
+      { path: "/addcoffee",
+        element: <CoffeeBagEntry />
+      },
+      { path: "/viewcoffees", 
+        element: <CoffeeBagView />
+      },
+      { path: "/brewresults",
+        element: <BrewResultEntry />
+      },
 
+
+
+    ]
+  }
 
 ])

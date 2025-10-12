@@ -1,6 +1,4 @@
 import { ChangeEvent, useState } from "react"
-import Footer from "./footer.tsx"
-import Header from "./header.tsx"
 import { Button } from "./ui/button.tsx"
 import { Input } from "./ui/input.tsx"
 import { Label } from "./ui/label.tsx"
@@ -68,10 +66,9 @@ export function CoffeeBagEntry() {
   };
 
   return (
-    <div className="flex flex-col items-center gap-6 min-h-screen w-full">
-      <Header />
+    <div className="flex flex-col items-center gap-6 h-full w-full">
       <div className="flex w-full justify-between">
-        <Link to='/demo'>
+        <Link to='/'>
           <Button variant='ghost' className="hover:bg-transparent">Cancel</Button>
         </Link>
         <h1 className="text-2xl font-semibold">New Coffee Bag</h1>
@@ -113,9 +110,9 @@ export function CoffeeBagEntry() {
         </div>
         <div className="">
           <Label htmlFor='weight'>Weight</Label>
-          <InputGroup className="w-64">
+          <InputGroup className="w-64 mt-1">
             <InputGroupInput 
-              type='text' 
+              type='number' 
               id='weight'
               name='weight'
               onChange={handleInputChange}
@@ -138,8 +135,6 @@ export function CoffeeBagEntry() {
         
         <Button variant="secondary" type='submit'>Submit</Button>
       </form>
-      
-      <Footer />
     </div>
   )
 }

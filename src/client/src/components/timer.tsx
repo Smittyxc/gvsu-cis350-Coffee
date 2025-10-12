@@ -3,6 +3,7 @@ import { Button } from './ui/button'
 import { Check, Pause, Play, X } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import Header from './header'
 
 
 const recipe = [
@@ -80,7 +81,8 @@ const Timer = () => {
   const bgColor = color[step.type as StepType]
 
   return (
-    <div className='w-full min-h-screen flex flex-col items-center justify-between py-8 gap-4'>
+    <div className='w-full min-h-screen flex flex-col items-center justify-between  gap-4'>
+      <Header />
       <div className='w-2/3 h-full bg-gray-200 shadow-md border-gray-200 rounded-2xl'>
         <div className='flex justify-center p-2 text-6xl font-mono'>
           <span>{String(minutes).padStart(2, '0')}</span>:<span>{String(seconds).padStart(2, '0')}</span>
@@ -90,7 +92,7 @@ const Timer = () => {
           <h1 className='text-2xl text-gray-700 font-bold'>{step.type}</h1>
           <p className='text-gray-600'>{step.description}</p>
         </div>
-      <div className='flex gap-4 items-center'>
+      <div className='flex gap-4 items-center pb-6'>
         {isComplete ? (
           <>
             <Button variant="secondary" className='rounded-full size-12 bg-gray-200 border-gray-300 hover:bg-gray-200' onClick={start}>
