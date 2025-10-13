@@ -1,18 +1,13 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useAuth } from "@/context/AuthContext";
+// import { useAuth } from "@/context/AuthContext";
 import { signInUser } from "@/lib/auth";
+import { Coffee, Loader } from "lucide-react";
 import { FormEvent, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 interface Login1Props {
   heading?: string;
-  logo?: {
-    url: string;
-    src: string;
-    alt: string;
-    title?: string;
-  };
   buttonText?: string;
   googleText?: string;
   signupText?: string;
@@ -21,18 +16,13 @@ interface Login1Props {
 
 const Login = ({
   heading = "Login",
-  logo = {
-    url: "https://www.shadcnblocks.com",
-    src: "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/logos/shadcnblockscom-wordmark.svg",
-    alt: "logo",
-    title: "shadcnblocks.com",
-  },
+
   buttonText = "Login",
   signupText = "Need an account?",
 }: Login1Props) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [error, setLoading] = useState('');
+    // const [error, setLoading] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate()
 
@@ -60,18 +50,13 @@ const Login = ({
 
 
   return (
-    <section className="bg-muted h-screen">
+    <div className='flex flex-col w-full min-h-screen items-center justify-center bg-gradient-to-b from-blue-700 from-50% to-neutral-50 to-50%'>
       <div className="flex h-full items-center justify-center">
-        {/* Logo */}
         <div className="flex flex-col items-center gap-6 lg:justify-start">
-          <a href={logo.url}>
-            <img
-              src={logo.src}
-              alt={logo.alt}
-              title={logo.title}
-              className="h-10 dark:invert"
-            />
-          </a>
+          <div className="flex gap-6">
+            <Coffee size={48} color="#ffffff" />
+            <h1 className="text-5xl text-white font-semibold">Best<span className="font-light">Brew</span></h1>
+          </div>
           <form onSubmit={handleSubmit} className="min-w-sm border-muted bg-background flex w-full max-w-sm flex-col items-center gap-y-4 rounded-md border px-6 py-8 shadow-md">
             {heading && <h1 className="text-xl font-semibold">{heading}</h1>}
             <Input
@@ -94,6 +79,12 @@ const Login = ({
               {buttonText}
             </Button>
           </form>
+          {isLoading &&
+            <div className="flex items-center justify-center">
+              <Loader className="animate-spin w-8 h-8 text-blue-500" />
+            </div>
+          }
+          
           <div className="text-muted-foreground flex justify-center gap-1 text-sm">
             <p>{signupText}</p>
             <Link
@@ -105,7 +96,7 @@ const Login = ({
           </div>
         </div>
       </div>
-    </section>
+    </div>
   );
 };
 
