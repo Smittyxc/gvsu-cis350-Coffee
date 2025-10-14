@@ -9,6 +9,10 @@ import Timer from "@/components/timer"
 import CoffeeBagView from "@/components/coffeeBagView"
 import BrewResultEntry from "@/components/brewResultEntry"
 import Layout from "@/layout"
+import { RecipesList } from "@/components/recipeList"
+import { NewRecipe } from "@/components/recipeNew"
+import { RecipeInstructions } from "@/components/recipeInstructions"
+
 
 export const router = createBrowserRouter([
   {path: "/", element: <App />},
@@ -35,6 +39,8 @@ export const router = createBrowserRouter([
       },
 
     ]
-  }
-
+  },
 ])
+
+//import { RecipeOverview } from "@/components/recipeOverview"
+//{path: "/recipes", element: <RecipeOverview />},
