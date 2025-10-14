@@ -57,7 +57,7 @@ const Signup = ({
       setIsLoading(false)
     } else {
       console.log('Signed in successfully!', data);
-      navigate('/demo')
+      navigate('/')
     }
   };
 

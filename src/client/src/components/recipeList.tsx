@@ -1,4 +1,4 @@
-import React, { use } from 'react';
+import React from 'react';
 import { RecipeListItem } from './recipeListItem';
 import { TabBar } from './ui/tabBar';
 import { Link, useNavigate } from "react-router-dom";
@@ -27,7 +27,7 @@ export const RecipesList: React.FC = () => {
                     className="mt-4 w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500 text-gray-700 bg-stone-200"
                 />
                 <div className="flex space-x-2 mt-3 overflow-x-auto pb-2">
-                    {['All', 'Regular Cup', 'Espresso', 'Iced'].map(filter => (
+                    {['All', 'Pourover', 'Aeropress', 'Iced'].map(filter => (
                         <button
                             key={filter}
                             className="flex-shrink-0 px-4 py-1 text-sm bg-stone-200 border border-gray-300 hover:bg-gray-200 rounded"
@@ -53,7 +53,7 @@ export const RecipesList: React.FC = () => {
 
                 {/* ADD BUTTON */}
                 <button
-                    className="absolute bottom-20 right-8 w-14 h-14 rounded-full hover:bg-gray-600 bg-stone-500 bg-accent-brown text-white shadow-lg flex items-center justify-center"
+                    className="absolute bottom-22 right-5 w-16 h-16 rounded-full hover:bg-gray-600 bg-stone-500 bg-accent-brown text-white shadow-lg flex items-center justify-center"
                     onClick={handleAddNew}
                 >
                     <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">

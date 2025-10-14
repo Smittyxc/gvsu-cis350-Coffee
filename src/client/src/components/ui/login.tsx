@@ -44,7 +44,7 @@ const Login = ({
         setIsLoading(false)
       } else {
         console.log('Signed in successfully!', data);
-        navigate('/demo')
+        navigate('/viewcoffees')
       }
     };
 

@@ -66,7 +66,7 @@ export function CoffeeBagEntry() {
   };
 
   return (
-    <div className="flex flex-col items-center gap-6 h-full w-full">
+    <div className="flex flex-col items-center gap-6 h-full w-full pt-4">
       <div className="flex w-full justify-between">
         <Link to='/'>
           <Button variant='ghost' className="hover:bg-transparent">Cancel</Button>

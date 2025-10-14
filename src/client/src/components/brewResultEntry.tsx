@@ -59,8 +59,11 @@ const BrewResultEntry = () => {
   return (
     <div className="flex flex-col items-center gap-8 h-[calc(100vh-4rem)] overflow-y-auto w-full pt-6 pb-16">
       <div className="flex flex-col gap-8 items-start w-4/5">
-       <div className="flex justify-between gap- items-center w-full">
-          <Combobox value={comboBoxValue} data={coffeeTastingNotes} onValueChange={setComboBoxValue} displayText="Select notes"/>
+       <div className="flex justify-between items-end w-full">
+          <div>
+            <Label htmlFor='notes' className="text-lg">Notes</Label>
+            <Combobox key='notes' value={comboBoxValue} data={coffeeTastingNotes} onValueChange={setComboBoxValue} displayText="Select notes"/>
+          </div>
           <button className="flex justify-center items-center rounded-full h-9 w-9 bg-gray-200" onClick={() => handleNoteEntry(comboBoxValue)}>
             <Plus />
           </button>

@@ -212,7 +212,7 @@ const NewRecipe: React.FC<{ onCancel: () => void, onSave: (newRecipe: Partial<Re
 };
 
 // RECIPE INSTRUCTIONS
-const RecipeInstructions: React.FC<{ recipe: Recipe, onBack: () => void, onEdit: () => void }> = ({ recipe, onBack, onEdit }) => {
+const RecipeInstructions: React.FC<{ recipe: Recipe, onBack: () => void, onEdit: () => void }> = ({ onBack, onEdit }) => {
   // Mock data for the instructions view
   const exampleRecipe = {
     name: "Alan Adler",
@@ -303,9 +303,9 @@ const RecipesPage: React.FC = () => {
   };
 
   // UNFINISHED
-  const handleEditRecipe = () => {
-    setCurrentView('edit')
-  }
+  // const handleEditRecipe = () => {
+  //   setCurrentView('edit')
+  // }
 
   // SAVE RECIPE DATA
   const handleSaveNewRecipe = (newRecipe: Partial<Recipe>) => {
