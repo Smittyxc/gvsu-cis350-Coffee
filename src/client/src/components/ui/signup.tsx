@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { signUpNewUser } from "@/lib/auth";
-import { Coffee } from "lucide-react";
+import { Coffee, Loader } from "lucide-react";
 import { FormEvent, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -31,7 +31,7 @@ const Signup = ({
   const [password, setPassword] = useState('');
   const [password2, setPassword2] = useState('');
 
-  const [error, setError] = useState('');
+  // const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
   const handleEmail = (e: React.ChangeEvent<HTMLInputElement>): void => {
@@ -101,6 +101,11 @@ const Signup = ({
               {buttonText}
             </Button>
           </form>
+          {isLoading &&
+            <div className="flex items-center justify-center">
+              <Loader className="animate-spin w-8 h-8 text-blue-500" />
+            </div>
+          }
           <div className="text-muted-foreground flex justify-center gap-1 text-sm">
             <p>{signupText}</p>
             <Link

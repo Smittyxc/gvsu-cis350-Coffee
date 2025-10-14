@@ -19,17 +19,15 @@ const Demo = () => {
 
 
   return (
-    <div className='flex flex-col w-full min-h-screen pt-40 gap-4 items-center bg-gradient-to-b from-blue-700 from-40% to-neutral-50 to-40%'>
-      <h1 className='text-2xl font-semibold w-fit p-2 text-white'>Sign into your account</h1>
-      <Button onClick={handleSignOut} />
+    <div className='flex flex-col w-full h-full gap-4 items-center pt-6'>
+      <Button onClick={handleSignOut}>Sign Out</Button>
       <Link to="/radar">
         <Button variant='default' className=''>Dashboard</Button>
       </Link>
       <Link to="/timer">
         <Button variant='default' className=''>Timer</Button>
       </Link>
-      <Link to="/shadcn"></Link>
-      <Link to="/shadcn">
+      <Link to="/coffeeEntry">
         <Button variant='default' className=''>Test</Button>
       </Link>
       <PWABadge />

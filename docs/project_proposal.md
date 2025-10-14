@@ -11,19 +11,19 @@ Team members:
 - Joshua Burgenmeyer
 
 # 1. Abstract
-In the world of specialty coffee, coffee is much more than a quick source of caffeine in the morning. Enthusiasts tend to have a methodical approach to their coffee preparation that involves the control of many variables with the goal of producing a bright and flavorful cup of coffee. Some of these variables include coffee bean variety, grind size, water mineral content, water temperature, pour technique, timing of pours, and agitation of the coffee ground bed. During the brewing process, managing these factors can become a headache, especially because of its time sensitivity. Although apps exist for different brew styles (Aeropress, espresso), there is a market gap for a brew guide aimed at pour over coffee. Existing apps lack nuances specific to pour overs and additionally do not faciliate meaningful data tracking, hindering users' ability to dial in coffee to perfection.
+In the world of specialty coffee, coffee is much more than a quick source of caffeine in the morning. Enthusiasts tend to have a methodical approach to their coffee preparation that involves the control of many variables with the goal of producing a bright and flavorful cup of coffee. Some of these variables include coffee bean variety, grind size, water mineral content, water temperature, pour technique, timing of pours, and agitation of the coffee ground bed. During the brewing process, managing these factors can become a headache, especially because of its time sensitivity. Although apps exist for different brew styles (Aeropress, espresso), there is a market gap for a brew guide aimed at pour over coffee. Existing apps lack nuances specific to pour overs and additionally do not facilitate meaningful data tracking, hindering users' ability to dial in coffee to perfection.
 
 # 2. Introduction
-Given the market gap in brewing guides with meaningful data logging and visualizations, our app aims to provide enthusiasts with simple tool they can use for their daily brewing. Our app is unique in it targeting meaningful metrics, as coffee enthusiasts could benefit from a repository of their results that can be reviewed and compared, in addition to serving as a log of their pregress and noteworthy beans. With the goal of producing a mobile functional app and the difficulties of getting an app published, our team opted for a progressive web app (PWA) to best provide a mobile-like experience while using technologies we have experience in. The following functional requirements section will delineate the scope, audience, and requirements of the app.
+Given the market gap in brewing guides with meaningful data logging and visualizations, our app aims to provide enthusiasts with simple tool they can use for their daily brewing. Our app is unique in it targeting meaningful metrics, as coffee enthusiasts could benefit from a repository of their results that can be reviewed and compared, in addition to serving as a log of their progress and noteworthy beans. With the goal of producing a mobile functional app and the difficulties of getting an app published, our team opted for a progressive web app (PWA) to best provide a mobile-like experience while using technologies we have experience in. The following functional requirements section will delineate the scope, audience, and requirements of the app.
 
 ## 2.1 Requirements Document
 ### 2.1.1 Scope:
-Best Brew is a PWA designed to guide coffee enthusiasts optimize their coffee brewing. Users can create and follow recipe guides, log data on their coffee, and view statistics of their coffee intake, along with common app functionality like account creation, management, and various settings. With sufficient time, additional peripherals could be incorporated into the project, such as an arduino scale to calculate flow rate, providing users with more data on their pouring techniques. 
+Best Brew is a PWA designed to guide coffee enthusiasts optimize their coffee brewing. Firstly, there will be a coffee bag management component that allows users to add the bags of coffee they are currently working with. There will also be a recipe management component where users will be able to create a set of recipe steps, which are grouped into a recipe. These recipes will be used in the brew guide component, which will display each recipe step for a specified length of time, guiding users through their brew. Once done brewing, the users will be able to interact with a result logging component where they can score the coffee that they've brewed. Lastly, there will be a dashboard component that displays statistics of their coffee intake, such as the average user scores for a bag of coffee, lifetime coffee consumption statistics, and grams of coffee remaining per bag. Apart from the core app functionality, we aim to include secure account creation and management. 
 
 ### 2.1.2 Audience:
 Intended users fall into two distinct groups:
 - Coffee novices: Users who are new to specialty coffee and need clear, guided instructions
-- Coffee ethusiasts: Users who want to create and use detailed recipes and seek to record detailed information on each cup
+- Coffee enthusiasts: Users who want to create and use detailed recipes and seek to record detailed information on each cup
 
 ### 2.1.3 Functional Requirements
 __Coffee Bag Logging__:
@@ -32,7 +32,7 @@ __Coffee Bag Logging__:
 - FR3: The system shall allow users to copy previous bags of coffee as a template.
 - FR4: The system shall track the number of days past roast date for a bag of coffee.
 
-__Brew Result Loggin__:
+__Brew Result Login__:
 - FR5: The system shall allow users to enter brew results that are associated with a specific recipe and bag of coffee.
 - FR6: Brew results in the system shall consist of flavor notes, recipe used, brightness, bitterness, acidity, sweetness, and balance. 
 - FR6: The system shall display a list of brew results by date per bag of coffee.
@@ -51,6 +51,7 @@ __Brew Timer__:
 
 __Data Visualization__:
 - FR14: The dashboard shall create a radar graph composed of clarity, acidity, sweetness, body, and flavor for each recent bag of coffee.
+- (_The following dashboard features will be implemented if sufficient time exist._)
 - FR15: The dashboard shall create a Tree graph of the total number of cups of coffee they've drank of a certain subspecies, country, or processing method.
 - FR16: The dashboard shall calculate the remaining coffee left in a bag 
 - FR17: The dashboard shall notify users when the amount of coffee remaining falls below a specified threshold.
@@ -65,7 +66,7 @@ __Usability__:
 - NF4: The system's UI shall retain a simplistic and minimal design
 
 __Security & Privacy__:
-- NF5: The system shall acheive secure register and sign-in through Supabase's Auth system
+- NF5: The system shall achieve secure register and sign-in through Supabase's Auth system
 - NF6: The system shall use row level secure in its database.
 - NF7: The system shall use JWTs for for user authentication with every API call. 
 - NF8: Recipes shall remain private by default.
@@ -76,7 +77,7 @@ __Security & Privacy__:
 __Organizational__:
 - NF12: The system's development shall be documented in Jira logs and repo documents.
 - NF13: Source code shall be documented to provide a high level overview of each function, component, and API endpoint.
-- NF14: Source code shall adhere to Typescript standards for improved readability and maintainence.
+- NF14: Source code shall adhere to Typescript standards for improved readability and maintenance.
 
 __Scalability__:
 - NF15: Storage usage shall not exceed the free tier of Supabase.
@@ -101,26 +102,26 @@ Our approach to this project will be base on Agile/Scrum; we intend to have week
 
 - Sept. 8 - Sept. 27: 
     - Planning
-    - Prelimary diagrams/UI design
+    - Preliminary diagrams/UI design
 - Sept. 28 - Oct. 4: 
     - More planning
     - Role clarification
 - Oct. 5 - Oct. 11:
-    - User Auth w/ Supbase
-    - Login and Signup Forms
-    - Coffee bag entry UI form
-    - Express JWT Middleware 
+    - User Auth w/ Supabase
+    - Create Login and Signup Forms
+    - Create Coffee bag entry UI form
+    - Express JWT Authentication Middleware 
 - Oct. 11 - Oct. 18:
-    - Recipe entry forms
-    - Connent frontend components to backend
-    - API Endpoints
+    - Create Recipe entry forms
+    - Connect frontend components to backend
+    - Build API Endpoints
     - Refine Supabase DB tables
 - Oct. 19 - Oct. 25:
-    - Timer component
-    - Dashboard component with graphs
-    - API Endpoint
+    - Create Timer component
+    - Start Dashboard component with graphs
+    - Build API Endpoint
 - Oct. 26 - Nov. 1:
-    - Dashboard components
+    - Continue building Dashboard components
     - API Endpoint
     - Beginning creating tests
     - Refine documentation
@@ -141,6 +142,10 @@ Our approach to this project will be base on Agile/Scrum; we intend to have week
 - Understand domain and user needs
 - Learning new technologies (Node, Express, Postgres)
 - Maintaining thorough documentation and logs
+
+# Future Additions
+
+Future sufficient time, additional peripherals could be incorporated into the project, such as an arduino scale to calculate flow rate, providing users with more data on their pouring techniques. 
 
 
 
