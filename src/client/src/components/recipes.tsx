@@ -1,4 +1,8 @@
 // Working
+
+// SEPARATE COMPONENTS FOR EACH STAGE
+// ADD STATE VARIABLES
+
 import { BookOpen, Coffee, User, Scale, Thermometer, Bean } from 'lucide-react';
 import DefaultCoffeeIcon from '/icons/coffee.svg';
 import RegularCupIcon from '/icons/icon-72x72.png';
@@ -59,7 +63,7 @@ const RecipesList: React.FC<{ onSelectRecipe: (id: number) => void, onAddNew: ()
                     {/* Search is offset only by spaces, typed text not offset */}
                     <input
                         type="search"
-                        placeholder="Search"
+                        placeholder="  Search"
                         className="mt-4 text-gray-700 bg-stone-200"
                     />
                     {/* PLACEHOLDER FILTERS */}
@@ -144,7 +148,8 @@ const NewRecipe: React.FC<{ onCancel: () => void, onSave: (newRecipe: Partial<Re
   // State for form fields (e.g., name, dose, water amount, steps...)
 
   const handleSave = () => {
-    // Collect form data (omitted for brevity)
+    // Collect form data
+    // ADD STATE VARIABLE
     const newRecipe: Partial<Recipe> = { name: "My Recipe", dose: 1, waterAmount: 250, steps: [] };
     onSave(newRecipe);
   };
@@ -326,7 +331,6 @@ const RecipesPage: React.FC = () => {
     // ARTIFICIAL MOBILE LOOK:
     //<div className="app-container max-w-sm mx-auto h-screen shadow-2xl bg-gray-100">
     <div className="app-container w-screen mx-auto h-screen shadow-2xl bg-gray-100">
-      {/* PWA consideration: The 'h-screen' and limited width helps mimic a mobile PWA look. */}
       {renderView()}
     </div>
   );
