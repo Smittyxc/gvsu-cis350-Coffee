@@ -7,6 +7,7 @@ import { MonthlyCalendar } from "./monthlyCalendar.tsx"
 import { InputGroup, InputGroupAddon, InputGroupInput } from "./ui/input-group.tsx"
 import { Link } from "react-router-dom"
 import { coffeeProducingCountries, varieties } from "@/lib/coffeeOptions.ts"
+import { supabase } from "@/lib/client";
 
 export interface CoffeeBag {
   name: string;
@@ -28,6 +29,9 @@ export function CoffeeBagEntry() {
     roastDate: undefined,
     weight: 0,
   })
+
+  const [submitting, setSubmitting] = useState(false);
+  const [serverMsg, setServerMsg] = useState<string | null>(null);
 
   const handleVarietyChange = (value: string) => {
     setData((prev) => ({
@@ -60,9 +64,34 @@ export function CoffeeBagEntry() {
     )
   }
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault(); 
-    console.log('Submitting this object:', data);
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setSubmitting(true);
+    setServerMsg(null);
+
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      const token = session?.access_token;
+      const resp = await fetch('http://localhost:5000/api/addCoffee', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+        body: JSON.stringify(data),
+      });
+
+      if (!resp.ok) {
+        const err = await resp.json().catch(() => ({}));
+        throw new Error(err?.error || `Request failed with ${resp.status}`);
+      }
+
+      const json = await resp.json();
+      console.log('Server response:', json);
+      setServerMsg('Submitted successfully!');
+    } catch (err: any) {
+      console.error(err);
+      setServerMsg(err.message ?? 'Something went wrong');
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -133,7 +162,8 @@ export function CoffeeBagEntry() {
         </div>
         <MonthlyCalendar value={data.roastDate} onDateChange={handleDateChange} />
         
-        <Button variant="secondary" type='submit'>Submit</Button>
+        <Button disabled={submitting} variant="secondary" type='submit'>Submit</Button>
+        {serverMsg && <p>{serverMsg}</p>}
       </form>
     </div>
   )
