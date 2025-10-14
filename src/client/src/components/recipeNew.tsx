@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Recipe, GrindSize } from '@/lib/recipeData';
+import { Recipe, RecipeStep, GrindSize } from '@/lib/recipeData';
 import { Button } from './ui/button-2';
 import { Input } from './ui/input-2';
 import { useNavigate } from 'react-router-dom';
@@ -14,14 +14,12 @@ export const NewRecipe: React.FC = () => {
   // ... state for steps
 
   const [steps, setSteps] = useState<RecipeStep[]>([
-    { description: '', time: '' } // Start with one empty step
+    { description: '', time: '' } // START EMPTY
   ]);
 
-  // 💡 HANDLER: Update a specific step's description or time
   const handleStepChange = (index: number, field: keyof RecipeStep, value: string) => {
     const newSteps = steps.map((step, i) => {
       if (i === index) {
-        // Use spread operator to safely update the specific field
         return { ...step, [field]: value };
       }
       return step;
@@ -29,7 +27,6 @@ export const NewRecipe: React.FC = () => {
     setSteps(newSteps);
   };
 
-  // 💡 HANDLER: Add a new step
   const handleAddStep = () => {
     console.log("Add new step");
     setSteps([...steps, { description: '', time: '' }]);
