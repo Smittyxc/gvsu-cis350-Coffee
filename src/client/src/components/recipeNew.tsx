@@ -8,7 +8,7 @@ export const NewRecipe: React.FC = () => {
   const navigate = useNavigate();
 
   const [recipeName, setRecipeName] = useState('');
-  const [dose, setDose] = useState(1);
+  const [dose, setDose] = useState<number | ''>('');
   const [waterAmount, setWaterAmount] = useState<number | ''>('');
   const [grindSize, setGrindSize] = useState<GrindSize | null>('Medium');
   // ... state for steps
@@ -41,7 +41,7 @@ export const NewRecipe: React.FC = () => {
 
     const newRecipe: Partial<Recipe> = {
       name: recipeName,
-      dose: dose,
+      dose: dose as number,
       waterAmount: waterAmount as number,
       grindSize: grindSize as GrindSize,
       brewMethod: "Regular Cup", // Placeholder
@@ -81,7 +81,7 @@ export const NewRecipe: React.FC = () => {
           />
         </label>
 
-        {/* Dose Selection */}
+        {/* Dose Selection
         <div className="space-y-2">
           <span className="text-gray-700 font-medium">Dose</span>
           <div className="flex space-x-2">
@@ -96,9 +96,10 @@ export const NewRecipe: React.FC = () => {
               </Button>
             ))}
           </div>
-        </div>
+        </div> */}
 
-        {/* Water Amount */}
+      {/* Water Amount & Dose*/}
+      <div className="flex gap-6">
         <label className="block">
           <span className="text-gray-700 font-medium">Water Amount (mL)</span>
           <Input
@@ -108,6 +109,16 @@ export const NewRecipe: React.FC = () => {
             onChange={(e) => setWaterAmount(parseInt(e.target.value) || '')}
           />
         </label>
+        <label className="block">
+          <span className="text-gray-700 font-medium">Dose (g)</span>
+          <Input
+            type="number"
+            className="mt-1"
+            value={dose}
+            onChange={(e) => setDose(parseInt(e.target.value) || '')}
+          />
+        </label>
+      </div>
 
         {/* Grind Size Selection */}
         <div className="space-y-2">

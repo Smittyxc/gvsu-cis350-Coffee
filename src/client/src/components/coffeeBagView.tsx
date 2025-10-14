@@ -5,6 +5,7 @@ import { format } from "date-fns";
 import { coffeeProducingCountries, varieties, getLabelFromValue } from "@/lib/coffeeOptions.ts"
 import { PopoverClose } from "@radix-ui/react-popover";
 import { Link } from "react-router-dom";
+import { Button } from "./ui/button";
 
 
 const sampleCoffeeBags: CoffeeBag[] = [
@@ -48,10 +49,10 @@ const sampleCoffeeBags: CoffeeBag[] = [
 
 const CoffeeBagView = () => {
   return (
-    <div className="h-full flex flex-col items-center justify-start w-full">
-      <h1 className="text-3xl font-semibold py-2">Your Coffees</h1>
-        <Link to='/addcoffee' className="fixed bottom-16 right-3">
-          <div className="flex justify-center items-center bg-blue-600 shadow-md rounded-full size-16">
+    <div className="h-full flex flex-col items-center justify-start w-full pb-4">
+      <h1 className="text-3xl font-semibold py-4">Your Coffees</h1>
+        <Link to='/addcoffee' className="fixed bottom-22 right-5">
+          <div className="flex justify-center items-center bg-stone-500 bg-accent-brown shadow-md rounded-full size-16">
             <Plus size={36} color="#FFFFFF" />
           </div>
         </Link>
@@ -81,6 +82,10 @@ const CoffeeBagView = () => {
                   <></>
                 )
                 }
+                <div className="flex justify-around w-full pt-3 pb-1">
+                  <Button variant='secondary'>Edit</Button>
+                  <Button variant='secondary'>Delete</Button>
+                </div>
               </div>
             </PopoverContent>
           </Popover>

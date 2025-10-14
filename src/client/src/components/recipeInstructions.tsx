@@ -1,7 +1,7 @@
 import React from 'react';
 import { Recipe } from '@/lib/recipeData';
 import { Scale, Thermometer, Bean } from 'lucide-react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 
 // PLACEHOLDER DATA
 const RECIPE_DB: Record<string, Recipe> = {
@@ -122,8 +122,14 @@ export const RecipeInstructions: React.FC = () => {
                         </div>
                     ))}
                 </div>
-
-                <button className="mt-6 text-amber-600 font-semibold hover:text-amber-700">Log Results &gt;</button>
+                <div className="flex justify-between">
+                    <Link to="/brewresults">
+                        <button className="mt-6 text-amber-600 font-semibold hover:text-amber-700">Log Results &gt;</button>
+                    </Link>
+                    <Link to="/timer">
+                        <button className="mt-6 text-amber-600 font-semibold hover:text-amber-700">Use Recipe &gt;</button>
+                    </Link>
+                </div>    
             </main>
         </div>
     );
