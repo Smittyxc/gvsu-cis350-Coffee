@@ -1,11 +1,11 @@
 //Placeholder
-import { BookOpen, Coffee, User } from 'lucide-react';
+import { icons } from '@/lib/recipeConstants';
 
 export function AccountPage() {
     const navItems = [
-        { name: 'Account', icon: User, href: '/account' },
-        { name: 'Recipes', icon: BookOpen, href: '/recipes' },
-        { name: 'Coffee', icon: Coffee, href: '/coffee' },
+        { name: 'Account', icon: icons.User, href: '/account' },
+        { name: 'Recipes', icon: icons.BookOpen, href: '/recipes' },
+        { name: 'Coffee', icon: icons.Coffee, href: '/coffee' },
     ];
 
     return (

@@ -1,8 +1,5 @@
 import React from 'react';
-
-// CHANGE FOR CONSISTENT ICONS IMPORTS
-const DefaultCoffeeIcon = '/icons/coffee.svg';
-const RegularCupIcon = '/icons/icon-72x72.png';
+import { icons } from '@/lib/recipeConstants';
 
 interface RecipeListItemProps {
   recipe: {
@@ -12,13 +9,16 @@ interface RecipeListItemProps {
   };
 }
 
+// maybe icon access is inefficient here?
 const BrewMethodIcons: Record<string, string> = {
-  "Regular Cup": RegularCupIcon,
+  "Regular Cup": icons.RegularCup,
+  "Espresso": icons.Espresso,
+  "Iced": icons.Iced,
   // Add other methods here
 };
 
 const getBrewIcon = (methodName: string): string => {
-  return BrewMethodIcons[methodName] || DefaultCoffeeIcon;
+  return BrewMethodIcons[methodName] || icons.DefaultCoffee;
 };
 
 export const RecipeListItem: React.FC<RecipeListItemProps> = ({ recipe }) => {
