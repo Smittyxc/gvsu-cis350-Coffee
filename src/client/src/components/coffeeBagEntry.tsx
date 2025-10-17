@@ -5,9 +5,10 @@ import { Label } from "./ui/label.tsx"
 import Combobox from "./comboBox.tsx"
 import { MonthlyCalendar } from "./monthlyCalendar.tsx"
 import { InputGroup, InputGroupAddon, InputGroupInput } from "./ui/input-group.tsx"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { coffeeProducingCountries, varieties } from "@/lib/coffeeOptions.ts"
 import { supabase } from "@/lib/client";
+import { useAuth } from "@/context/AuthContext.tsx"
 
 export interface CoffeeBag {
   name: string;
@@ -32,6 +33,9 @@ export function CoffeeBagEntry() {
 
   const [submitting, setSubmitting] = useState(false);
   const [serverMsg, setServerMsg] = useState<string | null>(null);
+
+  const { session } = useAuth();
+  const navigate = useNavigate()
 
   const handleVarietyChange = (value: string) => {
     setData((prev) => ({
@@ -70,7 +74,7 @@ export function CoffeeBagEntry() {
     setServerMsg(null);
 
     try {
-      const { data: { session } } = await supabase.auth.getSession();
+      // const { data: { session } } = await supabase.auth.getSession();
       const token = session?.access_token;
       const resp = await fetch('http://localhost:5000/api/addCoffee', {
         method: 'POST',
@@ -91,6 +95,7 @@ export function CoffeeBagEntry() {
       setServerMsg(err.message ?? 'Something went wrong');
     } finally {
       setSubmitting(false);
+      navigate('/viewcoffees')
     }
   };
 
