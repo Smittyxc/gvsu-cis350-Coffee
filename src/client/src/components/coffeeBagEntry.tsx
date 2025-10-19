@@ -1,16 +1,16 @@
-import { ChangeEvent, useState } from "react"
+import { ChangeEvent, useEffect, useState } from "react"
 import { Button } from "./ui/button.tsx"
 import { Input } from "./ui/input.tsx"
 import { Label } from "./ui/label.tsx"
 import Combobox from "./comboBox.tsx"
 import { MonthlyCalendar } from "./monthlyCalendar.tsx"
 import { InputGroup, InputGroupAddon, InputGroupInput } from "./ui/input-group.tsx"
-import { Link, useNavigate } from "react-router-dom"
+import { Link, useParams } from "react-router-dom"
 import { coffeeProducingCountries, varieties } from "@/lib/coffeeOptions.ts"
-import { supabase } from "@/lib/client";
 import { useAuth } from "@/context/AuthContext.tsx"
 
 export interface CoffeeBag {
+  id?: string;
   name: string;
   roaster: string;
   process: string;
@@ -33,9 +33,37 @@ export function CoffeeBagEntry() {
 
   const [submitting, setSubmitting] = useState(false);
   const [serverMsg, setServerMsg] = useState<string | null>(null);
-
   const { session } = useAuth();
-  const navigate = useNavigate()
+
+  const { coffeeId } = useParams<{ coffeeId: string }>(); 
+  const isEditMode = Boolean(coffeeId)
+  
+  useEffect(() => {
+    if (isEditMode) {
+      const fetchCoffeeData = async () => {
+        setSubmitting(true); 
+        try {
+          const token = session?.access_token;
+          const resp = await fetch(`http://localhost:5000/api/coffee/${coffeeId}`, {    
+            headers: { Authorization: `Bearer ${token}` }
+          });
+          
+          if (!resp.ok) throw new Error('Failed to fetch coffee data');
+          
+          const coffeeData = await resp.json();
+          setData(coffeeData.coffee); 
+        } catch (err: any) {
+          setServerMsg(err.message ?? 'Error loading data');
+        } finally {
+          setSubmitting(false);
+        }
+      };
+      
+      if (session?.access_token) {
+        fetchCoffeeData();
+      }
+    }
+  }, [isEditMode, coffeeId, session]);
 
   const handleVarietyChange = (value: string) => {
     setData((prev) => ({
@@ -72,12 +100,17 @@ export function CoffeeBagEntry() {
     event.preventDefault();
     setSubmitting(true);
     setServerMsg(null);
+    console.log(data)
+    const url = isEditMode
+      ? `http://localhost:5000/api/coffee/${coffeeId}` // You'll need a new PUT/PATCH endpoint
+      : 'http://localhost:5000/api/coffee';
+
+    const method = isEditMode ? 'PUT' : 'POST'
 
     try {
-      // const { data: { session } } = await supabase.auth.getSession();
       const token = session?.access_token;
-      const resp = await fetch('http://localhost:5000/api/addCoffee', {
-        method: 'POST',
+      const resp = await fetch(url, {
+        method: method,
         headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
         body: JSON.stringify(data),
       });
@@ -89,13 +122,13 @@ export function CoffeeBagEntry() {
 
       const json = await resp.json();
       console.log('Server response:', json);
-      setServerMsg('Submitted successfully!');
+      setServerMsg(isEditMode ? 'Updated successfully!' : 'Submitted successfully!');    
     } catch (err: any) {
       console.error(err);
       setServerMsg(err.message ?? 'Something went wrong');
     } finally {
       setSubmitting(false);
-      navigate('/viewcoffees')
+      // navigate('/viewcoffees')
     }
   };
 
@@ -167,7 +200,9 @@ export function CoffeeBagEntry() {
         </div>
         <MonthlyCalendar value={data.roastDate} onDateChange={handleDateChange} />
         
-        <Button disabled={submitting} variant="secondary" type='submit'>Submit</Button>
+        <Button disabled={submitting} variant="secondary" type='submit'>
+          {isEditMode ? "Save Changes" : "Submit"}
+        </Button>
         {serverMsg && <p>{serverMsg}</p>}
       </form>
     </div>

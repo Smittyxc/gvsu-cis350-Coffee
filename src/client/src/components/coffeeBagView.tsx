@@ -10,40 +10,44 @@ import { Button } from "./ui/button";
 
 const sampleCoffeeBags: CoffeeBag[] = [
   {
+    id: '123',
     name: "Finca El Diviso",
     roaster: "Onyx Lab",
     process: "Thermal Shock",
     variety: "pink-bourbon",
     origin: "colombia",
     roastDate: "2025-10-05T04:00:00.000Z",
-    weight: 283, // 10oz
+    weight: 340, 
   },
   {
+    id: '123',
     name: "Worka Sakaro",
     roaster: "Madcap",
     process: "Natural",
     variety: "ethiopian-heirloom",
     origin: "ethiopia",
     roastDate: "2025-09-28T04:00:00.000Z",
-    weight: 340, // 12oz
+    weight: 340, 
   },
   {
+    id: '123',
     name: "Las Lajas",
     roaster: "Heart Roasters",
     process: "Red Honey",
     variety: "caturra",
     origin: "costa-rica",
     roastDate: "2025-10-10T04:00:00.000Z",
-    weight: 227, // 8oz
+    weight: 227, 
   },
   {
+    id: '123',
     name: "Gatomboya AA",
     roaster: "Tandem",
     process: "Washed",
     variety: "sl-28",
     origin: "kenya",
     roastDate: undefined,
-    weight: 340, // 12oz
+    weight: 340, 
   },
 ];
 
@@ -51,7 +55,7 @@ const CoffeeBagView = () => {
   return (
     <div className="h-full flex flex-col items-center justify-start w-full pb-4">
       <h1 className="text-3xl font-semibold py-4">Your Coffees</h1>
-        <Link to='/addcoffee' className="fixed bottom-22 right-5">
+        <Link to='/coffee/new' className="fixed bottom-22 right-5">
           <div className="flex justify-center items-center bg-stone-500 bg-accent-brown shadow-md rounded-full size-16">
             <Plus size={36} color="#FFFFFF" />
           </div>
@@ -83,7 +87,9 @@ const CoffeeBagView = () => {
                 )
                 }
                 <div className="flex justify-around w-full pt-3 pb-1">
-                  <Button variant='secondary'>Edit</Button>
+                  <Link to={`/coffee/${bag.id}/edit`}>
+                    <Button variant='secondary'>Edit</Button>
+                  </Link>
                   <Button variant='secondary'>Delete</Button>
                 </div>
               </div>

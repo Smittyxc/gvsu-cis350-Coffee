@@ -14,14 +14,6 @@ const Footer = () => {
               <p className="text-md text-white font-semibold">Coffees</p>
             </TabsTrigger>
           </Link>
-          {/* <Link to='/timer' className="rounded-none flex-grow h-full flex items-center ">
-            <TabsTrigger
-              value='timer'
-              className="rounded-none bg-blue-600 data-[state=active]:border-t-blue-800 data-[state=active]:border-t-6 data-[state=active]:bg-blue-600 ring-none outline-none flex items-center" // Added flex for alignment
-            >
-              <p className="text-md text-white font-semibold">Timer</p>
-            </TabsTrigger>
-          </Link> */}
           <Link to='/recipes' className="rounded-none flex-grow h-full flex items-center ">
             <TabsTrigger
               value='recipes'

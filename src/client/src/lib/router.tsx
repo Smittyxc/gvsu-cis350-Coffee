@@ -22,7 +22,8 @@ export const router = createBrowserRouter([
   {path: "/", 
     element: <Layout />,
     children: [
-      { path: "/addcoffee", element: <CoffeeBagEntry />},
+      { path: "/coffee/new", element: <CoffeeBagEntry />},
+      { path: "/coffee/:coffeeId/edit", element: <CoffeeBagEntry />},
       { path: "/viewcoffees", element: <CoffeeBagView />},
       { path: "/brewresults", element: <BrewResultEntry />},
       { path: "/recipes", element: <RecipesList /> },

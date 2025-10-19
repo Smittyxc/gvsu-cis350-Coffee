@@ -17,7 +17,7 @@ var app = express();
 app.use(
   cors({
     origin: ['http://localhost:5000', 'http://localhost:5173'],
-    methods: ['POST', 'GET', 'OPTIONS'],
+    methods: ['POST', 'GET', 'OPTIONS', 'PUT'],
     allowedHeaders: ['Content-Type', 'Authorization'],
   })
 );
@@ -58,7 +58,7 @@ const FormDataSchema = z.object({
   variety: z.string().min(1, "Variety is required"),
   origin: z.string().min(1, "Origin is required"),
   roastDate: z.string().datetime({ offset: true, message: "Invalid date format" }), // expects ISO 8601
-  weight: z.string().regex(/^\d+$/, "Weight must be numeric")
+  weight: z.coerce.number("Weight must be numeric")
 });
 
 // Connect user token to user ID
@@ -74,7 +74,7 @@ async function requireUser(req, res, next) {
   next();
 }
 
-app.post("/api/addCoffee", requireUser, async (req, res) => { // POST addCoffee
+app.post("/api/coffee", requireUser, async (req, res) => { // POST addCoffee
   var parsed = FormDataSchema.safeParse(req.body);
   console.log(parsed);
   
@@ -100,6 +100,76 @@ app.post("/api/addCoffee", requireUser, async (req, res) => { // POST addCoffee
     return res.status(500).json({ error: 'Server error' });
   }
 });
+
+app.get("/api/coffee/:id", requireUser, async (req, res) => {
+  try { 
+    const { id } = req.params
+    const userId = req.user.id
+    const { data, error } = await supabaseAdmin
+      .from('coffeeBag')
+      .select('*')
+      .eq('id', id)
+      .eq('user_id', userId)
+      .single()
+    
+    if (error) {
+      console.error("Supabase select error: ", error);
+      if (error.code === 'PGRST116') {
+        return res.status(404).json({ error: 'Coffee bag not found or you do not have permission to view it.' });
+      }
+      return res.status(500).json({ error: 'Database error' });
+    }
+
+    if (!data) {
+      return res.status(200).json({ error: "Coffee bag not found"})
+    }
+    return res.status(200).json({ coffee: data });
+
+  } catch (err) {
+    console.error('Server error:', err);
+    return res.status(500).json({ error: 'Server error' });
+  }
+});
+
+app.put('/api/coffee/:id', requireUser, async (req, res) => {
+  var parsed = FormDataSchema.safeParse(req.body);
+  if (!parsed.success) {
+    console.log(parsed.error.flatten())
+    return res.status(400).json({ error: 'Invalid data', details: parsed.error.flatten() })
+  }
+  try {
+    const { id } = req.params
+    const userId = req.user.id
+
+    const coffeeData = parsed.data;
+
+    const { data, error } = await supabaseAdmin
+      .from('coffeeBag')
+      .update(coffeeData)
+      .eq('id', id)
+      .eq('user_id', userId)
+      .select('*')
+      .single();
+    if (error) {
+      console.error('Supabase update error:', error);
+      if (error.code === 'PGRST116') {
+        return res.status(404).json({ error: 'Coffee bag not found or permission denied' });
+      }
+      return res.status(500).json({ error: 'Database error' });
+    }
+    
+    if (!data) {
+         return res.status(404).json({ error: 'Coffee bag not found or permission denied' });
+    }
+
+    return res.status(200).json({ ok: true, coffee: data });
+
+  } catch (err) {
+    console.error('Server error:', err);
+    return res.status(500).json({ error: 'Server error' });
+  }
+  }
+)
 
 app.use(function(req, res, next) { // 404 catch all
   next(createError(404));
