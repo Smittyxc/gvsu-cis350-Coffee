@@ -6,6 +6,7 @@ import { coffeeProducingCountries, varieties, getLabelFromValue } from "@/lib/co
 import { PopoverClose } from "@radix-ui/react-popover";
 import { Link } from "react-router-dom";
 import { Button } from "./ui/button";
+import PWABadge from "@/PWABadge";
 
 
 const sampleCoffeeBags: CoffeeBag[] = [
@@ -99,6 +100,7 @@ const CoffeeBagView = () => {
           )
        )}
       </div>
+      <PWABadge />
     </div>
   )
 }
