@@ -138,8 +138,11 @@ export function CoffeeBagEntry() {
         <Link to='/'>
           <Button variant='ghost' className="hover:bg-transparent">Cancel</Button>
         </Link>
-        <h1 className="text-2xl font-semibold">New Coffee Bag</h1>
-        <p className="w-18"></p>
+        { isEditMode ? (
+          <h1 className="text-2xl font-semibold">Edit Coffee Bag</h1>
+        ) : (
+          <h1 className="text-2xl font-semibold">New Coffee Bag</h1>
+        )}
       </div>
       <form onSubmit={handleSubmit} className="flex flex-col w-full items-center gap-6">
         <div className="">
