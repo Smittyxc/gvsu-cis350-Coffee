@@ -1,0 +1,27 @@
+# Meeting Minutes 
+
+Team name: __Coffee__
+
+Members present: 
+- Matt
+- Jaden
+- Josh
+
+Date: __10/3/2025__
+
+Time: __5:20pm__
+
+### Discussion points:
+
+* Constructed overall project implementation plan
+    - Josh: front end recipe UI
+    - Matt: front end login, sign-up, and supabase user auth
+    - Jaden: backend user authentication and coffee bag entry APIs
+* Filled Jira backlog and built sprint (See Sprint #1)
+* Solved .env and Supabase key issues
+* Development environment working on all our machines
+
+### Goals for next week (include responsibilities)
+
+* Complete assigned Jira tickets from Sprint 1
+
