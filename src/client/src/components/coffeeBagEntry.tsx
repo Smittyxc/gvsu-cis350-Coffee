@@ -143,6 +143,7 @@ export function CoffeeBagEntry() {
         ) : (
           <h1 className="text-2xl font-semibold">New Coffee Bag</h1>
         )}
+        <div></div>
       </div>
       <form onSubmit={handleSubmit} className="flex flex-col w-full items-center gap-6">
         <div className="">
