@@ -6,14 +6,11 @@ export interface RecipeStep {
 }
 
 export interface Recipe {
-  id: number;
-  name: string;
-  dose: number;
-  brewMethod: string;
-  waterAmount: number;
-  grindSize: GrindSize;
-  temp: number;
-  description?: string;
+  recipe_name: string;
+  dose_grams: number;
+  // brew_method: string;
+  water_amount: number;
+  grind_size: GrindSize;
   steps: RecipeStep[];
 }
 
