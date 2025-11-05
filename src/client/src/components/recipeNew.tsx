@@ -3,6 +3,7 @@ import { Recipe, RecipeStep, GrindSize } from '@/lib/recipeData';
 import { Button } from './ui/button-2';
 import { Input } from './ui/input-2';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from "@/context/AuthContext.tsx"
 
 export const NewRecipe: React.FC = () => {
   const navigate = useNavigate();
@@ -11,6 +12,7 @@ export const NewRecipe: React.FC = () => {
   const [dose, setDose] = useState<number | ''>('');
   const [waterAmount, setWaterAmount] = useState<number | ''>('');
   const [grindSize, setGrindSize] = useState<GrindSize | null>('Medium');
+  const { session } = useAuth();
   // ... state for steps
 
   const [steps, setSteps] = useState<RecipeStep[]>([
@@ -32,7 +34,7 @@ export const NewRecipe: React.FC = () => {
     setSteps([...steps, { description: '', time: '' }]);
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     // Basic validation and data collection
     if (!recipeName || !waterAmount || !grindSize) {
       alert("Please fill out all required fields.");
@@ -40,17 +42,44 @@ export const NewRecipe: React.FC = () => {
     }
 
     const newRecipe: Partial<Recipe> = {
-      name: recipeName,
-      dose: dose as number,
-      waterAmount: waterAmount as number,
-      grindSize: grindSize as GrindSize,
-      brewMethod: "Regular Cup", // Placeholder
+      recipe_name: recipeName,
+      dose_grams: dose as number,
+      water_amount: waterAmount as number,
+      grind_size: grindSize as GrindSize,
+      // brew_method: "Regular Cup", // Placeholder
       steps: steps, // Placeholder for step state
     };
     console.log("Saving recipe:", newRecipe);
-    // CALL STATE MANAGEMENT BEFORE NAV
 
-    navigate('/recipes'); // MAIN RECIPE LIST PAGE
+    try {
+    const token = session?.access_token;
+
+    const response = await fetch("http://localhost:5000/api/recipes", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`, 
+      },
+      body: JSON.stringify(newRecipe),
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`Server responded with ${response.status}: ${errorText}`);
+    }
+
+    const savedRecipe = await response.json();
+    console.log("Recipe saved successfully:", savedRecipe);
+
+    // Optionally update local state or context with new recipe
+    // updateRecipes(savedRecipe);
+
+    navigate("/recipes");
+  } catch (error) {
+    console.error("Error saving recipe:", error);
+    alert("Failed to save recipe. Please try again.");
+  }
+
   };
 
   const handleCancel = () => {
