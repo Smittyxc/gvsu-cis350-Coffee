@@ -1,5 +1,5 @@
 import { VitePWA } from 'vite-plugin-pwa';
-import { defineConfig } from 'vite'
+import { defineConfig } from 'vitest/config'
 import path from "path";
 import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite';
@@ -91,7 +91,13 @@ export default defineConfig({
       suppressWarnings: true,
       type: 'module',
     },
+    
   })],
+  test: {
+      globals: true,
+      environment: 'jsdom',
+      setupFiles: './src/test/setup.tsx'
+  },
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
