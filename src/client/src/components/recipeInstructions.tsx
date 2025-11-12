@@ -85,49 +85,49 @@ export const RecipeInstructions: React.FC = () => {
     return (
         <div className="p-4 h-full overflow-y-auto">
             <header className="flex justify-between items-center pb-4 border-b">
-                <button onClick={handleBack} className="text-lg text-gray-600 hover:text-stone-500 mr-4">Back</button>
-                <h2 className="text-xl font-bold">Recipe Instructions</h2>
-                <button onClick={handleEdit} className="text-lg font-semibold text-amber-600 hover:text-amber-700">Edit</button>
+                <button onClick={handleBack} className="text-lg text-ctext hover:white mr-4">Back</button>
+                <h2 className="text-xl text-white font-bold">Recipe Instructions</h2>
+                <button onClick={handleEdit} className="text-lg font-semibold text-caction hover:text-cactionHover">Edit</button>
             </header>
 
             <main className="mt-4">
-                <h1 className="text-3xl font-bold">{name}</h1>
-                <p className="mt-2 text-gray-700 text-sm leading-relaxed">{description}</p>
+                <h1 className="text-3xl text-white font-bold">{name}</h1>
+                <p className="mt-2 text-cltext text-sm leading-relaxed">{description}</p>
 
                 {/* Core Recipe Details */}
-                <div className="flex justify-around items-center my-6 p-4 bg-stone-200 rounded-lg shadow-inner">
+                <div className="flex justify-around items-center my-6 p-4 bg-cbg2 rounded-lg shadow-inner">
                     <div className="text-center flex flex-col items-center">
                         <Scale />
-                        <p className="font-bold text-xl">{dose}g</p>
+                        <p className="font-bold text-xl text-ctext">{dose}g</p>
                     </div>
                     <div className="text-center flex flex-col items-center">
                         <Bean />
-                        <p className="font-bold text-xl">{grindSize}</p>
+                        <p className="font-bold text-xl text-ctext">{grindSize}</p>
                     </div>
                     <div className="text-center flex flex-col items-center">
                         <Thermometer />
-                        <p className="font-bold text-xl">{temp}°F</p>
-                        <p className="text-xs text-gray-500">{getCelsius(temp)}°C</p>
+                        <p className="font-bold text-xl text-ctext">{temp}°F</p>
+                        <p className="text-xs text-cnote">{getCelsius(temp)}°C</p>
                     </div>
                 </div>
 
                 {/* Steps List */}
                 <div className="space-y-4">
-                    <h3 className="text-xl font-bold">Steps</h3>
+                    <h3 className="text-xl text-white font-bold">Steps</h3>
                     {steps.map((step, index) => (
                         <div key={index} className="flex items-start">
-                            <span className="w-6 h-6 flex-shrink-0 mr-3 text-center rounded-full bg-stone-500 text-white text-sm font-bold pt-0.5">{index + 1}</span>
-                            <p className="flex-grow text-gray-800">{step.description}</p>
-                            {step.time && <span className="ml-4 text-sm font-mono p-1 bg-gray-100 rounded">{step.time}</span>}
+                            <span className="w-6 h-6 flex-shrink-0 mr-3 text-center rounded-full bg-cnote text-white text-sm font-bold pt-0.5">{index + 1}</span>
+                            <p className="flex-grow text-ctext">{step.description}</p>
+                            {step.time && <span className="ml-4 text-sm text-cltext font-mono p-1 bg-cbg3 rounded">{step.time}</span>}
                         </div>
                     ))}
                 </div>
                 <div className="flex justify-between">
                     <Link to="/brewresults">
-                        <button className="mt-6 text-amber-600 font-semibold hover:text-amber-700">Log Results &gt;</button>
+                        <button className="mt-6 text-caction font-semibold hover:text-cactionHover">Log Results &gt;</button>
                     </Link>
                     <Link to="/timer">
-                        <button className="mt-6 text-amber-600 font-semibold hover:text-amber-700">Use Recipe &gt;</button>
+                        <button className="mt-6 text-caction font-semibold hover:text-cactionHover">Use Recipe &gt;</button>
                     </Link>
                 </div>    
             </main>

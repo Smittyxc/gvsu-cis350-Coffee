@@ -430,7 +430,7 @@ export const BagSummary: React.FC = () => {
       <div className="flex items-center justify-between p-4 mb-6 bg-cbg2 rounded-lg">
         <button onClick={handleCancel} className="text-lg text-ctext hover:text-white">Cancel</button>
         <h1 className="text-2xl font-bold">Bag Summary</h1>
-        <button onClick={handleEdit} className="text-lg font-semibold text-caction hover:text-amber-700">Edit</button>
+        <button onClick={handleEdit} className="text-lg font-semibold text-caction hover:text-cactionHover">Edit</button>
       </div>
       
       {/* MAIN GRID */}
@@ -588,7 +588,7 @@ export const BagSummary: React.FC = () => {
         {/* --------------------- COLUMN 3: Key Brew Stats & Notes --------------------- */}
         <div className="lg:col-span-1 space-y-6">
           <Card>
-            <h3 className="text-xl font-bold mb-4 text-center text-red-300">Bag Information</h3>
+            <h3 className="text-xl font-bold mb-4 text-center text-caccent4">Bag Information</h3>
             <table className="w-full text-sm text-left table-auto">
               <tbody>
                 <tr className={TABLE_ROW_BORDER}>

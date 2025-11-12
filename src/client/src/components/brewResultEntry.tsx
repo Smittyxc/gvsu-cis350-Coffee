@@ -83,19 +83,19 @@ const BrewResultEntry = () => {
             <Label htmlFor='notes' className="text-lg">Notes</Label>
             <Combobox key='notes' value={comboBoxValue} data={coffeeTastingNotes} onValueChange={setComboBoxValue} displayText="Select notes"/>
           </div>
-          <button className="flex justify-center items-center rounded-full h-9 w-9 bg-gray-200" onClick={() => handleNoteEntry(comboBoxValue)}>
-            <Plus />
+          <button className="flex justify-center items-center rounded-full h-9 w-9 bg-cbg3 hover:bg-chover" onClick={() => handleNoteEntry(comboBoxValue)}>
+            <Plus className="text-caction" />
           </button>
         </div>
         {data.notes && data.notes.length > 0 && (
-          <div className="flex flex-wrap justify-center w-full gap-2 p-2 rounded-lg shadow border border-black ">
+          <div className="flex flex-wrap justify-center w-full gap-2 p-5 rounded-lg shadow bg-cbg2">
             {
               data.notes.map((note, index) => {
                 const label = getLabelFromValue(coffeeTastingNotes, note)
                 return (
-                  <Badge key={index} className="bg-blue-400 shadow-md">
+                  <Badge key={index} className="bg-cbg3 shadow-md">
                     {label}
-                    <button className="p-1 pl-2" type='button' onClick={() => handleNoteRemoval(note)}>
+                    <button className="p-1 pl-2 hover:text-ctext" type='button' onClick={() => handleNoteRemoval(note)}>
                       <X size={16} />
                     </button>
                   </Badge>
@@ -108,51 +108,51 @@ const BrewResultEntry = () => {
 
         <div className="flex w-full justify-between gap-2">
           <div className="flex flex-col w-full">
-            <Label htmlFor='clarity' className="text-lg">Clarity</Label>
+            <Label htmlFor='clarity' className="text-lg text-caccent2">Clarity</Label>
             <Slider id="clarity" value={[data.clarity]} step={1} max={10} onValueChange={handleSliderChange('clarity')} className="pt-1" />
           </div>
-          <div className="flex justify-center items-center p-3 bg-blue-600 text-white rounded-full">
-            <p className="w-4 h-4 -mt-2 text-center  font-semibold font-mono">{data.clarity}</p>
+          <div className="flex justify-center items-center p-3 bg-cnote text-white rounded-full">
+            <p className="w-4 h-4 -mt-2 text-center font-semibold font-mono">{data.clarity}</p>
           </div>
         </div>
 
         <div className="flex w-full justify-between gap-2">
           <div className="flex flex-col w-full">
-            <Label htmlFor='acidity' className="text-lg">Acidity</Label>
+            <Label htmlFor='acidity' className="text-lg text-caccent3">Acidity</Label>
             <Slider id="acidity" value={[data.acidity]} step={1} max={10} onValueChange={handleSliderChange('acidity')} className="pt-1" />
           </div>
-          <div className="flex justify-center items-center p-3 bg-blue-600 text-white rounded-full">
-            <p className="w-4 h-4 -mt-2 text-center  font-semibold font-mono">{data.acidity}</p>
+          <div className="flex justify-center items-center p-3 bg-cnote text-white rounded-full">
+            <p className="w-4 h-4 -mt-2 text-center font-semibold font-mono">{data.acidity}</p>
           </div>
         </div>
 
         <div className="flex w-full justify-between gap-2">
           <div className="flex flex-col w-full">
-            <Label htmlFor='sweetness' className="text-lg">Sweetness</Label>
+            <Label htmlFor='sweetness' className="text-lg text-caccent4">Sweetness</Label>
             <Slider id="sweetness" value={[data.sweetness]} step={1} max={10} onValueChange={handleSliderChange('sweetness')} className="pt-1" />
           </div>
-          <div className="flex justify-center items-center p-3 bg-blue-600 text-white rounded-full">
-            <p className="w-4 h-4 -mt-2 text-center  font-semibold font-mono">{data.sweetness}</p>
+          <div className="flex justify-center items-center p-3 bg-cnote text-white rounded-full">
+            <p className="w-4 h-4 -mt-2 text-center font-semibold font-mono">{data.sweetness}</p>
           </div>
         </div>
 
         <div className="flex w-full justify-between gap-2">
           <div className="flex flex-col w-full">
-            <Label htmlFor='body' className="text-lg">Body</Label>
+            <Label htmlFor='body' className="text-lg text-caccent5">Body</Label>
             <Slider id="body" value={[data.body]} step={1} max={10} onValueChange={handleSliderChange('body')} className="pt-1" />
           </div>
-          <div className="flex justify-center items-center p-3 bg-blue-600 text-white rounded-full">
-            <p className="w-4 h-4 -mt-2 text-center  font-semibold font-mono">{data.body}</p>
+          <div className="flex justify-center items-center p-3 bg-cnote text-white rounded-full">
+            <p className="w-4 h-4 -mt-2 text-center font-semibold font-mono">{data.body}</p>
           </div>
         </div>
 
         <div className="flex w-full justify-between gap-2">
           <div className="flex flex-col w-full">
-            <Label htmlFor='bitterness' className="text-lg">Bitterness</Label>
+            <Label htmlFor='bitterness' className="text-lg text-caccent1">Bitterness</Label>
             <Slider id="bitterness" value={[data.bitterness]} step={1} max={10} onValueChange={handleSliderChange('bitterness')} className="pt-1" />
           </div>
-          <div className="flex justify-center items-center p-3 bg-blue-600 text-white rounded-full">
-            <p className="w-4 h-4 -mt-2 text-center  font-semibold font-mono">{data.bitterness}</p>
+          <div className="flex justify-center items-center p-3 bg-cnote text-white rounded-full">
+            <p className="w-4 h-4 -mt-2 text-center font-semibold font-mono">{data.bitterness}</p>
           </div>
         </div>
 
@@ -161,12 +161,12 @@ const BrewResultEntry = () => {
             <Label htmlFor='overall' className="text-lg">Overall</Label>
             <Slider id="overall" value={[data.overall]} step={1} max={10} onValueChange={handleSliderChange('overall')} className="pt-1" />
           </div>
-          <div className="flex justify-center items-center p-3 bg-blue-600 text-white rounded-full">
-            <p className="w-4 h-4 -mt-2 text-center  font-semibold font-mono">{data.overall}</p>
+          <div className="flex justify-center items-center p-3 bg-cnote text-white rounded-full">
+            <p className="w-4 h-4 -mt-2 text-center font-semibold font-mono">{data.overall}</p>
           </div>
         </div>
       </div>
-      <Button variant="secondary" onClick={handleSubmit}>Submit</Button>
+      <Button variant="dark" onClick={handleSubmit}>Submit</Button>
     </div>
   )
 }

@@ -136,12 +136,12 @@ export function CoffeeBagEntry() {
     <div className="flex flex-col items-center gap-6 h-full w-full pt-4">
       <div className="flex w-full justify-between">
         <Link to='/'>
-          <Button variant='ghost' className="hover:bg-transparent">Cancel</Button>
+          <Button variant='ghost' className="text-lg text-ctext hover:text-white">Cancel</Button>
         </Link>
         { isEditMode ? (
-          <h1 className="text-2xl font-semibold">Edit Coffee Bag</h1>
+          <h1 className="text-2xl text-white font-semibold">Edit Coffee Bag</h1>
         ) : (
-          <h1 className="text-2xl font-semibold">New Coffee Bag</h1>
+          <h1 className="text-2xl text-white font-semibold">New Coffee Bag</h1>
         )}
         <div className="w-20"></div>
       </div>
