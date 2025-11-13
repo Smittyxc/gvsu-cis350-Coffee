@@ -1,6 +1,5 @@
 import React from 'react';
 import { icons } from '@/lib/recipeConstants';
-import { Coffee, Plus, X } from "lucide-react";
 
 interface RecipeListItemProps {
   recipe: {

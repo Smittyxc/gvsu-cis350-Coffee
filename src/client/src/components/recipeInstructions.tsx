@@ -47,12 +47,6 @@ export const RecipeInstructions: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const { session } = useAuth();
 
-  const handleAddNew = () => {
-    navigate("/recipes/recipeNew");
-  };
-
-  
-
   useEffect(() => {
     if (recipeId == "1" || recipeId == "2") {
     console.log("hello world");
@@ -131,7 +125,7 @@ export const RecipeInstructions: React.FC = () => {
 
   // Destructure the first (and only) recipe
   const r = recipe[0]!;
-  const { recipe_name, dose_grams, water_amount, grind_size, steps = [] } = r;
+  const { recipe_name, dose_grams, grind_size, steps = [] } = r; //deleted waterAmount
 
   const handleBack = () => navigate('/recipes');
   const handleEdit = () => navigate(`/recipes/${recipeId}/edit`);
