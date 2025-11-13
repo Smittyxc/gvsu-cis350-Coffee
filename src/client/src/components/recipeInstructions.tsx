@@ -1,19 +1,15 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import { Recipe } from '@/lib/recipeData';
 import { Scale, Thermometer, Bean } from 'lucide-react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
+import { useAuth } from "@/context/AuthContext.tsx"
 
-// PLACEHOLDER DATA
 const RECIPE_DB: Record<string, Recipe> = {
     "1": {
-        id: 1,
-        name: "Alan Adler",
-        brewMethod: "Regular Cup",
-        dose: 16,
-        waterAmount: 240,
-        grindSize: 'Fine',
-        description: "A simple, clean-tasting brew method from the inventor of the AeroPress.",
-        temp: 176,
+        recipe_name: "Alan Adler",
+        dose_grams: 16,
+        water_amount: 240,
+        grind_size: 'Fine',
         steps: [
             { description: "Add 16 g of ground coffee to the brew chamber" },
             { description: "Give a gentle shake to level the grounds" },
@@ -25,14 +21,10 @@ const RECIPE_DB: Record<string, Recipe> = {
         ]
     },
     "2": {
-        id: 2,
-        name: "James Hoffmann",
-        brewMethod: "Espresso",
-        dose: 18,
-        waterAmount: 36,
-        grindSize: 'Medium',
-        description: "A complex, but highly rewarding espresso-style brew.",
-        temp: 195,
+        recipe_name: "James Hoffmann",
+        dose_grams: 18,
+        water_amount: 36,
+        grind_size: 'Medium',
         steps: [
             { description: "Add 16 g of ground coffee to the brew chamber" },
             { description: "Give a gentle shake to level the grounds" },
@@ -47,90 +39,154 @@ const RECIPE_DB: Record<string, Recipe> = {
 };
 
 export const RecipeInstructions: React.FC = () => {
-    const { recipeId } = useParams<{ recipeId: string }>(); // ID FROM URL
-    const navigate = useNavigate();
+  const { recipeId } = useParams<{ recipeId: string }>(); // ID FROM URL
+  const navigate = useNavigate();
 
-    // USE RECIPEID TO FETCH DATA INSTEAD OF PLACEHOLDER
-    console.log("Viewing recipe ID:", recipeId);
+  const [recipe, setRecipe] = useState<Recipe[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const { session } = useAuth();
 
-    if (!recipeId) {
-        return (
-            <div className="p-4 text-center">
-                <h2 className="text-xl font-bold text-red-600">Invalid URL</h2>
-                <p>No recipe ID was provided in the URL.</p>
-                <button onClick={() => navigate('/recipes')} className="mt-4 text-amber-600">Go Back to List</button>
-            </div>
-        );
+  const handleAddNew = () => {
+    navigate("/recipes/recipeNew");
+  };
+
+  
+
+  useEffect(() => {
+    if (recipeId == "1" || recipeId == "2") {
+    console.log("hello world");
+    setRecipe([RECIPE_DB[recipeId]]);
+    setLoading(false);
+  } else {
+    const fetchRecipes = async () => {
+      try {
+        const token = session?.access_token;
+
+        const resp = await fetch("http://localhost:5000/api/recipeFetch/" + recipeId, {
+          headers: {
+            Authorization: `Bearer ${token ?? ""}`,
+          },
+        });
+
+        if (!resp.ok) {
+          const msg = await resp.text();
+          throw new Error(msg || `Failed with status ${resp.status}`);
+        }
+
+        const data = await resp.json();
+
+        // Normalize to an array (handles object OR array responses)
+        setRecipe(Array.isArray(data) ? data : (data ? [data] : []));
+      } catch (err: any) {
+        console.error("Error fetching recipes:", err);
+        setError(err.message || "Failed to load recipes");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchRecipes();
     }
+  }, []);
 
-    const recipe = RECIPE_DB[recipeId]; // USE PLACEHOLDER DISPLAY
-
-    if (!recipe) {
-        return (
-            <div className="p-4 text-center">
-                <h2 className="text-xl font-bold text-red-600">Recipe Not Found</h2>
-                <p>Could not find a recipe with ID: {recipeId}</p>
-                <button onClick={() => navigate('/recipes')} className="mt-4 text-amber-600">Go Back to List</button>
-            </div>
-        );
-    }
-
-    const { name, dose, grindSize, description, temp, steps } = recipe;
-
-    const handleBack = () => navigate('/recipes');
-    const handleEdit = () => navigate(`/recipes/${recipeId}/edit`);
-
-    const getCelsius = (f: number) => Math.round((f - 32) * 5 / 9);
-
+  if (!recipeId) {
     return (
-        <div className="p-4 h-full overflow-y-auto">
-            <header className="flex justify-between items-center pb-4 border-b">
-                <button onClick={handleBack} className="text-lg text-gray-600 hover:text-stone-500 mr-4">Back</button>
-                <h2 className="text-xl font-bold">Recipe Instructions</h2>
-                <button onClick={handleEdit} className="text-lg font-semibold text-amber-600 hover:text-amber-700">Edit</button>
-            </header>
-
-            <main className="mt-4">
-                <h1 className="text-3xl font-bold">{name}</h1>
-                <p className="mt-2 text-gray-700 text-sm leading-relaxed">{description}</p>
-
-                {/* Core Recipe Details */}
-                <div className="flex justify-around items-center my-6 p-4 bg-stone-200 rounded-lg shadow-inner">
-                    <div className="text-center flex flex-col items-center">
-                        <Scale />
-                        <p className="font-bold text-xl">{dose}g</p>
-                    </div>
-                    <div className="text-center flex flex-col items-center">
-                        <Bean />
-                        <p className="font-bold text-xl">{grindSize}</p>
-                    </div>
-                    <div className="text-center flex flex-col items-center">
-                        <Thermometer />
-                        <p className="font-bold text-xl">{temp}°F</p>
-                        <p className="text-xs text-gray-500">{getCelsius(temp)}°C</p>
-                    </div>
-                </div>
-
-                {/* Steps List */}
-                <div className="space-y-4">
-                    <h3 className="text-xl font-bold">Steps</h3>
-                    {steps.map((step, index) => (
-                        <div key={index} className="flex items-start">
-                            <span className="w-6 h-6 flex-shrink-0 mr-3 text-center rounded-full bg-stone-500 text-white text-sm font-bold pt-0.5">{index + 1}</span>
-                            <p className="flex-grow text-gray-800">{step.description}</p>
-                            {step.time && <span className="ml-4 text-sm font-mono p-1 bg-gray-100 rounded">{step.time}</span>}
-                        </div>
-                    ))}
-                </div>
-                <div className="flex justify-between">
-                    <Link to="/brewresults">
-                        <button className="mt-6 text-amber-600 font-semibold hover:text-amber-700">Log Results &gt;</button>
-                    </Link>
-                    <Link to="/timer">
-                        <button className="mt-6 text-amber-600 font-semibold hover:text-amber-700">Use Recipe &gt;</button>
-                    </Link>
-                </div>    
-            </main>
-        </div>
+      <div className="p-4 text-center">
+        <h2 className="text-xl font-bold text-red-600">Invalid URL</h2>
+        <p>No recipe ID was provided in the URL.</p>
+        <button onClick={() => navigate('/recipes')} className="mt-4 text-amber-600">Go Back to List</button>
+      </div>
     );
+  }
+
+  // Loading + Error states
+  if (loading) {
+    return (
+      <div className="p-4 text-center">
+        <p className="text-gray-600">Loading…</p>
+      </div>
+    );
+  }
+  if (error) {
+    return (
+      <div className="p-4 text-center">
+        <h2 className="text-xl font-bold text-red-600">Error</h2>
+        <p className="text-gray-700">{error}</p>
+        <button onClick={() => navigate('/recipes')} className="mt-4 text-amber-600">Go Back to List</button>
+      </div>
+    );
+  }
+
+  // Not found when the array is empty
+  if (recipe.length === 0) {
+    return (
+      <div className="p-4 text-center">
+        <h2 className="text-xl font-bold text-red-600">Recipe Not Found</h2>
+        <p>Could not find a recipe with ID: {recipeId}</p>
+        <button onClick={() => navigate('/recipes')} className="mt-4 text-amber-600">Go Back to List</button>
+      </div>
+    );
+  }
+
+  // Destructure the first (and only) recipe
+  const r = recipe[0]!;
+  const { recipe_name, dose_grams, water_amount, grind_size, steps = [] } = r;
+
+  const handleBack = () => navigate('/recipes');
+  const handleEdit = () => navigate(`/recipes/${recipeId}/edit`);
+
+  const getCelsius = (f: number) => Math.round((f - 32) * 5 / 9);
+
+  return (
+    <div className="p-4 h-full overflow-y-auto">
+      <header className="flex justify-between items-center pb-4 border-b">
+        <button onClick={handleBack} className="text-lg text-gray-600 hover:text-stone-500 mr-4">Back</button>
+        <h2 className="text-xl font-bold">Recipe Instructions</h2>
+        <button onClick={handleEdit} className="text-lg font-semibold text-amber-600 hover:text-amber-700">Edit</button>
+      </header>
+
+      <main className="mt-4">
+        <h1 className="text-3xl font-bold">{recipe_name}</h1>
+
+        {/* Core Recipe Details */}
+        <div className="flex justify-around items-center my-6 p-4 bg-stone-200 rounded-lg shadow-inner">
+          <div className="text-center flex flex-col items-center">
+            <Scale />
+            <p className="font-bold text-xl">{dose_grams}g</p>
+          </div>
+          <div className="text-center flex flex-col items-center">
+            <Bean />
+            <p className="font-bold text-xl">{grind_size}</p>
+          </div>
+          <div className="text-center flex flex-col items-center">
+            <Thermometer />
+            <p className="font-bold text-xl">176°F</p>
+            <p className="text-xs text-gray-500">{getCelsius(176)}°C</p>
+          </div>
+        </div>
+
+        {/* Steps List */}
+        <div className="space-y-4">
+          <h3 className="text-xl font-bold">Steps</h3>
+          {(steps ?? []).map((step, index) => (
+            <div key={index} className="flex items-start">
+              <span className="w-6 h-6 flex-shrink-0 mr-3 text-center rounded-full bg-stone-500 text-white text-sm font-bold pt-0.5">{index + 1}</span>
+              <p className="flex-grow text-gray-800">{step.description}</p>
+              {step.time && <span className="ml-4 text-sm font-mono p-1 bg-gray-100 rounded">{step.time}</span>}
+            </div>
+          ))}
+        </div>
+
+        <div className="flex justify-between">
+          <Link to="/brewresults">
+            <button className="mt-6 text-amber-600 font-semibold hover:text-amber-700">Log Results &gt;</button>
+          </Link>
+          <Link to="/timer">
+            <button className="mt-6 text-amber-600 font-semibold hover:text-amber-700">Use Recipe &gt;</button>
+          </Link>
+        </div>
+      </main>
+    </div>
+  );
 };
