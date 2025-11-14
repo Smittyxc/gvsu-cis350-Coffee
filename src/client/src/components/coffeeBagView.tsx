@@ -55,9 +55,9 @@ const sampleCoffeeBags: CoffeeBag[] = [
 const CoffeeBagView = () => {
   return (
     <div className="h-full flex flex-col items-center justify-start w-full pb-4">
-      <h1 className="text-3xl font-semibold py-4">Your Coffees</h1>
+      <h1 className="text-3xl text-white font-semibold py-4">Your Coffees</h1>
         <Link to='/coffee/new' className="fixed bottom-22 right-5">
-          <div className="flex justify-center items-center bg-stone-500 bg-accent-brown shadow-md rounded-full size-16">
+          <div className="flex justify-center items-center bg-cbg3 hover:bg-chover shadow-md rounded-full size-16">
             <Plus size={36} color="#FFFFFF" />
           </div>
         </Link>
@@ -66,17 +66,17 @@ const CoffeeBagView = () => {
         {sampleCoffeeBags.map((bag, index) => (
           <Popover key={`${bag.name}-${index}`}>
             <PopoverTrigger>
-              <div key={`${bag.name}-${index}`} className="w-full h-30 flex flex-col items-center justify-around border-2 shadow-md border-black rounded-2xl">
+              <div key={`${bag.name}-${index}`} className="w-full h-30 flex flex-col items-center justify-around border-2 border-cbg3 shadow-md rounded-2xl text-cltext bg-cbg2 hover:bg-chover">
                 <p>{bag.name}</p>
                   <Coffee />
                 <p>{bag.roaster}</p>
               </div>
             </PopoverTrigger>
-            <PopoverContent className="bg-blue-600 relative">
+            <PopoverContent className="bg-cbg2 relative">
               <PopoverClose asChild className="absolute top-3 right-3">
                 <button><X color="#ffffff" /></button>
               </PopoverClose>
-              <div className="flex flex-col items-start text-white font-semibold">
+              <div className="flex flex-col items-start text-ctext font-semibold">
                 <p>{bag.name}</p>
                 <p>{bag.roaster}</p>
                 <p><span className="font-light">Origin: </span>{getLabelFromValue(coffeeProducingCountries, bag.origin)}</p>
@@ -89,9 +89,9 @@ const CoffeeBagView = () => {
                 }
                 <div className="flex justify-around w-full pt-3 pb-1">
                   <Link to={`/coffee/${bag.id}/edit`}>
-                    <Button variant='secondary'>Edit</Button>
+                    <Button variant='dark2'>Edit</Button>
                   </Link>
-                  <Button variant='secondary'>Delete</Button>
+                  <Button variant='dark2'>Delete</Button>
                 </div>
               </div>
             </PopoverContent>

@@ -101,6 +101,49 @@ app.post("/api/coffee", requireUser, async (req, res) => { // POST addCoffee
   }
 });
 
+app.post("/api/recipes", requireUser, async (req, res) => { // new recipe
+  try {
+    const userId = req.user.id;
+
+    const payload = { ...req.body, user_id: userId };
+
+    const { data, error } = await supabaseAdmin.from('recipes').insert(payload).select('*').single();
+
+    if (error) {
+      console.error('Supabase insert error:', error);
+      return res.status(500).json({ error: 'Database error' });
+    }
+
+    return res.status(201).json({ ok: true });
+  } catch (err) {
+    console.error('Server error:', err);
+    return res.status(500).json({ error: 'Server error' });
+  }
+})
+
+app.get("/api/recipes", requireUser, async (req, res) => {
+  try {
+    const userId = req.user.id;
+
+    const { data, error } = await supabaseAdmin
+      .from("recipes")
+      .select("id, recipe_name")
+      .eq("user_id", userId)
+      .order("created_at", { ascending: false });
+
+    if (error) {
+      console.error("Supabase select error:", error);
+      return res.status(500).json({ error: "Database error" });
+    }
+
+    // send array of recipes
+    return res.json({ recipes: data });
+  } catch (err) {
+    console.error("Server error:", err);
+    return res.status(500).json({ error: "Server error" });
+  }
+});
+
 app.get("/api/coffee/:id", requireUser, async (req, res) => {
   try { 
     const { id } = req.params
@@ -172,12 +215,13 @@ app.put('/api/coffee/:id', requireUser, async (req, res) => {
 )
 
 app.use(function(req, res, next) { // 404 catch all
+  console.log("no endpoint");
   next(createError(404));
 });
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+// const PORT = process.env.PORT || 5000;
+// app.listen(PORT, () => {
+//   console.log(`Server is running on port ${PORT}`);
+// });
 
 module.exports = app;

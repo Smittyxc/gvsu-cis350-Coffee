@@ -3,6 +3,7 @@ import { Recipe, RecipeStep, GrindSize } from '@/lib/recipeData';
 import { Button } from './ui/button-2';
 import { Input } from './ui/input-2';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from "@/context/AuthContext.tsx"
 
 export const NewRecipe: React.FC = () => {
   const navigate = useNavigate();
@@ -11,6 +12,7 @@ export const NewRecipe: React.FC = () => {
   const [dose, setDose] = useState<number | ''>('');
   const [waterAmount, setWaterAmount] = useState<number | ''>('');
   const [grindSize, setGrindSize] = useState<GrindSize | null>('Medium');
+  const { session } = useAuth();
   // ... state for steps
 
   const [steps, setSteps] = useState<RecipeStep[]>([
@@ -32,7 +34,7 @@ export const NewRecipe: React.FC = () => {
     setSteps([...steps, { description: '', time: '' }]);
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     // Basic validation and data collection
     if (!recipeName || !waterAmount || !grindSize) {
       alert("Please fill out all required fields.");
@@ -40,17 +42,44 @@ export const NewRecipe: React.FC = () => {
     }
 
     const newRecipe: Partial<Recipe> = {
-      name: recipeName,
-      dose: dose as number,
-      waterAmount: waterAmount as number,
-      grindSize: grindSize as GrindSize,
-      brewMethod: "Regular Cup", // Placeholder
+      recipe_name: recipeName,
+      dose_grams: dose as number,
+      water_amount: waterAmount as number,
+      grind_size: grindSize as GrindSize,
+      // brew_method: "Regular Cup", // Placeholder
       steps: steps, // Placeholder for step state
     };
     console.log("Saving recipe:", newRecipe);
-    // CALL STATE MANAGEMENT BEFORE NAV
 
-    navigate('/recipes'); // MAIN RECIPE LIST PAGE
+    try {
+    const token = session?.access_token;
+
+    const response = await fetch("http://localhost:5000/api/recipes", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`, 
+      },
+      body: JSON.stringify(newRecipe),
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`Server responded with ${response.status}: ${errorText}`);
+    }
+
+    const savedRecipe = await response.json();
+    console.log("Recipe saved successfully:", savedRecipe);
+
+    // Optionally update local state or context with new recipe
+    // updateRecipes(savedRecipe);
+
+    navigate("/recipes");
+  } catch (error) {
+    console.error("Error saving recipe:", error);
+    alert("Failed to save recipe. Please try again.");
+  }
+
   };
 
   const handleCancel = () => {
@@ -63,15 +92,15 @@ export const NewRecipe: React.FC = () => {
     <div className="p-4 h-full overflow-y-auto">
       <header className="flex justify-between items-center pb-4 border-b">
         {/* handleCancel */}
-        <button onClick={handleCancel} className="text-lg text-gray-600 hover:text-stone-500">Cancel</button>
-        <h2 className="text-xl font-bold">New Recipe</h2>
+        <button onClick={handleCancel} className="text-lg text-ctext hover:text-white">Cancel</button>
+        <h2 className="text-xl font-bold text-white">New Recipe</h2>
         {/* handleSave */}
-        <button onClick={handleSave} className="text-lg font-semibold text-amber-600 hover:text-amber-700">Save</button>
+        <button onClick={handleSave} className="text-lg font-semibold text-caction hover:text-cactionHover">Save</button>
       </header>
 
       <form className="mt-6 space-y-6">
         <label className="block">
-          <span className="text-gray-700 font-medium">Name</span>
+          <span className="text-white font-medium">Name</span>
           <Input
             type="text"
             placeholder="My Recipe"
@@ -101,7 +130,7 @@ export const NewRecipe: React.FC = () => {
       {/* Water Amount & Dose*/}
       <div className="flex gap-6">
         <label className="block">
-          <span className="text-gray-700 font-medium">Water Amount (mL)</span>
+          <span className="text-white font-medium">Water Amount (mL)</span>
           <Input
             type="number"
             className="mt-1"
@@ -110,7 +139,7 @@ export const NewRecipe: React.FC = () => {
           />
         </label>
         <label className="block">
-          <span className="text-gray-700 font-medium">Dose (g)</span>
+          <span className="text-white font-medium">Dose (g)</span>
           <Input
             type="number"
             className="mt-1"
@@ -122,13 +151,13 @@ export const NewRecipe: React.FC = () => {
 
         {/* Grind Size Selection */}
         <div className="space-y-2">
-          <span className="text-gray-700 font-medium">Grind Size</span>
+          <span className="text-white font-medium">Grind Size</span>
           <div className="grid grid-cols-3 gap-2 mt-1">
             {grindOptions.map(size => (
               <Button
                 key={size}
                 type="button"
-                variant={grindSize === size ? 'primary' : 'secondary'}
+                variant={grindSize === size ? 'dark' : 'dark2'}
                 onClick={() => setGrindSize(size)}
               >
                 {size}
@@ -139,7 +168,7 @@ export const NewRecipe: React.FC = () => {
 
         {/* Steps */}
         <div className="pt-4 space-y-4">
-          <h3 className="text-xl font-bold">Steps</h3>
+          <h3 className="text-xl text-white font-bold">Steps</h3>
 
           {/*
           <div className="flex items-center space-x-2">
@@ -160,9 +189,9 @@ export const NewRecipe: React.FC = () => {
           */}
 
           {steps.map((step, index) => (
-            <div key={index} className="flex flex-col space-y-2">
+            <div key={index} className="flex flex-col space-y-2 text-white">
               <div className="flex items-center space-x-2">
-                <span className="font-semibold w-5 flex-shrink-0 text-center">{index + 1})</span>
+                <span className="font-semibold w-5 flex-shrink-0 text-center text-cltext">{index + 1})</span>
 
                 {/* STEP DESCRIPTION */}
                 <Input 
@@ -175,7 +204,7 @@ export const NewRecipe: React.FC = () => {
 
               {/* STEP TIME */}
               <div className='flex items-center space-x-2 ml-7'>
-                <span className='text-sm text-gray-500'>Time (MM:SS)</span>
+                <span className='text-sm text-ctext'>Time (MM:SS)</span>
                 <Input 
                     type="text" 
                     placeholder="e.g., 0:30"
@@ -190,7 +219,7 @@ export const NewRecipe: React.FC = () => {
           {/* ADD STEP BUTTON */}
           <button
             type="button"
-            className="w-8 h-8 rounded-full hover:bg-gray-600 bg-stone-500 bg-accent-brown text-white text-2xl shadow-lg flex items-center justify-center mt-4"
+            className="w-8 h-8 rounded-full hover:bg-chover bg-cbg3 text-white text-2xl shadow-lg flex items-center justify-center mt-4"
             onClick={handleAddStep}
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

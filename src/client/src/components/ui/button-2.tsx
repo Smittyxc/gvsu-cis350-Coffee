@@ -2,7 +2,7 @@ import React from 'react';
 import { baseButton } from '@/lib/recipeConstants';
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: 'primary' | 'secondary' | 'filter';
+  variant?: 'primary' | 'secondary' | 'filter' | 'dark' | 'dark2';
   children: React.ReactNode;
 }
 
@@ -13,6 +13,10 @@ const getVariantClasses = (variant: ButtonProps['variant']): string => {
     case 'filter':
       return "px-4 py-1 text-sm bg-stone-200 border border-gray-300 hover:bg-gray-200";
     case 'primary':
+    case 'dark':
+      return "bg-cbg3 text-caction shadow-xs hover:bg-chover"
+    case 'dark2':
+      return "bg-cbg3 text-cltext shadow-xs hover:bg-chover"
     default:
       return "bg-yellow-700 text-white hover:bg-yellow-800";
   }
