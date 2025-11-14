@@ -144,6 +144,29 @@ app.get("/api/recipes", requireUser, async (req, res) => {
   }
 });
 
+app.get("/api/recipeFetch/:id", requireUser, async (req, res) => {
+  try {
+    const recipeId = req.params.id;
+
+    const { data, error } = await supabaseAdmin
+      .from("recipes")
+      .select("*")
+      .eq("id", recipeId)
+      .maybeSingle();
+
+    if (error) {
+      console.error("Supabase select error:", error);
+      return res.status(500).json({ error: "Database error" });
+    }
+
+    // send array of recipes
+    return res.json(data);
+  } catch (err) {
+    console.error("Server error:", err);
+    return res.status(500).json({ error: "Server error" });
+  }
+});
+
 app.get("/api/coffee/:id", requireUser, async (req, res) => {
   try { 
     const { id } = req.params
@@ -171,6 +194,24 @@ app.get("/api/coffee/:id", requireUser, async (req, res) => {
   } catch (err) {
     console.error('Server error:', err);
     return res.status(500).json({ error: 'Server error' });
+  }
+});
+
+app.get("/api/getCoffees", requireUser, async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const {data, error} = await supabaseAdmin.from("coffeeBag").select("*").eq("user_id", userId);
+
+    if (error) {
+      console.error("Supabase select error:", error);
+      return res.status(500).json({ error: "Database error" });
+    }
+
+    // send array of recipes
+    return res.json({coffees: data});
+  } catch (err) {
+    console.error("Server error:", err);
+    return res.status(500).json({ error: "Server error" });
   }
 });
 
@@ -219,9 +260,9 @@ app.use(function(req, res, next) { // 404 catch all
   next(createError(404));
 });
 
-// const PORT = process.env.PORT || 5000;
-// app.listen(PORT, () => {
-//   console.log(`Server is running on port ${PORT}`);
-// });
+ const PORT = process.env.PORT || 5000;
+ app.listen(PORT, () => {
+   console.log(`Server is running on port ${PORT}`);
+});
 
 module.exports = app;

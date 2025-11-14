@@ -1,11 +1,14 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Slider } from "./ui/slider"
 import { Label } from "./ui/label"
 import Combobox from "./comboBox"
-import { coffeeTastingNotes, getLabelFromValue } from "@/lib/coffeeOptions"
+import { coffeeTastingNotes, getLabelFromValue, Option } from "@/lib/coffeeOptions"
 import { Plus, X } from "lucide-react"
 import { Badge } from "./ui/badge"
 import { Button } from "./ui/button"
+import { Recipe } from '@/lib/recipeData';
+import { useAuth } from "@/context/AuthContext.tsx"
+import { supabase } from "@/lib/client"
 
 interface BrewResult {
   clarity: number;
@@ -18,7 +21,6 @@ interface BrewResult {
   bitterness: number;
   coffeeBagId?: string,
   recipeId?: string 
-
 }
 
 const BrewResultEntry = () => {
@@ -33,7 +35,7 @@ const BrewResultEntry = () => {
     notes: []
   })
 
-  const [comboBoxValue, setComboBoxValue] = useState('')
+  //const [comboBoxValue, setComboBoxValue] = useState('')
 
   const handleSliderChange = (field: keyof BrewResult) => (value: number[]) => {
     setData(prev => ({
@@ -53,8 +55,35 @@ const BrewResultEntry = () => {
     })
   }
 
-  const handleSubmit = () => {
-    console.log('Submitting', data)
+  const handleSubmit = async () => {
+    try {
+    console.log("Submitting", data);
+
+    const { error } = await supabase
+      .from("brew_results")
+      .insert([
+        {
+          clarity: data.clarity,
+          sweetness: data.sweetness,
+          acidity: data.acidity,
+          //body: data.body,
+          bitterness: data.bitterness,
+          score: data.overall,
+          //balance: data.balance,
+          notes: data.notes,
+          coffeeBagId: data.coffeeBagId ?? null,
+          recipeId: data.recipeId ?? null,
+          user_id: session?.user?.id,
+        },
+      ]);
+
+    if (error) throw error;
+
+    alert("Brew result saved successfully!");
+  } catch (err: any) {
+    console.error("Error saving brew result:", err.message);
+    alert(`Error saving brew result: ${err.message}`);
+  }
   }
 
   const handleNoteRemoval = (note: string) => {
@@ -63,27 +92,98 @@ const BrewResultEntry = () => {
       ['notes']: data.notes.filter(oldNote => oldNote !== note)
     }))
   }
-      
+
+  const { session } = useAuth();
+
+  const [recipeNames, setRecipeNames] = useState<Option[]>([]);
+  const [coffeeNames, setCoffeeNames] = useState<Option[]>([]);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+          const fetchRecipes = async () => {
+              try {
+              const token = session?.access_token;
+  
+              const resp = await fetch("http://localhost:5000/api/recipes", {
+              headers: {
+                  Authorization: `Bearer ${token ?? ""}`,
+              },
+              });
+  
+              if (!resp.ok) {
+              const msg = await resp.text();
+              throw new Error(msg || `Failed with status ${resp.status}`);
+              }
+  
+              const { recipes } = (await resp.json()) as { recipes: Recipe[] };
+              const options: Option[] = recipes.map((r: {recipe_name: string}) => ({
+                value: r.recipe_name,
+                label: r.recipe_name
+              }));
+
+              setRecipeNames(options);
+          } catch (err: any) {
+              console.error("Error fetching recipes:", err);
+              setError(err.message || "Failed to load recipes");
+          }
+          };
+
+          const fetchCoffees = async () => {
+              try {
+              const token = session?.access_token;
+  
+              const resp = await fetch("http://localhost:5000/api/getCoffees", {
+              headers: {
+                  Authorization: `Bearer ${token ?? ""}`,
+              },
+              });
+  
+              if (!resp.ok) {
+              const msg = await resp.text();
+              throw new Error(msg || `Failed with status ${resp.status}`);
+              }
+  
+              const { coffees } = (await resp.json()) as { coffees: [] };
+              const options: Option[] = coffees.map((r: {name: string}) => ({
+                value: r.name,
+                label: r.name
+              }));
+
+              setCoffeeNames(options);
+          } catch (err: any) {
+              console.error("Error fetching coffees:", err);
+              setError(err.message || "Failed to load coffees");
+          }
+          };
+  
+          fetchRecipes();
+          fetchCoffees();
+      }, []);
+
   // we'll need to fetch all coffees and recipes an individual has (just their name and id, not each column) to link with a brew result.
   // they'll be displayed in the first two comboboxes below
+
+  const [selectedRecipe, setSelectedRecipe] = useState<string>("");
+  const [selectedCoffee, setSelectedCoffee] = useState<string>("");
+  const [selectedNotes, setSelectedNotes] = useState<string>("");
 
   return (
     <div className="flex flex-col items-center gap-8 h-[calc(100vh-4rem)] overflow-y-auto w-full pt-6 pb-16">
       <div className="flex flex-col gap-8 items-start w-4/5">
         <div>
           <Label htmlFor='notes' className="text-lg">Coffee Used</Label>
-          <Combobox key='notes' value={comboBoxValue} data={coffeeTastingNotes} onValueChange={setComboBoxValue} displayText="Select notes"/>
+          <Combobox key='coffee' value={selectedCoffee} data={coffeeNames} onValueChange={setSelectedCoffee} displayText="Select coffee"/>
         </div>
         <div>
           <Label htmlFor='notes' className="text-lg">Recipe Used</Label>
-          <Combobox key='notes' value={comboBoxValue} data={coffeeTastingNotes} onValueChange={setComboBoxValue} displayText="Select notes"/>
+          <Combobox key='recipe' value={selectedRecipe} data={recipeNames} onValueChange={setSelectedRecipe} displayText="Select recipe"/>
         </div>
        <div className="flex justify-between items-end w-full">
           <div>
             <Label htmlFor='notes' className="text-lg">Notes</Label>
-            <Combobox key='notes' value={comboBoxValue} data={coffeeTastingNotes} onValueChange={setComboBoxValue} displayText="Select notes"/>
+            <Combobox key='notes' value={selectedNotes} data={coffeeTastingNotes} onValueChange={setSelectedNotes} displayText="Select notes"/>
           </div>
-          <button className="flex justify-center items-center rounded-full h-9 w-9 bg-gray-200" onClick={() => handleNoteEntry(comboBoxValue)}>
+          <button className="flex justify-center items-center rounded-full h-9 w-9 bg-gray-200" onClick={() => handleNoteEntry(selectedNotes)}>
             <Plus />
           </button>
         </div>
