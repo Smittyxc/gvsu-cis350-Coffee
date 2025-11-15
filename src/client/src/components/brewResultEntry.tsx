@@ -3,12 +3,11 @@ import { Slider } from "./ui/slider"
 import { Label } from "./ui/label"
 import Combobox from "./comboBox"
 import { coffeeTastingNotes, getLabelFromValue, Option } from "@/lib/coffeeOptions"
-import { Plus, X } from "lucide-react"
+import { X } from "lucide-react"
 import { Badge } from "./ui/badge"
 import { Button } from "./ui/button"
 import { Recipe } from '@/lib/recipeData';
 import { useAuth } from "@/context/AuthContext.tsx"
-import { supabase } from "@/lib/client"
 import { CoffeeBag } from "./coffeeBagEntry"
 
 interface BrewResult {
@@ -45,6 +44,7 @@ const BrewResultEntry = () => {
     }))
   }
 
+  /*
   const handleNoteEntry = (note: string) => {
     if (!note) return
     setData(prev => {
@@ -54,7 +54,7 @@ const BrewResultEntry = () => {
         notes: [...prev.notes, note]
       }
     })
-  }
+  } */
 
   const handleSubmit = async () => {
     try {
@@ -194,12 +194,7 @@ const BrewResultEntry = () => {
             <Label htmlFor='notes' className="text-lg">Notes</Label>
             <Combobox key='notes' value={selectedNotes} data={coffeeTastingNotes} onValueChange={setSelectedNotes} displayText="Select notes"/>
           </div>
-<<<<<<< HEAD
-=======
-          <button className="flex justify-center items-center rounded-full h-9 w-9 bg-cbg3 hover:bg-chover" onClick={() => handleNoteEntry(comboBoxValue)}>
-            <Plus className="text-caction" />
-          </button>
->>>>>>> e38235d7fb110b31ab02afa9898407784de0d8b6
+
         </div>
         {data.notes && data.notes.length > 0 && (
           <div className="flex flex-wrap justify-center w-full gap-2 p-5 rounded-lg shadow bg-cbg2">

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom'; 
+import { useNavigate } from 'react-router-dom'; 
 import { useAuth } from "@/context/AuthContext.tsx"
 import { 
   RadarChart, 
@@ -57,14 +57,16 @@ interface CalculatedBagData extends CoffeeBag {
 }
 
 // URL PARAMS
+/*
 interface BagParams {
   bagId: string;
   [key: string]: string | undefined 
-}
+} */
 
 // MOCK DATA FOR TESTING
 
 // RAW BAG DATA
+/*
 const mockRawBagData: Record<number, CoffeeBag> = {
   0: {
     id: 0,
@@ -144,7 +146,7 @@ const mockBrewSessions: BrewSession[] = [
     flavorProfile: { acidity: 4, clarity: 5, bitterness: 1, sweetness: 4, body: 3 },
     notes: ['Apricot', 'Clean Finish', 'Floral'],
   },
-];
+]; */
 
 // FORMATTING CONSTANTS
 
@@ -443,7 +445,7 @@ const Card: React.FC<{ children: React.ReactNode, className?: string }> = ({ chi
 // MAIN PAGE COMPONENT
 
 export const BagSummary: React.FC = () => {
-  const { bagId: bagIdString } = useParams<BagParams>();
+  // const { bagId: bagIdString } = useParams<BagParams>();
   const navigate = useNavigate();
 
   const bagId = 13; //parseInt(bagIdString || '0', 10);
