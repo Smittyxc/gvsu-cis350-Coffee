@@ -194,6 +194,12 @@ const BrewResultEntry = () => {
             <Label htmlFor='notes' className="text-lg">Notes</Label>
             <Combobox key='notes' value={selectedNotes} data={coffeeTastingNotes} onValueChange={setSelectedNotes} displayText="Select notes"/>
           </div>
+<<<<<<< HEAD
+=======
+          <button className="flex justify-center items-center rounded-full h-9 w-9 bg-cbg3 hover:bg-chover" onClick={() => handleNoteEntry(comboBoxValue)}>
+            <Plus className="text-caction" />
+          </button>
+>>>>>>> e38235d7fb110b31ab02afa9898407784de0d8b6
         </div>
         {data.notes && data.notes.length > 0 && (
           <div className="flex flex-wrap justify-center w-full gap-2 p-5 rounded-lg shadow bg-cbg2">
