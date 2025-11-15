@@ -43,7 +43,7 @@ export default function Combobox( {
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="w-64 justify-between mt-1"
+          className="w-64 justify-between mt-1 bg-cbg2 text-ctext hover:bg-chover"
         >
           {value
             ? data.find((framework) => framework.value === value)?.label

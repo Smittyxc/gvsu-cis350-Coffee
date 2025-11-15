@@ -24,22 +24,25 @@ const getBrewIcon = (methodName: string): string => {
 export const RecipeListItem: React.FC<RecipeListItemProps> = ({ recipe }) => {
   return (
     <div
-      className="flex items-center p-3 bg-white hover:bg-gray-50 rounded-lg cursor-pointer border-b border-gray-100"
+      className="flex items-center p-3 bg-cbg2 hover:bg-chover rounded-lg cursor-pointer"
     >
-      <div className="mr-3">
+
+      <div className="mr-3 text-ctext">
         <img
           src={getBrewIcon(recipe.brewMethod)}
           alt={recipe.brewMethod}
-          className="w-8 h-8 text-stone-500"
+          className="w-8 h-8 text-cnote"
         />
+        
+        {/* <Coffee size={30} /> */}
       </div>
 
       <div className="flex-grow">
-        <p className="font-semibold">{recipe.name}</p>
-        <p className="text-sm text-gray-500">{recipe.brewMethod}</p>
+        <p className="font-semibold text-cltext">{recipe.name}</p>
+        <p className="text-ctext text-sm">{recipe.brewMethod}</p>
       </div>
 
-      <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"></path></svg>
+      <svg className="w-5 h-5 text-caccent2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"></path></svg>
     </div>
   );
 };

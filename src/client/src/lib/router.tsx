@@ -11,6 +11,7 @@ import Layout from "@/layout"
 import { RecipesList } from "@/components/recipeList"
 import { NewRecipe } from "@/components/recipeNew"
 import { RecipeInstructions } from "@/components/recipeInstructions"
+import { BagSummary } from "@/components/bagSummary"
 
 
 export const router = createBrowserRouter([
@@ -26,6 +27,7 @@ export const router = createBrowserRouter([
       { path: "/coffee/:coffeeId/edit", element: <CoffeeBagEntry />},
       { path: "/viewcoffees", element: <CoffeeBagView />},
       { path: "/brewresults", element: <BrewResultEntry />},
+      { path: "/summary", element: <BagSummary />},
       { path: "/recipes", element: <RecipesList /> },
       { path: "/recipes/recipeNew", element: <NewRecipe /> },
       { path: "/recipes/:recipeId", element: <RecipeInstructions /> },
