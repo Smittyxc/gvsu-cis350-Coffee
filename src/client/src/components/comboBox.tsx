@@ -27,8 +27,8 @@ interface ComboboxProps {
   displayText: string;
 }
 
-export default function Combobox( {
-  value, 
+export default function Combobox({
+  value,
   onValueChange,
   data,
   displayText

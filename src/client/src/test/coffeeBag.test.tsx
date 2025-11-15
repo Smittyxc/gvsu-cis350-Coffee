@@ -1,7 +1,5 @@
-// src/components/CoffeeBagEntry.test.tsx
-
 import { render, screen, waitFor } from '@testing-library/react';
-import userEvent from '@testing-library/user-event' 
+import userEvent from '@testing-library/user-event'
 import { describe, test, expect, vi, beforeEach } from 'vitest';
 import { useParams } from 'react-router-dom';
 import { CoffeeBagEntry } from '../components/coffeeBagEntry';
@@ -40,7 +38,7 @@ describe('CoffeeBagEntry in Create Mode', () => {
       ok: true,
       json: () => Promise.resolve({ message: 'Success!' }),
     });
-    
+
     const user = userEvent.setup();
     render(<CoffeeBagEntry />);
 
@@ -73,77 +71,76 @@ describe('CoffeeBagEntry in Create Mode', () => {
     expect(bodyObject.name).toBe('New Coffee');
     expect(bodyObject.roaster).toBe('Test Roaster');
     expect(bodyObject.weight).toBe('250');
-    
+
     expect(await screen.findByText('Submitted successfully!')).toBeInTheDocument();
   });
 });
 
 describe('CoffeeBagEntry in Edit Mode', () => {
-  
+
   mockUseAuth.mockReturnValue({
     session: { access_token: 'fake-token-123' }
   });
 
   test('should fetch data, populate the form, and submit a PUT request', async () => {
     mockedUseParams.mockReturnValue({ coffeeId: 'abc-123' });
-    
+
     mockFetch.mockResolvedValueOnce({
       ok: true,
       json: async () => ({ coffee: mockCoffeeBag }),
     });
-    
+
     mockFetch.mockResolvedValueOnce({
       ok: true,
       json: async () => ({ message: 'Updated!' }),
     });
-    
+
     const user = userEvent.setup();
-    
+
     render(<CoffeeBagEntry />);
-    
+
     expect(screen.getByRole('heading', { name: /edit coffee bag/i })).toBeInTheDocument();
-    
+
     const nameInput = await screen.findByDisplayValue('El Pital', {}, { timeout: 3000 });
     await screen.findByDisplayValue('Washed', {}, { timeout: 3000 });
-    
+
     expect(mockFetch).toHaveBeenCalledWith(
       'http://localhost:5000/api/coffee/abc-123',
       expect.objectContaining({
         headers: { Authorization: 'Bearer fake-token-123' },
       })
     );
-    
+
     await user.clear(nameInput);
     await user.type(nameInput, 'Updated Name');
-    
+
     await user.click(screen.getByRole('button', { name: /save changes/i }));
-    
+
     await waitFor(() => {
       expect(mockFetch).toHaveBeenCalledTimes(2);
     });
-    
+
     expect(mockFetch).toHaveBeenNthCalledWith(2,
       'http://localhost:5000/api/coffee/abc-123',
       expect.objectContaining({
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: 'Bearer fake-token-123',      
+          Authorization: 'Bearer fake-token-123',
         }
       })
     );
-    
+
     // Verify the body contains updated data
     const putCallBody = JSON.parse(mockFetch.mock.calls[1][1].body);
     expect(putCallBody.name).toBe('Updated Name');
-    
+
     expect(await screen.findByText('Updated successfully!')).toBeInTheDocument();
   });
 });
 
 describe('Error Handling', () => {
   test('should display an error message if submission fails', async () => {
-    // 1. Arrange
     mockedUseParams.mockReturnValue({ coffeeId: undefined });
     mockFetch.mockResolvedValue({
       ok: false,
@@ -154,11 +151,11 @@ describe('Error Handling', () => {
     const user = userEvent.setup();
     render(<CoffeeBagEntry />);
 
-    // 2. Act
+    // incomplete coffee should fail against Zod schema
     await user.type(screen.getByLabelText(/name/i), 'Test');
     await user.click(screen.getByRole('button', { name: /submit/i }));
 
-    // 3. Assert
+    // Detect error message
     expect(await screen.findByText('Internal Server Error')).toBeInTheDocument();
   });
 });

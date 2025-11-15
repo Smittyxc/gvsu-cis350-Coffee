@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import { RecipeListItem } from './recipeListItem';
 import { TabBar } from './ui/tabBar';
 import { Link, useNavigate } from "react-router-dom";
@@ -11,7 +11,7 @@ const testRecipes = [
     { id: 3, name: "Cold Brew Overnight", brewMethod: "Iced" },
 ];
 
-type RecipeSummary = {id: number; name: string, brewMethod: string}; 
+type RecipeSummary = { id: number; name: string, brewMethod: string };
 
 export const RecipesList: React.FC = () => {
     const navigate = useNavigate();
@@ -28,32 +28,32 @@ export const RecipesList: React.FC = () => {
     useEffect(() => {
         const fetchRecipes = async () => {
             try {
-            const token = session?.access_token;
+                const token = session?.access_token;
 
-            const resp = await fetch("http://localhost:5000/api/recipes", {
-            headers: {
-                Authorization: `Bearer ${token ?? ""}`,
-            },
-            });
+                const resp = await fetch("http://localhost:5000/api/recipes", {
+                    headers: {
+                        Authorization: `Bearer ${token ?? ""}`,
+                    },
+                });
 
-            if (!resp.ok) {
-            const msg = await resp.text();
-            throw new Error(msg || `Failed with status ${resp.status}`);
+                if (!resp.ok) {
+                    const msg = await resp.text();
+                    throw new Error(msg || `Failed with status ${resp.status}`);
+                }
+
+                const data = await resp.json(); // { recipes: [...] }
+                const dataAppended = data.recipes.map((i: any) => ({
+                    id: i.id,
+                    name: i.recipe_name,
+                    brewMethod: "Regular Cup",
+                }));
+                setRecipes(dataAppended || []);
+            } catch (err: any) {
+                console.error("Error fetching recipes:", err);
+                setError(err.message || "Failed to load recipes");
+            } finally {
+                setLoading(false);
             }
-
-            const data = await resp.json(); // { recipes: [...] }
-            const dataAppended = data.recipes.map((i: any) => ({
-                id: i.id,
-                name: i.recipe_name,
-                brewMethod: "Regular Cup",
-            }));
-            setRecipes(dataAppended || []);
-        } catch (err: any) {
-            console.error("Error fetching recipes:", err);
-            setError(err.message || "Failed to load recipes");
-        } finally {
-            setLoading(false);
-        }
         };
 
         fetchRecipes();
@@ -94,27 +94,27 @@ export const RecipesList: React.FC = () => {
                     </Link>
                 ))}
 
-            {loading && <p className="text-cnote">Loading recipes...</p>}
-            {error && <p className="text-cerror">Error: {error}</p>}
-            {!loading && !error && recipes.length === 0 && (
-            <p className="text-cltext">You don't have any recipes yet.</p>
-            )}
+                {loading && <p className="text-cnote">Loading recipes...</p>}
+                {error && <p className="text-cerror">Error: {error}</p>}
+                {!loading && !error && recipes.length === 0 && (
+                    <p className="text-cltext">You don't have any recipes yet.</p>
+                )}
 
-            {!loading &&
-          !error &&
-          recipes.map((recipe) => (
-            <Link
-              to={`/recipes/${recipe.id}`}
-              key={recipe.id}
-              className="block"
-            >
-              <RecipeListItem recipe={recipe} />
-            </Link>
-          ))}
+                {!loading &&
+                    !error &&
+                    recipes.map((recipe) => (
+                        <Link
+                            to={`/recipes/${recipe.id}`}
+                            key={recipe.id}
+                            className="block"
+                        >
+                            <RecipeListItem recipe={recipe} />
+                        </Link>
+                    ))}
 
                 {/* ADD BUTTON */}
                 <button
-                    className="absolute bottom-22 right-5 w-16 h-16 rounded-full hover:bg-chover bg-cbg3 bg-accent-brown text-white shadow-lg flex items-center justify-center"
+                    className="fixed bottom-22 right-5 w-16 h-16 rounded-full hover:bg-chover bg-cbg3 bg-accent-brown text-white shadow-lg flex items-center justify-center"
                     onClick={handleAddNew}
                 >
                     <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">

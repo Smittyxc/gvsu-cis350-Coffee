@@ -43,3 +43,5 @@ Best Brew aims to provide both novice and experienced coffee enthusiasts with a 
 ## Dependencies
 * Vitest
 * React Testing Library
+* Supertest
+* Jest
