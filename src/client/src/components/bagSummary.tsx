@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom'; 
+import { useNavigate } from 'react-router-dom'; 
+import { useAuth } from "@/context/AuthContext.tsx"
 import { 
   RadarChart, 
   PolarGrid, 
@@ -56,14 +57,16 @@ interface CalculatedBagData extends CoffeeBag {
 }
 
 // URL PARAMS
+/*
 interface BagParams {
   bagId: string;
   [key: string]: string | undefined 
-}
+} */
 
 // MOCK DATA FOR TESTING
 
 // RAW BAG DATA
+/*
 const mockRawBagData: Record<number, CoffeeBag> = {
   0: {
     id: 0,
@@ -143,7 +146,7 @@ const mockBrewSessions: BrewSession[] = [
     flavorProfile: { acidity: 4, clarity: 5, bitterness: 1, sweetness: 4, body: 3 },
     notes: ['Apricot', 'Clean Finish', 'Floral'],
   },
-];
+]; */
 
 // FORMATTING CONSTANTS
 
@@ -264,31 +267,84 @@ const useCoffeeBagData = (bagId: number) => {
   const [bestBrew, setBestBrew] = useState<BrewSession | null>(null);
   const [loading, setLoading] = useState(true);
 
+  const { session } = useAuth();
+
   useEffect(() => {
     setLoading(true);
-    // SIMULATE API CALL DELAY
-    setTimeout(() => {
-      const foundRawBag = mockRawBagData[bagId];
+    // API
+    const fetchBrews = async () => {
+          try {
+          const token = session?.access_token;
 
-      if (foundRawBag) {
-        const bagSessions = mockBrewSessions.filter(s => s.bagId === bagId);
+          await fetch("http://localhost:5000/api/brew/" + bagId, {
+          headers: {
+              Authorization: `Bearer ${token ?? ""}`,
+          },
 
-        // CALCULATE ALL FIELDS FOR THE BAG SUMMARY
-        const calculatedBag = calculateBagData(foundRawBag, bagSessions);
-        setBag(calculatedBag);
+          
 
-        // FIND HIGHEST RATING BREW FOR THIS BAG
-        const highestRatedBrew = bagSessions.reduce(
-          (best, current) => (current.rating > best.rating ? current : best),
-          bagSessions[0] || ({ rating: 0 } as BrewSession)
-        );
-        setBestBrew(highestRatedBrew.rating > 0 ? highestRatedBrew : null);
-      } else {
-        setBag(null);
-        setBestBrew(null);
-      }
-      setLoading(false);
-    }, 300);
+          }).then(resp => {
+            if (!resp.ok) return resp.text().then(msg => { throw new Error(msg) });
+            return resp.json();
+
+          }).then(data => {
+
+            return Promise.all([data, fetch("http://localhost:5000/api/coffee/" + bagId, {
+          headers: {
+              Authorization: `Bearer ${token ?? ""}`,
+          }}).then(r => r.json())])
+          })
+          .then(combinedData => {
+            console.log(combinedData);
+            const data = combinedData[0];
+            const bagData = combinedData[1].coffee;
+
+            const bagDataFormatted: CoffeeBag = {id: bagData.id,
+              name: bagData.name,
+              weightTotal: bagData.weight,
+              summaryNotes: "no notes"
+            }
+
+            const bagSessions: BrewSession[] = data.map((i: any) => ({
+                id: i.id || "id",
+                bagId: i.coffee_id,
+                rating: i.score || 0,
+                date: i.created_at,
+                brewMethod: "Pour-over",
+                brewTime: 215,
+                weightUsed: 200,
+                temperatureF: 180,
+                flavorProfile: {
+                  acidity: i.acidity || 2,
+                  clarity: i.clarity || 2,
+                  bitterness: i.bitterness || 2,
+                  sweetness: i.sweetness || 2,
+                  body: i.body || 2,
+                },
+                notes: [i.notes || "No notes"]
+            }));
+
+            // CALCULATE ALL FIELDS FOR THE BAG SUMMARY
+            const calculatedBag = calculateBagData(bagDataFormatted, bagSessions);
+            setBag(calculatedBag);
+
+            // FIND HIGHEST RATING BREW FOR THIS BAG
+            const highestRatedBrew = bagSessions.reduce(
+              (best, current) => (current.rating > best.rating ? current : best),
+              bagSessions[0] || ({ rating: 0 } as BrewSession)
+            );
+            setBestBrew(highestRatedBrew.rating > 0 ? highestRatedBrew : null);
+
+          });
+
+        } catch (err: any) {
+          console.error("Error fetching recipes:", err);
+        }
+        }
+      
+        fetchBrews();
+
+    setLoading(false);
   }, [bagId]);
 
   return { bag, bestBrew, loading };
@@ -389,10 +445,10 @@ const Card: React.FC<{ children: React.ReactNode, className?: string }> = ({ chi
 // MAIN PAGE COMPONENT
 
 export const BagSummary: React.FC = () => {
-  const { bagId: bagIdString } = useParams<BagParams>();
+  // const { bagId: bagIdString } = useParams<BagParams>();
   const navigate = useNavigate();
 
-  const bagId = parseInt(bagIdString || '0', 10);
+  const bagId = 13; //parseInt(bagIdString || '0', 10);
 
   const { bag, bestBrew, loading } = useCoffeeBagData(bagId);
 
@@ -523,7 +579,7 @@ export const BagSummary: React.FC = () => {
                   <tbody>
                     <tr>
                       <td className={TABLE_CELL_LEFT}>Rating</td>
-                      <td className={TABLE_CELL_RIGHT}>{bestBrew.rating} / 5</td>
+                      <td className={TABLE_CELL_RIGHT}>{bestBrew.rating} / 10</td>
                     </tr>
                     <tr>
                       <td className={TABLE_CELL_LEFT}>Last Used Date</td>

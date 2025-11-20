@@ -12,6 +12,7 @@ export interface Recipe {
   water_amount: number;
   grind_size: GrindSize;
   steps: RecipeStep[];
+  id?: string;
 }
 
 export interface RecipeStep {

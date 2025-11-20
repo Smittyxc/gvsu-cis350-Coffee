@@ -2,11 +2,14 @@ import { Coffee, Plus, X } from "lucide-react";
 import { CoffeeBag } from "./coffeeBagEntry";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { format } from "date-fns";
-import { coffeeProducingCountries, varieties, getLabelFromValue } from "@/lib/coffeeOptions.ts"
+import { coffeeProducingCountries, varieties, getLabelFromValue, Option } from "@/lib/coffeeOptions.ts"
 import { PopoverClose } from "@radix-ui/react-popover";
 import { Link } from "react-router-dom";
 import { Button } from "./ui/button";
 import PWABadge from "@/PWABadge";
+import { useEffect, useState } from "react";
+import { useAuth } from "@/context/AuthContext.tsx"
+import { Skeleton } from "./ui/skeleton";
 
 
 const sampleCoffeeBags: CoffeeBag[] = [
@@ -53,6 +56,39 @@ const sampleCoffeeBags: CoffeeBag[] = [
 ];
 
 const CoffeeBagView = () => {
+  const { session } = useAuth();
+  const [Bags, setBags] = useState<CoffeeBag[]>([]);
+  const [Loading, setLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    const fetchRecipes = async () => {
+        try {
+        const token = session?.access_token;
+
+        const resp = await fetch("http://localhost:5000/api/getCoffees", {
+        headers: {
+            Authorization: `Bearer ${token ?? ""}`,
+        },
+        });
+
+        if (!resp.ok) {
+        const msg = await resp.text();
+        throw new Error(msg || `Failed with status ${resp.status}`);
+        }
+
+        const { coffees } = (await resp.json()) as { coffees: CoffeeBag[] };
+
+        setBags(coffees);
+        setLoading(false);
+    } catch (err: any) {
+        console.error("Error fetching recipes:", err);
+        //setError(err.message || "Failed to load recipes");
+    }
+    }
+
+    fetchRecipes();
+  }, []);
+
   return (
     <div className="h-full flex flex-col items-center justify-start w-full pb-4">
       <h1 className="text-3xl text-white font-semibold py-4">Your Coffees</h1>
@@ -62,8 +98,19 @@ const CoffeeBagView = () => {
           </div>
         </Link>
       
-      <div className="grid grid-cols-2 px-2 w-full gap-3 overflow-y-auto">
-        {sampleCoffeeBags.map((bag, index) => (
+        {Loading && (
+          <div className="flex flex-col w-4/5 gap-4 justify-center items-center ">
+            <Skeleton className="h-10 w-full bg-gray-300" />
+            <Skeleton className="h-10 w-full bg-gray-300" />
+            <Skeleton className="h-10 w-full bg-gray-300" />
+            <Skeleton className="h-10 w-full bg-gray-300" />
+            <Skeleton className="h-10 w-full bg-gray-300" />
+            <Skeleton className="h-10 w-full bg-gray-300" />
+          </div>
+          )}
+        {!Loading && Bags.map((bag, index) => (
+      <div className="grid grid-cols-2 w-full px-2 w-full gap-3 overflow-y-auto">
+
           <Popover key={`${bag.name}-${index}`}>
             <PopoverTrigger>
               <div key={`${bag.name}-${index}`} className="w-full h-30 flex flex-col items-center justify-around border-2 border-cbg3 shadow-md rounded-2xl text-cltext bg-cbg2 hover:bg-chover">
@@ -96,10 +143,10 @@ const CoffeeBagView = () => {
               </div>
             </PopoverContent>
           </Popover>
+        </div>
    
           )
        )}
-      </div>
       <PWABadge />
     </div>
   )
