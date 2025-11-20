@@ -1,0 +1,29 @@
+# Meeting Minutes 
+
+Team name: __Coffee__
+
+Members present: 
+- Matt
+- Josh
+- Alyshai
+
+Date: __11//2025__
+
+Time: __10:00am__
+
+### Discussion points:
+
+* Remaining work largely involves frontend routing and linking the statistics page to the coffee list page
+* Alyshai had several suggestions for UI improvements and the inclusion of animations. Josh mention the idea of a coffee filling while the loading was occurring
+* Discussed the revisions to the SRS that we have to do (make it match our actual app's features)
+* Reviewed testing methodology and deliverables - screenshots of results in a document and wait for Dr. Raza's testing form.
+
+### Goals for next week (include responsibilities)
+
+* Update login page UI to match the rest of the app
+* Update timer page UI to match the rest of the app
+* Move statistics display to Coffee List page
+* Revise SRS
+* Update Jira
+
+

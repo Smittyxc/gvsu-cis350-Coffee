@@ -20,42 +20,42 @@ const Login = ({
   buttonText = "Login",
   signupText = "Need an account?",
 }: Login1Props) => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    // const [error, setLoading] = useState('');
-    const [isLoading, setIsLoading] = useState(false);
-    const navigate = useNavigate()
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  // const [error, setLoading] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate()
 
-    const handleEmail = (e: React.ChangeEvent<HTMLInputElement>): void => {
-      setEmail(e.target.value);
-    };
+  const handleEmail = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    setEmail(e.target.value);
+  };
 
-    const handlePassword = (e: React.ChangeEvent<HTMLInputElement>): void => {
-      setPassword(e.target.value);
-    };
+  const handlePassword = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    setPassword(e.target.value);
+  };
 
-    const handleSubmit = async (e: FormEvent) => {
-      e.preventDefault();
-      setIsLoading(true)
-      const { data, error } = await signInUser(email, password);
-  
-      if (error) {
-        alert("Failed to sign in: " + error.message);
-        setIsLoading(false)
-      } else {
-        console.log('Signed in successfully!', data);
-        navigate('/viewcoffees')
-      }
-    };
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true)
+    const { data, error } = await signInUser(email, password);
+
+    if (error) {
+      alert("Failed to sign in: " + error.message);
+      setIsLoading(false)
+    } else {
+      console.log('Signed in successfully!', data);
+      navigate('/viewcoffees')
+    }
+  };
 
 
   return (
-    <div className='flex flex-col w-full min-h-screen items-center justify-center bg-gradient-to-b from-blue-700 from-50% to-neutral-50 to-50%'>
+    <div className='flex flex-col w-full min-h-screen items-center justify-center bg-cbg1'>
       <div className="flex h-full items-center justify-center">
         <div className="flex flex-col items-center gap-6 lg:justify-start">
           <div className="flex gap-6">
-            <Coffee size={48} color="#ffffff" />
-            <h1 className="text-5xl text-white font-semibold">Best<span className="font-light">Brew</span></h1>
+            <Coffee size={48} color="#d1d5dc" />
+            <h1 className="text-5xl text-cltext font-semibold">Best<span className="font-light">Brew</span></h1>
           </div>
           <form onSubmit={handleSubmit} className="min-w-sm border-muted bg-background flex w-full max-w-sm flex-col items-center gap-y-4 rounded-md border px-6 py-8 shadow-md">
             {heading && <h1 className="text-xl font-semibold">{heading}</h1>}
@@ -81,15 +81,15 @@ const Login = ({
           </form>
           {isLoading &&
             <div className="flex items-center justify-center">
-              <Loader className="animate-spin w-8 h-8 text-blue-500" />
+              <Loader className="animate-spin w-8 h-8 text-white" />
             </div>
           }
-          
+
           <div className="text-muted-foreground flex justify-center gap-1 text-sm">
             <p>{signupText}</p>
             <Link
               to='/signup'
-              className="text-primary font-medium hover:underline"
+              className="text-cltext font-medium hover:underline"
             >
               Sign up
             </Link>

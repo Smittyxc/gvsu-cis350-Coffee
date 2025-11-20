@@ -7,7 +7,7 @@ The purpose of our SRS is thoroughly delineate all necessary functions our softw
 __Coffee Bag Logging__:
 - FR1: The system shall handle the addition of bags of coffee and their details to user profiles.
 - FR2: The system shall track remaining grams of coffee based on amount of brews performed with it.
-- FR3: The system shall allow users to copy previous bags of coffee as a template.
+- FR3: The system shall allow users to edit previously created bags of coffee.
 - FR4: The system shall track the number of days past roast date for a bag of coffee.
 
 __Brew Result Login__:
@@ -19,22 +19,17 @@ __Brew Result Login__:
 __Recipe Management__:
 - FR7: The recipe library shall handle the creation recipes consisting of a name, dripper, coffee dose, grinder, grind size, water temperature, and a sequence of timed steps.
 - FR8: The recipe library shall handle the modification and deletion of recipes.
-- FR9: The recipe library shall allow users to view and filter their recipes.
+- FR9: The recipe library shall allow users to view and sort their recipes.
 
 __Brew Timer__:
 - FR10: The system shall enter the brew guide feature on the click of a specific recipe.
 - FR11: The brew guide shall handle pausing and starting of the brew timer.
-- FR12: The brew guide shall provide a visual and audio cue at the changing of a step
+- FR12: The brew guide shall provide a visual cue at the changing of a step
 - FR13: The brew guide shall take users to a data entry form upon completion of a brew.
 
 __Data Visualization__:
 - FR14: The dashboard shall create a radar graph composed of clarity, acidity, sweetness, body, and flavor for each recent bag of coffee.
-- (_The following dashboard features will be implemented if sufficient time exist._)
-- FR15: The dashboard shall create a Tree graph of the total number of cups of coffee they've drank of a certain subspecies, country, or processing method.
 - FR16: The dashboard shall calculate the remaining coffee left in a bag 
-- FR17: The dashboard shall notify users when the amount of coffee remaining falls below a specified threshold.
-- FR18: The dashboard shall display average ranking of coffees based on country, processing method, recipe, or coffee type.
-
 
 ## 2. Non-Functional Requirements
 __Usability__:
@@ -62,5 +57,15 @@ __Scalability__:
 
 __Interoperability__:
 - NF16: The PWA service worker shall correctly detect updates in both Android and IOS environments.
-- NF17: The IndexedDB shall reliably store data in mobile Safari, Chrome, and Firebox.
 - NF18: The PWA shall be primarily designed for mobile use over desktop use.
+
+
+
+
+## Requirements to Implement in the Future:
+- FR15: The dashboard shall create a Tree graph of the total number of cups of coffee they've drank of a certain subspecies, country, or processing method.
+- FR17: The dashboard shall notify users when the amount of coffee remaining falls below a specified threshold.
+- FR18: The dashboard shall display average ranking of coffees based on country, processing method, recipe, or coffee type.
+
+- NF17: The IndexedDB shall reliably store data in mobile Safari, Chrome, and Firebox.
+
