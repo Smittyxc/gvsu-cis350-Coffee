@@ -112,13 +112,9 @@ The following sections describes in detail our application's testing modules and
 
 # Software Artifacts
 
-Our software artifacts included in this section demonstrates our knowledge and application of content covered throughout the semester, as well as the planning our team put into our software development process. Much like in industry, we have a well-documented string of diagrams and visuals the highlight the planning and design of our application. Many of the core UML diagrams formed the basis of our frontend and database, while diagrams like the extended use cases demonstrate a streamlined UX promoting ease of use.
-### Extended Use Cases
-* [Add Brew Results](https://github.com/Smittyxc/gvsu-cis350-Coffee/blob/main/artifacts/extended_use_cases/addBrewUseCase.md)
-* [Add Coffee Bag](https://github.com/Smittyxc/gvsu-cis350-Coffee/blob/main/artifacts/extended_use_cases/addCoffeeUseCase.md)
-* [Create Recipe](https://github.com/Smittyxc/gvsu-cis350-Coffee/blob/main/artifacts/extended_use_cases/createRecipeUseCase.md)
-* [Log Results](https://github.com/Smittyxc/gvsu-cis350-Coffee/blob/main/artifacts/extended_use_cases/logResults.md)
-* [Use Brew Timer](https://github.com/Smittyxc/gvsu-cis350-Coffee/blob/main/artifacts/extended_use_cases/useBrewTimer.md)
+Our software artifacts for the project have been separated into 5 categories below, each documenting the progress made in different areas of the software development process. The UML diagrams, which we completed early on in the project gave us a strong base to build off of and informed the design of our database and frontend user workflow. The Extend Use Case section provided more detail on the UX design and its connection to our software requirements. Next, the UI Mockup section shows the progression of our app's UI and our iterations to improve it. The Progress Documentation section provide several artifacts that detail our consistent effort over the semester and a gradual completion of our tickets. Lastly, we have a Testing section that demonstrates proper functioning of several key features. 
+
+* [Netlify Deployment](https://glowing-tiramisu-b1270b.netlify.app/login)
 
 ### UML Diagrams
 * [User Flow Diagram](https://github.com/Smittyxc/gvsu-cis350-Coffee/blob/main/artifacts/userFlowDiagram.png)
@@ -127,19 +123,29 @@ Our software artifacts included in this section demonstrates our knowledge and a
 * [Sequence Diagram](https://github.com/Smittyxc/gvsu-cis350-Coffee/blob/main/artifacts/umlClassDiagram.png)
 * [Communication Diagram](https://github.com/Smittyxc/gvsu-cis350-Coffee/blob/main/artifacts/communicationDiagram.png)
 
+### Extended Use Cases
+* [Add Brew Results](https://github.com/Smittyxc/gvsu-cis350-Coffee/blob/main/artifacts/extended_use_cases/addBrewUseCase.md)
+* [Add Coffee Bag](https://github.com/Smittyxc/gvsu-cis350-Coffee/blob/main/artifacts/extended_use_cases/addCoffeeUseCase.md)
+* [Create Recipe](https://github.com/Smittyxc/gvsu-cis350-Coffee/blob/main/artifacts/extended_use_cases/createRecipeUseCase.md)
+* [Log Results](https://github.com/Smittyxc/gvsu-cis350-Coffee/blob/main/artifacts/extended_use_cases/logResults.md)
+* [Use Brew Timer](https://github.com/Smittyxc/gvsu-cis350-Coffee/blob/main/artifacts/extended_use_cases/useBrewTimer.md)
+
+
 ### UI Mockups
-* [Figma Iteration 1.0]()
-* [Figma Iteration 2.0]()
-* [Midterm UI Demo Gif]()
+* [Figma Iteration 1.0](https://github.com/Smittyxc/gvsu-cis350-Coffee/blob/main/artifacts/figma1.0.pdf)
+* [Figma Iteration 2.0](https://github.com/Smittyxc/gvsu-cis350-Coffee/blob/main/artifacts/figma2.0.pdf)
+* [Midterm UI Demo Gif](https://github.com/Smittyxc/gvsu-cis350-Coffee/blob/main/artifacts/react-demo.gif)
 
 ### Progress Documentation
-* [Gantt Chart at 10/24]()
-* [Gantt Chart at 11/26]()
-* [Cumulative Flow Diagram (Jira Task Completion Chart)]()
+* [Gantt Chart at 10/24](https://github.com/Smittyxc/gvsu-cis350-Coffee/blob/main/artifacts/ganttChart_10-24-2025.pdf)
+* [Gantt Chart at 11/26](https://github.com/Smittyxc/gvsu-cis350-Coffee/blob/main/artifacts/ganttChart_11-26-2025.pdf)
+* [Cumulative Flow Diagram (Jira Task Completion Chart)](https://github.com/Smittyxc/gvsu-cis350-Coffee/blob/main/artifacts/cumulativeFlowDiagram.png)
 * [Jira](https://cis350-coffee.atlassian.net/jira/software/projects/CPG/boards/1)
-     * Verified both 
+     * Verified both Dr. Raza and Alyshai have been added to Jira project
 
 ### Testing Artifacts
 * [Test Planning Document](https://github.com/Smittyxc/gvsu-cis350-Coffee/blob/main/docs/test_plan.md)
-* [Backend Unit Test Execution]()
-* [Integration Test Execution]()
+* [Backend Unit Test Execution](https://github.com/Smittyxc/gvsu-cis350-Coffee/blob/main/artifacts/backendTestLog.png)
+* [Integration Test Execution](https://github.com/Smittyxc/gvsu-cis350-Coffee/blob/main/artifacts/frontendTestLog.png)
+* [Backend Test Code](https://github.com/Smittyxc/gvsu-cis350-Coffee/blob/main/src/server/app.test.js)
+* [Integration Test Code](https://github.com/Smittyxc/gvsu-cis350-Coffee/tree/main/tests)

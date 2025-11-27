@@ -5,9 +5,14 @@ In the world of specialty coffee, enthusiasts go to great lengths to perfect the
 # Team Members and Roles
 
 * [Matt Smith](https://github.com/Smittyxc/CIS350-HW2-Smith) (Database, Testing)
-* Jaden Henderson (Role 3, Role 4)
+* Jaden Henderson (Backend)
 * [Joshua Burgenmeyer](https://github.com/burgenmj/CIS350-HW2-BURGENMEYER) (Frontend, UI/UX Design)
 
-# Prerequisites
-
-# Run Instuctions
+# Run Instructions
+1. Navigate to server directory (/GVSU-CIS350-COFFEE/src/server/)
+2. Run the command 'npm install' to download necessary packages defined in package.json
+3. Navigate to the client directory (/GVSU-CIS350=COFFEE/src/client/)
+4. Again, run 'npm install' in console to download dependencies.
+5. Start the frontend with command 'npm run dev'
+6. Navigate back to server directory and start server with 'npm start'
+7. Ensure server is running on Port 3000 and frontend on Port 5173
