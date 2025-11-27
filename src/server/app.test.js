@@ -96,7 +96,7 @@ describe('Recipe API', () => {
       recipe_name: 'James Hoffman V60',
       dose_grams: 20,
       grind_size: '2.8.0',
-      steps: [{ time: 30, description: "another hello" }],
+      steps: [{ time: 30, description: "Let coffee bloom" }],
       water_amount: 320
     }
 

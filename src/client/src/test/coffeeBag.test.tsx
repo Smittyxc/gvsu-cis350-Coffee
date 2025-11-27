@@ -9,7 +9,7 @@ import { mockUseAuth } from './setup';
 const mockedUseParams = vi.mocked(useParams);
 
 const mockFetch = vi.fn();
-global.fetch = mockFetch as any;
+global.fetch = mockFetch;
 
 
 const mockCoffeeBag = {
@@ -33,6 +33,7 @@ beforeEach(() => {
 
 describe('CoffeeBagEntry in Create Mode', () => {
   test('should render a new form, allow typing, and submit a POST request', async () => {
+    // No valid coffeeID in params forces UI into Create mode (instead of edit mode)
     mockedUseParams.mockReturnValue({ coffeeId: undefined });
     mockFetch.mockResolvedValue({
       ok: true,

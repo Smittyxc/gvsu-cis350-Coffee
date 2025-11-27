@@ -5,6 +5,7 @@ The purpose of our SRS is thoroughly delineate all necessary functions our softw
 
 # Software Requirements
 The following section delineates both functional and nonfunctional software requirements. Both functional and nonfunctional sections are grouped into several clusters of related features that, together, constitute the app's primary features. 
+
 ## Functional Requirements
 ### __Coffee Bag Logging__:
 | ID  | Requirement     | 
@@ -13,7 +14,7 @@ The following section delineates both functional and nonfunctional software requ
 | FR2 | The system shall track remaining grams of coffee based on amount of brews performed with it. | 
 | FR3 | The system shall allow users to edit previously created bags of coffee. | 
 | FR4 | The system shall track the number of days past roast date for a bag of coffee. |
-| FR5 | The system shall display key properties of each bag in an intuituve interface |
+| FR5 | The system shall display key properties of each bag in an intuitive interface |
 
 ### __Brew Result Logging & Visualization__:
 | ID  | Requirement     | 
@@ -82,8 +83,63 @@ The following section delineates both functional and nonfunctional software requ
 - NF18: The IndexedDB shall reliably store data in mobile Safari, Chrome, and Firebox.
 
 
+# Test Specification 
+The following sections describes in detail our application's testing modules and their implementation. Our tests target both the frontend and backend, aiming to ensure the key endpoints are robust in checking for proper authentication and authorization, in addition to checking the the frontend displays proper alerts if errors occur in the processing of user requests. We used a mock strategy to test the functionality of our frontend components. Mocking is a testing technique that creates an isolated environment and mock object that behaves the same as the real component, without using the real API to save on resources. Because our project was built with Vite, we are able to use Vitest to build mock environments and components to test with. Backend testing was performed through the creation of unit tests with SuperTest and Jest that test several endpoint and ensure that they return correct HTTP codes based on valid or invalid authorization and data. 
+
+## Unit tests
+
+| ID  | Description | Steps | Input Values | Expected Output | Actual Output | Pass/Fail | Requirement Link |
+| :-------------: | :----------: | :----------: | :----------: | :----------: | :----------: | :----------: | :----------: |
+| TC1 | Post request to '/api/coffee/' endpoint should create a new bag of coffee given valid data and authorization token  | First, sign into the application to obtain a JWT. Get the token's authorization key from the console and add it to the TEST_USER_TOKEN variable in the .env of the server (this token is valid for one hour so all testing must occur while it is valid or else false negatives will occur). Navigate to the server directory and run the backend with command 'npm start' in your console. In a new console instance, navigate to the server directory and execute test cases with 'npm run test'. Testing takes ~5 seconds | Valid authorization token and data const newCoffee = { name: "Test Coffee", roaster: "Test Roaster", process: "Washed", variety: "Maragogype", origin: 'Guatemala', weight: 320, roastDate: '2023-11-08T14:30:00Z'}; | 201 response and return of valid coffee object | Pass: 201 and return of valid data | Pass | FR 1, 5, NF 3 |
+| TC2 | Post request to '/api/coffee/' will return 400 for missing data  | Same as above | Valid JWT and data: const invalidCoffee = { // name is missing, roaster: "Test Roaster", process: "Washed", variety: "Maragogype", origin: 'Guatemala', weight: 320, roastDate: '2023-11-08T14:30:00Z'}; | Return 400 error | Returned 400 error | Pass | FR 1, 5, NF 3, 8 | 
+| TC3 | Post request to 'api/coffee/' with invalid auth token should return 401 error | Same as above | Same test data as TC1 but excluded authorization in header of request | 401 error | 401 Error | Pass | FR 1, 5, NF 3, 8 |
+| TC4 | Post request to /api/recipe/ should succeed with valid data and auth  | Same as above | Valid JWT and data: const recipe = { created_at: '2023-11-08T14:30:00Z', user_id: '', recipe_name: 'James Hoffman V60', dose_grams: 20, grind_size: '2.8.0', steps: [{ time: 30, description: "Let coffee bloom" }], water_amount: 320 }  | 201 response with return of recipe | 201 and valid data received back | Pass | FR 11, 12 |
+
+
+
+## Integration tests
+
+| ID  | Description | Steps | Input Values | Expected Output | Actual Output | Pass/Fail | Requirement Link |
+| :-------------: | :----------: | :----------: | :----------: | :----------: | :----------: | :----------: | :----------: |
+| TC5 | When in Edit mode, the Coffee Bag page should successfully submit a Put request and update bag attributes and also display correct Success message. | Navigate to client directory of repository. When within repository, run command 'npm run test' in console to execute all test files. Testing takes a few seconds. | Valid mock auth and valid data: const mockCoffeeBag = { id: 'test-bag123', name: 'test-bag', roaster: 'Roaster123' }; | Success message appears on UI | Correct message displays | Pass | FR 1, 3, NR 8 |
+| TC6 | When in Create New Bag mode(not edit), the Coffee Bag page should successfully submit a Post request and have success message display on UI. | Same as above | Valid mock auth and valid data: const mockCoffeeBag = { id: 'test-bag123', name: 'test-bag', roaster: 'Roaster123' }; | Success message appears on UI | Correct message displays | Pass | FR 1, 3, NR 8 |
+| TC7 | When in Create New Bag mode, the Coffee Bag page should correctly display a submission failed message when invalid data is submitted. | Same as above | Valid mock auth and invalid data: const mockCoffeeBag = { // missing necessary properties id: 'test-bag123', name: 'test-bag' }; | Failure message appears on UI | Correct error message displays | Pass | FR 1, 3, NR 8 |
+| TC8 | Recipe list page displays all user-created recipes | Same as above | Valid auth | Successful data retrieval and recipes appear on UI | Expected message appears | Pass | FR 13, 14, NR 9 |
+| TC9 | Recipe List UI displays correct error message if Get request fails | Same as above | Valid auth | Error message displayed to user | Expected message appears  | Pass | FR 13, 14, NR 9 |
+| TC10 | Recipe List UI displays 'No recipes created yet' message if Get request succeeds and returns no data | Same as above | Valid auth | 'No recipes created yet' message appears in UI | Expected message appears | Pass | FR 13, 14, NR 9 |
+
+
+
 # Software Artifacts
 
-<Describe the purpose of this section>
+Our software artifacts included in this section demonstrates our knowledge and application of content covered throughout the semester, as well as the planning our team put into our software development process. Much like in industry, we have a well-documented string of diagrams and visuals the highlight the planning and design of our application. Many of the core UML diagrams formed the basis of our frontend and database, while diagrams like the extended use cases demonstrate a streamlined UX promoting ease of use.
+### Extended Use Cases
+* [Add Brew Results](https://github.com/Smittyxc/gvsu-cis350-Coffee/blob/main/artifacts/extended_use_cases/addBrewUseCase.md)
+* [Add Coffee Bag](https://github.com/Smittyxc/gvsu-cis350-Coffee/blob/main/artifacts/extended_use_cases/addCoffeeUseCase.md)
+* [Create Recipe](https://github.com/Smittyxc/gvsu-cis350-Coffee/blob/main/artifacts/extended_use_cases/createRecipeUseCase.md)
+* [Log Results](https://github.com/Smittyxc/gvsu-cis350-Coffee/blob/main/artifacts/extended_use_cases/logResults.md)
+* [Use Brew Timer](https://github.com/Smittyxc/gvsu-cis350-Coffee/blob/main/artifacts/extended_use_cases/useBrewTimer.md)
 
-* [Extended Use Case](addBrewUseCase.md)
+### UML Diagrams
+* [User Flow Diagram](https://github.com/Smittyxc/gvsu-cis350-Coffee/blob/main/artifacts/userFlowDiagram.png)
+* [Use Case Diagram](https://github.com/Smittyxc/gvsu-cis350-Coffee/blob/main/artifacts/useCaseDiagram.png)
+* [Class Diagram](https://github.com/Smittyxc/gvsu-cis350-Coffee/blob/main/artifacts/umlClassDiagram.png)
+* [Sequence Diagram](https://github.com/Smittyxc/gvsu-cis350-Coffee/blob/main/artifacts/umlClassDiagram.png)
+* [Communication Diagram](https://github.com/Smittyxc/gvsu-cis350-Coffee/blob/main/artifacts/communicationDiagram.png)
+
+### UI Mockups
+* [Figma Iteration 1.0]()
+* [Figma Iteration 2.0]()
+* [Midterm UI Demo Gif]()
+
+### Progress Documentation
+* [Gantt Chart at 10/24]()
+* [Gantt Chart at 11/26]()
+* [Cumulative Flow Diagram (Jira Task Completion Chart)]()
+* [Jira](https://cis350-coffee.atlassian.net/jira/software/projects/CPG/boards/1)
+     * Verified both 
+
+### Testing Artifacts
+* [Test Planning Document](https://github.com/Smittyxc/gvsu-cis350-Coffee/blob/main/docs/test_plan.md)
+* [Backend Unit Test Execution]()
+* [Integration Test Execution]()

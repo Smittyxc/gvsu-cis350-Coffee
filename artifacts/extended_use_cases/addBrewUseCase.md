@@ -1,5 +1,5 @@
 # Extended Use Case Description
-### Use Case: _Add Brew results_
+### Use Case: _Add Brew Results_
 
 ### Actors: _Registered User_
 

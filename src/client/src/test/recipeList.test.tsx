@@ -1,8 +1,6 @@
 import { render, screen, waitFor } from '@testing-library/react';
-import userEvent from '@testing-library/user-event'
 import { describe, test, expect, vi, beforeEach } from 'vitest';
 import { useParams } from 'react-router-dom';
-import { CoffeeBagEntry } from '../components/coffeeBagEntry';
 import { mockUseAuth } from './setup';
 import { RecipesList } from '@/components/recipeList';
 import { MemoryRouter } from 'react-router-dom';
@@ -11,7 +9,7 @@ import { MemoryRouter } from 'react-router-dom';
 const mockedUseParams = vi.mocked(useParams);
 
 const mockFetch = vi.fn();
-global.fetch = mockFetch as any;
+global.fetch = mockFetch;
 
 const mockRecipes = [
   {

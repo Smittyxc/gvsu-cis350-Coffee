@@ -31,14 +31,17 @@ Best Brew aims to provide both novice and experienced coffee enthusiasts with a 
 ### Frontend Testing: 
 * We intend to use a mock strategy to test the functionality of our frontend components. Mocking is a testing technique that creates an isolated environment and mock object that behaves the same as the real component, without using the real API to save on resources. Because our project was built with Vite, we are able to use Vitest to build mock environments and components to test with. 
 
+### Backend Testing
+Backend testing was performed through the creation of unit tests with SuperTest and Jest that test several endpoint and ensure that they return correct HTTP codes based on valid or invalid authorization and data. 
+
 ## Test Criteria
-* Coffee Bag Adding and Editting
+* Coffee Bag Adding and Editing
     * In create mode, CoffeeBagEntry component should populate a form, and submit a Post request
     * In edit mode, CoffeeBagEntry component should fetch data, populate the form with received data, and submit a Put request
     * CoffeeBagEntry should display an error message if a submission fails
 
 ## Test Deliverables
-* ?
+* Test Logs
 
 ## Dependencies
 * Vitest
