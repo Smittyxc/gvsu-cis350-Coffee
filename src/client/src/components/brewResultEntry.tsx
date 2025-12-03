@@ -183,21 +183,21 @@ const BrewResultEntry = () => {
       <div className="w-full flex flex-col items-center">
       <div className="p-4 sm:p-8 text-white overflow-x-hidden w-full space-y-3">
         <div className="flex items-center justify-center p-4 bg-cbg2 rounded-lg border-t-4 border-caccent4">
-          <h1 className="text-3xl font-bold text-white">New Brew Entry</h1>
+          <h1 className="text-3xl font-bold text-white">New Brew</h1>
         </div>
       </div>
 
       <div className="flex flex-col gap-7 items-start w-4/5">
-        <div>
+        <div className="w-full">
           <Label htmlFor='notes' className="text-lg">Coffee Used</Label>
           <Combobox key='coffee' value={selectedCoffee} data={coffeeNames} onValueChange={setSelectedCoffee} displayText="Select coffee"/>
         </div>
-        <div>
+        <div className="w-full">
           <Label htmlFor='notes' className="text-lg">Recipe Used</Label>
           <Combobox key='recipe' value={selectedRecipe} data={recipeNames} onValueChange={setSelectedRecipe} displayText="Select recipe"/>
         </div>
        <div className="flex justify-between items-end w-full">
-          <div>
+          <div className="w-full">
             <Label htmlFor='notes' className="text-lg">Notes</Label>
             <Combobox key='notes' value={selectedNotes} data={coffeeTastingNotes} onValueChange={setSelectedNotes} displayText="Select notes"/>
           </div>

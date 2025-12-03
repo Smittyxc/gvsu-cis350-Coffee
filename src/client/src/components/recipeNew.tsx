@@ -231,6 +231,7 @@ export const NewRecipe: React.FC = () => {
 
         <button
         onClick={handleSave}
+        type="button"
         className={`
     fixed left-1/2 -translate-x-1/2
     bottom-13

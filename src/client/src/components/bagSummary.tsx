@@ -391,7 +391,7 @@ export const BagSummary: React.FC = () => {
   
   // WHERE BAGS ARE STORED?
   const handleEdit = () => {
-      navigate(`/bags/${bagId}/edit`); 
+      navigate(`/coffee/${bagId}/edit`); 
   };
 
   // LOADING
