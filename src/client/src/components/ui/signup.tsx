@@ -1,5 +1,5 @@
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button-2";
+import { Input } from "@/components/ui/input-2";
 import { signUpNewUser } from "@/lib/auth";
 import { Coffee, Loader } from "lucide-react";
 import { FormEvent, useState } from "react";
@@ -35,8 +35,8 @@ const Signup = ({
   const [isLoading, setIsLoading] = useState(false);
 
   const handleEmail = (e: React.ChangeEvent<HTMLInputElement>): void => {
-      setEmail(e.target.value);
-    };
+    setEmail(e.target.value);
+  };
 
   const handlePassword = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setPassword(e.target.value);
@@ -63,58 +63,62 @@ const Signup = ({
 
 
   return (
-    <div className='flex flex-col w-full min-h-screen items-center justify-center bg-gradient-to-b from-blue-700 from-50% to-neutral-50 to-50%'>
+    <div className='flex flex-col w-full min-h-screen items-center justify-center bg-gradient-to-b from-cbg1 from-50% to-cbg2 to-50%'>
       <div className="flex h-full items-center justify-center">
         {/* Logo */}
         <div className="flex flex-col items-center gap-6 lg:justify-start">
-            <div className="flex gap-6">
-              <Coffee size={48} color="#ffffff" />
-              <h1 className="text-5xl text-white font-semibold">Best<span className="font-light">Brew</span></h1>
-            </div>
-            <form onSubmit={handleSubmit} className="min-w-sm border-muted bg-background flex w-full max-w-sm flex-col items-center gap-y-4 rounded-md border px-6 py-8 shadow-md">
-            {heading && <h1 className="text-xl font-semibold">{heading}</h1>}
-            <Input
-              type="email"
-              placeholder="Email"
-              className="text-sm"
-              onChange={handleEmail}
-              value={email}
-              required
-            />
-            <Input
-              type="password"
-              placeholder="Password"
-              className="text-sm"
-              onChange={handlePassword}
-              value={password}
-              required
-            />
-            <Input
-              type="password"
-              placeholder="Confirm Password"
-              className="text-sm"
-              onChange={handlePassword2}
-              value={password2}
-              required
-            />
-            <Button type="submit" className="w-full">
-              {buttonText}
-            </Button>
-          </form>
-          {isLoading &&
-            <div className="flex items-center justify-center">
-              <Loader className="animate-spin w-8 h-8 text-blue-500" />
-            </div>
-          }
-          <div className="text-muted-foreground flex justify-center gap-1 text-sm">
-            <p>{signupText}</p>
+          <div className="flex gap-6">
+            <Coffee size={48} color="#ffffff" />
+            <h1 className="text-5xl text-white font-semibold">Best<span className="font-light">Brew</span></h1>
+          </div>
+          <div className="p-4 pb-0 bg-cbg2 rounded-t-lg">
+            <form onSubmit={handleSubmit} className="min-w-sm border-muted bg-cbg3 flex w-full max-w-sm flex-col items-center gap-y-4 rounded-md px-6 py-8 shadow-md">
+              {heading && <h1 className="text-xl font-semibold text-white">{heading}</h1>}
+              <Input
+                type="email"
+                placeholder="Email"
+                className="text-sm"
+                onChange={handleEmail}
+                value={email}
+                required
+              />
+              <Input
+                type="password"
+                placeholder="Password"
+                className="text-sm"
+                onChange={handlePassword}
+                value={password}
+                required
+              />
+              <Input
+                type="password"
+                placeholder="Confirm Password"
+                className="text-sm"
+                onChange={handlePassword2}
+                value={password2}
+                required
+              />
+              <Button type="submit" className="w-full bg-cfab text-white">
+                {buttonText}
+              </Button>
+            </form>
+          </div>
+
+          <div className="flex justify-center text-sm bg-cbg1 px-4 py-2 rounded-b-lg -mt-6 shadow-md">
+            <p className="text-muted-foreground mr-1">{signupText}</p>
             <Link
-              to="/login"
-              className="text-primary font-medium hover:underline"
+              to='/login'
+              className="text-cltext font-medium hover:underline"
             >
               Login
             </Link>
           </div>
+
+          {isLoading &&
+            <div className="flex items-center justify-center">
+              <Loader className="animate-spin w-8 h-8 text-white" />
+            </div>
+          }
         </div>
       </div>
     </div>

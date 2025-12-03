@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { RecipeListItem } from './recipeListItem';
-import { TabBar } from './ui/tabBar';
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useAuth } from "@/context/AuthContext.tsx"
+import { Skeleton } from "./ui/skeleton";
 // import { BookOpen, Coffee, User } from 'lucide-react'; 
 
 const testRecipes = [
@@ -14,16 +14,18 @@ const testRecipes = [
 type RecipeSummary = { id: number; name: string, brewMethod: string };
 
 export const RecipesList: React.FC = () => {
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
 
     const [recipes, setRecipes] = useState<RecipeSummary[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const { session } = useAuth();
 
+    /*
     const handleAddNew = () => {
         navigate("/recipes/recipeNew");
     };
+    */
 
     useEffect(() => {
         const fetchRecipes = async () => {
@@ -61,24 +63,29 @@ export const RecipesList: React.FC = () => {
 
     return (
         <div className="flex flex-col h-full">
-            <header className="p-4">
-                <h1 className="text-3xl font-bold text-white">Recipes</h1>
-                <input
-                    type="search"
-                    placeholder="Search"
-                    className="mt-4 w-full p-3 rounded-lg focus:outline-none focus:ring-2 focus:cbg3 text-ctext bg-cbg2"
-                />
-                <div className="flex space-x-2 mt-3 overflow-x-auto pb-2">
-                    {['All', 'Pourover', 'Aeropress', 'Iced'].map(filter => (
-                        <button
-                            key={filter}
-                            className="flex-shrink-0 px-4 py-1 hover:bg-chover text-cltext text-sm bg-cbg2 rounded"
-                        >
-                            {filter}
-                        </button>
-                    ))}
+            <div className="p-4 sm:p-8 text-white overflow-x-hidden w-full space-y-3">
+                <div className="flex items-center justify-center p-4 bg-cbg2 rounded-lg border-t-4 border-caccent3">
+                    <h1 className="text-3xl font-bold text-white">Recipes</h1>
                 </div>
-            </header>
+
+                <div className="w-7/8 mx-auto">
+                    <input
+                        type="search"
+                        placeholder="Search"
+                        className="w-full p-3 rounded-lg focus:outline-none focus:ring-2 focus:cbg3 text-ctext bg-cbg2"
+                    />
+                    <div className="flex space-x-2 mt-3 overflow-x-auto pb-2">
+                        {['All', 'Pourover', 'Aeropress', 'Iced'].map(filter => (
+                            <button
+                                key={filter}
+                                className="flex-shrink-0 px-4 py-1 hover:bg-chover text-cltext text-sm bg-cbg2 rounded"
+                            >
+                                {filter}
+                            </button>
+                        ))}
+                    </div>
+                </div>
+            </div>
 
             <main className="flex-grow overflow-y-auto p-4 space-y-2 mb-16">
 
@@ -94,10 +101,20 @@ export const RecipesList: React.FC = () => {
                     </Link>
                 ))}
 
-                {loading && <p className="text-cnote">Loading recipes...</p>}
+                {/* <p className="text-cnote">Loading recipes...</p> */}
+                {loading && (
+                    <div className="flex flex-col w-4/5 pt-2 gap-4 justify-center items-center mx-auto">
+                    <Skeleton className="h-10 w-full bg-gray-300" />
+                    <Skeleton className="h-10 w-full bg-gray-300" />
+                    <Skeleton className="h-10 w-full bg-gray-300" />
+                    <Skeleton className="h-10 w-full bg-gray-300" />
+                    <Skeleton className="h-10 w-full bg-gray-300" />
+                    <Skeleton className="h-10 w-full bg-gray-300" />
+                    </div>
+                )}
                 {error && <p className="text-cerror">Error: {error}</p>}
                 {!loading && !error && recipes.length === 0 && (
-                    <p className="text-cltext">You don't have any recipes yet.</p>
+                    <p className="text-cltext text-center">You don't have any recipes yet.</p>
                 )}
 
                 {!loading &&
@@ -112,7 +129,7 @@ export const RecipesList: React.FC = () => {
                         </Link>
                     ))}
 
-                {/* ADD BUTTON */}
+                {/* ADD BUTTON
                 <button
                     className="fixed bottom-22 right-5 w-16 h-16 rounded-full hover:bg-chover bg-cbg3 bg-accent-brown text-white shadow-lg flex items-center justify-center"
                     onClick={handleAddNew}
@@ -121,8 +138,8 @@ export const RecipesList: React.FC = () => {
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4"></path>
                     </svg>
                 </button>
+                */}
             </main>
-            <TabBar />
         </div>
     );
 }

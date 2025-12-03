@@ -179,8 +179,15 @@ const BrewResultEntry = () => {
   const [selectedNotes, setSelectedNotes] = useState<string>("");
 
   return (
-    <div className="flex flex-col items-center gap-8 h-[calc(100vh-4rem)] overflow-y-auto w-full pt-6 pb-16">
-      <div className="flex flex-col gap-8 items-start w-4/5">
+    <div className="flex flex-col items-center gap-8 h-full overflow-y-auto w-full pb-4">
+      <div className="w-full flex flex-col items-center">
+      <div className="p-4 sm:p-8 text-white overflow-x-hidden w-full space-y-3">
+        <div className="flex items-center justify-center p-4 bg-cbg2 rounded-lg border-t-4 border-caccent4">
+          <h1 className="text-3xl font-bold text-white">New Brew Entry</h1>
+        </div>
+      </div>
+
+      <div className="flex flex-col gap-7 items-start w-4/5">
         <div>
           <Label htmlFor='notes' className="text-lg">Coffee Used</Label>
           <Combobox key='coffee' value={selectedCoffee} data={coffeeNames} onValueChange={setSelectedCoffee} displayText="Select coffee"/>
@@ -275,7 +282,26 @@ const BrewResultEntry = () => {
           </div>
         </div>
       </div>
-      <Button variant="dark" onClick={handleSubmit}>Submit</Button>
+      </div>
+      <Button 
+        variant="blank"
+        onClick={handleSubmit}
+        className={`
+    flex items-start justify-center
+    fixed left-1/2 -translate-x-1/2
+    bottom-14
+    bg-caction text-white font-semibold
+    px-14 py-3 pb-15
+    rounded-t-xl
+    animate-[slide-up-fab_0.5s_ease-out_forwards]
+    
+    transition duration-300 ease-in-out
+    hover:scale-105
+    shadow-lg
+  `}
+      >
+        <span className='text-[1rem] text-white font-semibold relative flex items-center h-full pt-3'>Submit</span>
+      </Button>
     </div>
   )
 }

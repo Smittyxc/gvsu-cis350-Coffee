@@ -1,11 +1,11 @@
 import { ChangeEvent, useEffect, useState } from "react"
 import { Button } from "./ui/button.tsx"
-import { Input } from "./ui/input.tsx"
+import { Input } from "./ui/input-2.tsx"
 import { Label } from "./ui/label.tsx"
 import Combobox from "./comboBox.tsx"
 import { MonthlyCalendar } from "./monthlyCalendar.tsx"
 import { InputGroup, InputGroupAddon, InputGroupInput } from "./ui/input-group.tsx"
-import { Link, useParams } from "react-router-dom"
+import { Link, useParams, useNavigate } from "react-router-dom"
 import { coffeeProducingCountries, varieties } from "@/lib/coffeeOptions.ts"
 import { useAuth } from "@/context/AuthContext.tsx"
 
@@ -37,6 +37,8 @@ export function CoffeeBagEntry() {
 
   const { coffeeId } = useParams<{ coffeeId: string }>(); 
   const isEditMode = Boolean(coffeeId)
+
+  const navigate = useNavigate();
   
   useEffect(() => {
     if (isEditMode) {
@@ -128,15 +130,19 @@ export function CoffeeBagEntry() {
       setServerMsg(err.message ?? 'Something went wrong');
     } finally {
       setSubmitting(false);
-      // navigate('/viewcoffees')
+      navigate('/viewcoffees')
     }
+  };
+
+  const handleCancel = () => {
+    navigate(-1); 
   };
 
   return (
     <div className="flex flex-col items-center gap-6 h-full w-full pt-4">
       <div className="flex w-full justify-between">
         <Link to='/'>
-          <Button variant='ghost' className="text-lg text-ctext hover:text-white">Cancel</Button>
+          <Button onClick={handleCancel} variant='ghost' className="text-lg text-ctext hover:text-white">Cancel</Button>
         </Link>
         { isEditMode ? (
           <h1 className="text-2xl text-white font-semibold">Edit Coffee Bag</h1>
@@ -145,8 +151,8 @@ export function CoffeeBagEntry() {
         )}
         <div className="w-20"></div>
       </div>
-      <form onSubmit={handleSubmit} className="flex flex-col w-full items-center gap-6">
-        <div className="">
+      <form onSubmit={handleSubmit} className="flex flex-col w-full items-center gap-6 pt-6">
+        <div className="w-64">
           <Label className="" htmlFor='name'>Name</Label>
           <Input 
             type='text' 
@@ -154,10 +160,10 @@ export function CoffeeBagEntry() {
             name='name'
             onChange={handleInputChange}
             value={data.name}
-            className="mt-1 w-64"
+            className="mt-1"
           />
         </div>
-        <div className="">
+        <div className="w-64">
           <Label htmlFor='roaster'>Roaster</Label>
           <Input 
             type='text' 
@@ -168,7 +174,7 @@ export function CoffeeBagEntry() {
             className="mt-1 w-64"
           />
         </div>
-        <div className="">
+        <div className="w-64">
           <Label htmlFor='process'>Process</Label>
           <Input 
             type='text' 
@@ -194,19 +200,37 @@ export function CoffeeBagEntry() {
           </InputGroup>
       
         </div>
-        <div>
+        <div className="w-64">
           <Label htmlFor='variety'>Variety</Label>
           <Combobox value={data.variety} onValueChange={handleVarietyChange} data={varieties} displayText="Select variety"/>
         </div>
-        <div>
+        <div className="w-64">
           <Label htmlFor='variety'>Origin</Label>
           <Combobox value={data.origin} onValueChange={handleOriginChange} data={coffeeProducingCountries} displayText='Select Origin'/>
         </div>
         <MonthlyCalendar value={data.roastDate} onDateChange={handleDateChange} />
         
-        <Button disabled={submitting} variant="secondary" type='submit'>
-          {isEditMode ? "Save Changes" : "Submit"}
-        </Button>
+        <Button 
+        disabled={submitting} 
+        variant="blank" 
+        type='submit' 
+        className={`
+    flex items-start justify-center
+    fixed left-1/2 -translate-x-1/2
+    bottom-14
+    bg-caction text-white font-semibold
+    px-14 py-3 pb-15
+    rounded-t-xl
+    animate-[slide-up-fab_0.5s_ease-out_forwards]
+    
+    transition duration-300 ease-in-out
+    hover:scale-105
+    shadow-lg
+  `}
+      >
+        <span className='text-[1rem] text-white font-semibold relative flex items-center h-full pt-3'>{isEditMode ? "Save Changes" : "Submit"}</span>
+      </Button>
+
         {serverMsg && <p>{serverMsg}</p>}
       </form>
     </div>

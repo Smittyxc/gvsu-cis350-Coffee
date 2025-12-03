@@ -1,15 +1,23 @@
-import { BookOpen, User, Coffee } from 'lucide-react';
+import { BookOpen, User, Coffee, FlaskRound, FlaskConical} from 'lucide-react';
+// import { c } from 'node_modules/vite/dist/node/moduleRunnerTransport.d-DJ_mE5sf';
 
 // PLACEHOLDER ICONS
 const Milk = '/icons/milk.svg';
 const ConicalFlask = '/icons/flask-conical.svg';
 const RoundFlask = '/icons/flask-round.svg';
 
+/*
 const DefaultCoffee = '/icons/coffee.svg';
 //const RegularCup = '/icons/icon-72x72.png';
 const RegularCup = DefaultCoffee;
 const Espresso = ConicalFlask;
 const Iced = RoundFlask;
+*/
+
+const DefaultCoffee = Coffee;
+const RegularCup = Coffee;
+const Espresso = FlaskConical;
+const Iced = FlaskRound;
 
 export const icons = {
     DefaultCoffee,

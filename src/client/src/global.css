@@ -47,6 +47,8 @@
     /* FOOTER */
     --color-cactive: oklch(82.8% 0.189 84.429);
     /* Active/Selected - Amber-400*/
+    --color-cfab: oklch(45.58% 0.052 245.5);
+    /* FAB Color */
 
     /* DEPRECATED */
     --color-c1: oklch(28.06% 0.088 238.2);
@@ -65,3 +67,72 @@
 /* @tailwind base;
 @tailwind components;
 @tailwind utilities; */
+
+/* ANIMATION KEYFRAMES */
+
+/* SPIN */
+@keyframes fab-spin-in {
+  0% { 
+    transform: rotate(-90deg) scale(0.9);
+    opacity: 1;
+  }
+  100% { 
+    transform: rotate(0deg) scale(1); 
+    opacity: 1;
+  }
+}
+
+/* ZOOM */
+@keyframes fab-zoom-in {
+  0% { 
+    transform: scale(0.9); /* Slightly shrunk */
+    opacity: 1;
+  }
+  100% { 
+    transform: scale(1); /* Normal size */
+    opacity: 1;
+  }
+}
+
+/* SLIDE UP */
+@keyframes slide-up-fab {
+  0% {
+    transform: translateY(100%); /* Start fully off-screen */
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0); /* End at the intended position */
+    opacity: 1;
+  }
+}
+
+/* ANIMATION CLASSES */
+
+/* ZOOM */
+.fab-zoom-anim {
+  animation: fab-zoom-in 0.3s ease-out forwards;
+}
+
+/* CONDITIONAL SPIM */
+.fab-spin-anim {
+  animation: fab-spin-in 0.4s ease-out forwards;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,  
+input:-webkit-autofill:active {
+    /* BACKGROUND COLOR */
+    -webkit-box-shadow: 0 0 0 1000px var(--color-cbg2) inset !important;
+    
+    /* TEXT COLOR */
+    -webkit-text-fill-color: var(--color-ctext) !important;
+
+    outline: none !important;
+    border: none !important;
+    
+    transition: background-color 5000s ease-in-out 0s;
+}
+
+input:-webkit-autofill:focus {
+  outline: 2px solid var(--color-ctext) !important;
+}

@@ -228,6 +228,24 @@ export const NewRecipe: React.FC = () => {
           </button>
 
         </div>
+
+        <button
+        onClick={handleSave}
+        className={`
+    fixed left-1/2 -translate-x-1/2
+    bottom-13
+    bg-caction
+    px-16 py-3 pb-10
+    rounded-t-xl
+    animate-[slide-up-fab_0.5s_ease-out_forwards]
+    
+    transition duration-300 ease-in-out
+    hover:scale-105
+    shadow-lg
+  `}
+      >
+        <span className='text-white font-semibold'>Save</span>
+      </button>
       </form>
     </div>
   );

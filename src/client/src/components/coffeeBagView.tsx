@@ -1,4 +1,4 @@
-import { Coffee, Plus, X } from "lucide-react";
+import { Coffee, X } from "lucide-react";
 import { CoffeeBag } from "./coffeeBagEntry";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { format } from "date-fns";
@@ -10,50 +10,6 @@ import PWABadge from "@/PWABadge";
 import { useEffect, useState } from "react";
 import { useAuth } from "@/context/AuthContext.tsx"
 import { Skeleton } from "./ui/skeleton";
-
-
-const sampleCoffeeBags: CoffeeBag[] = [
-  {
-    id: '123',
-    name: "Finca El Diviso",
-    roaster: "Onyx Lab",
-    process: "Thermal Shock",
-    variety: "pink-bourbon",
-    origin: "colombia",
-    roastDate: "2025-10-05T04:00:00.000Z",
-    weight: 340,
-  },
-  {
-    id: '123',
-    name: "Worka Sakaro",
-    roaster: "Madcap",
-    process: "Natural",
-    variety: "ethiopian-heirloom",
-    origin: "ethiopia",
-    roastDate: "2025-09-28T04:00:00.000Z",
-    weight: 340,
-  },
-  {
-    id: '123',
-    name: "Las Lajas",
-    roaster: "Heart Roasters",
-    process: "Red Honey",
-    variety: "caturra",
-    origin: "costa-rica",
-    roastDate: "2025-10-10T04:00:00.000Z",
-    weight: 227,
-  },
-  {
-    id: '123',
-    name: "Gatomboya AA",
-    roaster: "Tandem",
-    process: "Washed",
-    variety: "sl-28",
-    origin: "kenya",
-    roastDate: undefined,
-    weight: 340,
-  },
-];
 
 const CoffeeBagView = () => {
   const { session } = useAuth();
@@ -91,12 +47,30 @@ const CoffeeBagView = () => {
 
   return (
     <div className="h-full flex flex-col items-center justify-start w-full pb-4">
-      <h1 className="text-3xl text-white font-semibold py-4">Your Coffees</h1>
-      <Link to='/coffee/new' className="fixed bottom-22 right-5">
-        <div className="flex justify-center items-center bg-cbg3 hover:bg-chover shadow-md rounded-full size-16">
-          <Plus size={36} color="#FFFFFF" />
+
+      <div className="p-4 sm:p-8 text-white overflow-x-hidden w-full space-y-3">
+        <div className="flex items-center justify-center p-4 bg-cbg2 rounded-lg border-t-4 border-caccent2">
+          <h1 className="text-3xl font-bold text-white">Coffees</h1>
         </div>
-      </Link>
+
+        <div className="w-7/8 mx-auto">
+          <input
+            type="search"
+            placeholder="Search"
+            className="w-full p-3 rounded-lg focus:outline-none focus:ring-2 focus:cbg3 text-ctext bg-cbg2"
+          />
+          <div className="flex space-x-2 mt-3 overflow-x-auto pb-2">
+            {['All', 'Pourover', 'Aeropress', 'Iced'].map(filter => (
+              <button
+                key={filter}
+                className="flex-shrink-0 px-4 py-1 hover:bg-chover text-cltext text-sm bg-cbg2 rounded"
+              >
+                {filter}
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
 
       {Loading && (
         <div className="flex flex-col w-4/5 gap-4 justify-center items-center ">
@@ -108,9 +82,9 @@ const CoffeeBagView = () => {
           <Skeleton className="h-10 w-full bg-gray-300" />
         </div>
       )}
-      {!Loading && Bags.map((bag, index) => (
+      {!Loading && (
         <div className="grid grid-cols-2 w-full px-2 gap-3 overflow-y-auto">
-
+          {Bags.map((bag, index) => (
           <Popover key={`${bag.name}-${index}`}>
             <PopoverTrigger>
               <div key={`${bag.name}-${index}`} className="w-full h-30 flex flex-col items-center justify-around border-2 border-cbg3 shadow-md rounded-2xl text-cltext bg-cbg2 hover:bg-chover">
@@ -138,18 +112,20 @@ const CoffeeBagView = () => {
                   <Link to={`/coffee/${bag.id}/edit`}>
                     <Button variant='dark2'>Edit</Button>
                   </Link>
+                  <Link to={`/summary/${bag.id}`}>
+                    <Button variant='dark2' className="bg-caction p-5">Summary</Button>
+                  </Link>
                   <Button variant='dark2'>Delete</Button>
                 </div>
               </div>
             </PopoverContent>
           </Popover>
+          ))}
         </div>
-
-      )
       )}
       <PWABadge />
     </div>
-  )
-}
+  );
+};
 
 export default CoffeeBagView

@@ -134,7 +134,7 @@ export const RecipeInstructions: React.FC = () => {
 
   return (
     <div className="p-4 h-full overflow-y-auto">
-      <header className="flex justify-between items-center pb-4 border-b">
+      <header className="flex justify-between items-center pb-4 border-b border-white">
         <button onClick={handleBack} className="text-lg text-ctext hover:white mr-4">Back</button>
         <h2 className="text-xl text-white font-bold">Recipe Instructions</h2>
         <button onClick={handleEdit} className="text-lg font-semibold text-caction hover:text-cactionHover">Edit</button>
@@ -146,15 +146,15 @@ export const RecipeInstructions: React.FC = () => {
         {/* Core Recipe Details */}
         <div className="flex justify-around items-center my-6 p-4 bg-cbg2 rounded-lg shadow-inner">
           <div className="text-center flex flex-col items-center">
-            <Scale />
+            <Scale color={`var(--color-cltext)`}/>
             <p className="font-bold text-xl text-ctext">{dose_grams}g</p>
           </div>
           <div className="text-center flex flex-col items-center">
-            <Bean />
+            <Bean color={`var(--color-cltext)`}/>
             <p className="font-bold text-xl text-ctext">{grind_size}</p>
           </div>
           <div className="text-center flex flex-col items-center">
-            <Thermometer />
+            <Thermometer color={`var(--color-cltext)`}/>
             <p className="font-bold text-xl text-ctext">176°F</p>
             <p className="text-xs text-cnote">{getCelsius(176)}°C</p>
           </div>
@@ -181,6 +181,25 @@ export const RecipeInstructions: React.FC = () => {
           </Link>
         </div>
       </main>
+
+
+      <button
+        onClick={handleEdit}
+        className={`
+    fixed left-1/2 -translate-x-1/2
+    bottom-13
+    bg-caction
+    px-16 py-3 pb-10
+    rounded-t-xl
+    animate-[slide-up-fab_0.5s_ease-out_forwards]
+    
+    transition duration-300 ease-in-out
+    hover:scale-105
+    shadow-lg
+  `}
+      >
+        <span className='text-white font-semibold'>Edit</span>
+      </button>
     </div>
   );
 };
