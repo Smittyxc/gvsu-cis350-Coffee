@@ -12,6 +12,7 @@ import { RecipesList } from "@/components/recipeList"
 import { NewRecipe } from "@/components/recipeNew"
 import { RecipeInstructions } from "@/components/recipeInstructions"
 import { BagSummary } from "@/components/bagSummary"
+import { Account } from "@/components/account"
 
 
 export const router = createBrowserRouter([
@@ -25,13 +26,14 @@ export const router = createBrowserRouter([
     children: [
       { path: "/coffee/new", element: <CoffeeBagEntry />},
       { path: "/coffee/:coffeeId/edit", element: <CoffeeBagEntry />},
+      { path: "/summary/:bagId", element: <BagSummary />},
       { path: "/viewcoffees", element: <CoffeeBagView />},
       { path: "/brewresults", element: <BrewResultEntry />},
-      { path: "/summary", element: <BagSummary />},
       { path: "/recipes", element: <RecipesList /> },
       { path: "/recipes/recipeNew", element: <NewRecipe /> },
       { path: "/recipes/:recipeId", element: <RecipeInstructions /> },
-      { path: "/recipes/:recipeId/edit", element: <NewRecipe /> }
+      { path: "/recipes/:recipeId/edit", element: <NewRecipe /> },
+      { path: "/account", element: <Account /> },
     ]
   },
 ])

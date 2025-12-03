@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom'; 
+import { Coffee } from 'lucide-react';
+import { useNavigate, useParams } from 'react-router-dom'; 
 import { useAuth } from "@/context/AuthContext.tsx"
 import { 
   RadarChart, 
@@ -57,96 +58,11 @@ interface CalculatedBagData extends CoffeeBag {
 }
 
 // URL PARAMS
-/*
+
 interface BagParams {
   bagId: string;
   [key: string]: string | undefined 
-} */
-
-// MOCK DATA FOR TESTING
-
-// RAW BAG DATA
-/*
-const mockRawBagData: Record<number, CoffeeBag> = {
-  0: {
-    id: 0,
-    name: 'Midnight Roast',
-    weightTotal: 340,
-    summaryNotes: 'A deep, chocolate-forward roast. Pairs well with a slow morning.',
-  },
-  1: {
-    id: 1,
-    name: 'Morning Light Blend',
-    weightTotal: 250,
-    summaryNotes: 'Bright and fruity. A perfect daily drinker. Best with a high water temperature.',
-  },
-};
-
-// BREW SESSIONS
-const mockBrewSessions: BrewSession[] = [
-  // Bag 0 (Midnight Roast)
-  {
-    id: 101,
-    bagId: 0,
-    rating: 4,
-    date: '10-20-2025',
-    brewMethod: 'Pour Over',
-    brewTime: 180,
-    weightUsed: 20,
-    temperatureF: 205,
-    flavorProfile: { acidity: 3, clarity: 3, bitterness: 3, sweetness: 4, body: 4 },
-    notes: ['Molasses', 'Smoky'],
-  },
-  {
-    id: 102,
-    bagId: 0,
-    rating: 5,
-    date: '10-25-2025',
-    brewMethod: 'Aeropress',
-    brewTime: 98,
-    weightUsed: 15,
-    temperatureF: 200,
-    flavorProfile: { acidity: 4, clarity: 3, bitterness: 2, sweetness: 5, body: 4 },
-    notes: ['Dark Chocolate', 'Heavy Body', 'Sweet'],
-  },
-  {
-    id: 103,
-    bagId: 0,
-    rating: 4,
-    date: '11-07-2025',
-    brewMethod: 'Aeropress',
-    brewTime: 110,
-    weightUsed: 18,
-    temperatureF: 202,
-    flavorProfile: { acidity: 4, clarity: 3, bitterness: 2, sweetness: 4, body: 4 },
-    notes: ['Nutty', 'Caramel'],
-  },
-  // Bag 1 (Morning Light Blend)
-  {
-    id: 201,
-    bagId: 1,
-    rating: 3,
-    date: '10-15-2025',
-    brewMethod: 'V60',
-    brewTime: 120,
-    weightUsed: 20,
-    temperatureF: 208,
-    flavorProfile: { acidity: 5, clarity: 4, bitterness: 1, sweetness: 3, body: 2 },
-    notes: ['Citrus Zest', 'Bright Acidity'],
-  },
-  {
-    id: 202,
-    bagId: 1,
-    rating: 5,
-    date: '11-09-2025',
-    brewMethod: 'V60',
-    brewTime: 140,
-    weightUsed: 20,
-    temperatureF: 205,
-    flavorProfile: { acidity: 4, clarity: 5, bitterness: 1, sweetness: 4, body: 3 },
-    notes: ['Apricot', 'Clean Finish', 'Floral'],
-  },
-]; */
+}
 
 // FORMATTING CONSTANTS
 
@@ -339,12 +255,12 @@ const useCoffeeBagData = (bagId: number) => {
 
         } catch (err: any) {
           console.error("Error fetching recipes:", err);
+        } finally {
+          setLoading(false);
         }
         }
       
         fetchBrews();
-
-    setLoading(false);
   }, [bagId]);
 
   return { bag, bestBrew, loading };
@@ -436,6 +352,18 @@ const FlavorProfileChart: React.FC<{ profile: CalculatedBagData['averageFlavorPr
     );
 };
 
+const CoffeeLoader: React.FC = () => (
+    <div className="flex flex-col items-center justify-center min-h-screen bg-cbg1 text-white p-8">
+        <div className="relative w-16 h-16 mb-4">
+            <Coffee 
+                size={64} 
+                className="text-white absolute bottom-0" 
+            />
+        </div>
+        <div className="text-2xl font-light">Brewing up the data...</div>
+    </div>
+);
+
 const Card: React.FC<{ children: React.ReactNode, className?: string }> = ({ children, className = '' }) => (
   <div className={`p-4 bg-cbg2 rounded-lg shadow-xl ${className}`}>
     {children}
@@ -445,16 +373,20 @@ const Card: React.FC<{ children: React.ReactNode, className?: string }> = ({ chi
 // MAIN PAGE COMPONENT
 
 export const BagSummary: React.FC = () => {
-  // const { bagId: bagIdString } = useParams<BagParams>();
+  const { bagId: bagIdString } = useParams<BagParams>();
   const navigate = useNavigate();
 
-  const bagId = 13; //parseInt(bagIdString || '0', 10);
+  const bagId = parseInt(bagIdString || '0', 10);
 
   const { bag, bestBrew, loading } = useCoffeeBagData(bagId);
 
   // BACK TO ALL SUMMARY BAGS SUMMARY PAGE? SET -1 FOR NOW
   const handleCancel = () => {
     navigate(-1); 
+  };
+
+  const handleErrorBack = () => {
+    navigate('/viewcoffees'); 
   };
   
   // WHERE BAGS ARE STORED?
@@ -464,7 +396,8 @@ export const BagSummary: React.FC = () => {
 
   // LOADING
   if (loading) {
-    return <div className="min-h-screen bg-cbg1 text-white text-center p-8 text-2xl">Brewing up the data...</div>;
+    // return <div className="min-h-screen bg-cbg1 text-white text-center p-8 text-2xl">Brewing up the data...</div>;
+    return <CoffeeLoader />;
   }
 
   // NO FOUND BAG ERROR HANDLE
@@ -472,8 +405,8 @@ export const BagSummary: React.FC = () => {
     return (
       <div className="min-h-screen bg-cbg1 p-8 text-center text-white">
         <h2 className="text-3xl font-bold text-cerror">Bag Not Found</h2>
-        <p className="mt-2 text-lg">Could not find a coffee bag with ID: **{bagId}**</p>
-        <button onClick={handleCancel} className="mt-6 p-2 bg-cbg3 rounded hover:bg-gray-600">Go Back</button>
+        <p className="mt-2 text-lg">Could not find a coffee bag with ID: <span className='font-bold'>{bagId}</span></p>
+        <button onClick={handleErrorBack} className="mt-6 p-2 bg-cbg3 rounded hover:bg-gray-600">Go Back</button>
       </div>
     );
   }

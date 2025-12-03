@@ -1,39 +1,30 @@
-//Placeholder
-import { icons } from '@/lib/recipeConstants';
+// Placeholder component for the Account page
+import React from 'react';
+import { User } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
-export function AccountPage() {
-    const navItems = [
-        { name: 'Account', icon: icons.User, href: '/account' },
-        { name: 'Recipes', icon: icons.BookOpen, href: '/recipes' },
-        { name: 'Coffee', icon: icons.Coffee, href: '/coffee' },
-    ];
+export const Account: React.FC = () => {
+  return (
+    <div className="flex flex-col items-center justify-center h-full w-full p-6 text-white bg-cbg1">
 
-    return (
-        <div> 
-            <div className="flex flex-col h-full">
-                <header className="p-4">
-                    <h1 className="text-3xl font-bold">Account</h1>
-                </header>
-                {/* NAV BAR */}
-                <footer className="fixed bottom-0 left-0 right-0 h-16 bg-white shadow-2xl border-t border-gray-100">
-                    <div className="flex justify-around items-center h-full text-stone-500">
-                        {navItems.map((item) => {
-                            const IconComponent = item.icon;
-                            
-                            return (
-                                <a 
-                                    key={item.name} 
-                                    href={item.href} 
-                                    className="flex flex-col items-center justify-center h-full w-1/3 text-stone-300 hover:text-stone-500 transition-colors duration-200"
-                                >
-                                    <IconComponent className="w-6 h-6" />
-                                    <span className="text-xs mt-1 font-semibold">{item.name}</span>
-                                </a>
-                            );
-                        })}
-                    </div>
-                </footer>
-            </div>
-        </div>
-    )
-}
+      <User className="h-16 w-16 mb-4 text-ctext opacity-70" />
+
+      <h1 className="text-3xl font-bold mb-2">Account</h1>
+
+      <p className="text-lg text-ctext mb-6 text-center max-w-sm">
+        This page is currently <span className='font-bold'>under development</span>. 
+        We're brewing up the best features for managing your profile and app settings!
+      </p>
+
+      <Link to="/viewcoffees">
+        <button 
+          className="bg-caction hover:bg-chover text-white font-semibold py-2 px-6 rounded-lg transition-colors duration-200"
+        >
+          Go to Coffee Dashboard
+        </button>
+      </Link>
+    </div>
+  );
+};
+
+export default Account;

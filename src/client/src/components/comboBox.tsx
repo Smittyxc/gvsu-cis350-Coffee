@@ -16,6 +16,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
 
+export const inputStyle = "w-full p-3 rounded-lg focus:outline-none focus:ring-2 focus:cbg3 text-ctext bg-cbg2 hover:bg-chover";
 
 interface ComboboxProps {
   value: string;
@@ -36,14 +37,16 @@ export default function Combobox({
 }: ComboboxProps) {
   const [open, setOpen] = React.useState(false)
 
+  const buttonClassName = `${inputStyle} justify-between mt-1`;
+
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <Button
-          variant="outline"
+          className={buttonClassName}
+          variant="ghost"
           role="combobox"
           aria-expanded={open}
-          className="w-64 justify-between mt-1 bg-cbg2 text-ctext hover:bg-chover"
         >
           {value
             ? data.find((framework) => framework.value === value)?.label
@@ -51,9 +54,12 @@ export default function Combobox({
           <ChevronDownIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-[200px] p-0">
+      <PopoverContent className="w-[var(--radix-popover-trigger-width)] p-0 bg-cbg2 text-ctext border-cbg3">
         <Command>
-          <CommandInput placeholder="Search varieties..." />
+          <CommandInput 
+            placeholder="Search varieties..."
+            className="p-3 text-ctext bg-cbg2 placeholder:text-gray-500 focus:ring-0 focus:border-0" 
+          />
           <CommandList>
             <CommandEmpty>Not found.</CommandEmpty>
             <CommandGroup>
