@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { Coffee } from 'lucide-react';
-import { useNavigate, useParams } from 'react-router-dom'; 
+import { useNavigate, useParams } from 'react-router-dom';
 import { useAuth } from "@/context/AuthContext.tsx"
-import { 
-  RadarChart, 
-  PolarGrid, 
-  PolarAngleAxis, 
-  PolarRadiusAxis, 
-  Radar, 
+import {
+  RadarChart,
+  PolarGrid,
+  PolarAngleAxis,
+  PolarRadiusAxis,
+  Radar,
   Tooltip,
-  ResponsiveContainer 
+  ResponsiveContainer
 } from 'recharts';
 
 // DATA INTERFACES
@@ -24,7 +24,7 @@ interface CoffeeBag {
 interface BrewSession {
   id: number;
   bagId: number;
-  rating: number; 
+  rating: number;
   date: string;
   brewMethod: string;
   brewTime: number;
@@ -61,7 +61,7 @@ interface CalculatedBagData extends CoffeeBag {
 
 interface BagParams {
   bagId: string;
-  [key: string]: string | undefined 
+  [key: string]: string | undefined
 }
 
 // FORMATTING CONSTANTS
@@ -74,11 +74,19 @@ const TABLE_CELL_RIGHT = 'py-2 text-right font-semibold';
 
 // CONVERTS MM-DD-YYYY STRING INTO A DATE OBJECT
 const parseMDY = (dateStr: string): Date => {
-    // Splits 'MM-DD-YYYY' into [MM, DD, YYYY].
-    const parts = dateStr.split('-');
-    // Recombines into 'YYYY/MM/DD' format which is universally parsed correctly by Date.
-    return new Date(`${parts[2]}/${parts[0]}/${parts[1]}`);
+  // Splits 'MM-DD-YYYY' into [MM, DD, YYYY].
+  const parts = dateStr.split('-');
+  // Recombines into 'YYYY/MM/DD' format which is universally parsed correctly by Date.
+  return new Date(`${parts[2]}/${parts[0]}/${parts[1]}`);
 };
+
+function formatDateToMMDDYY(date: Date) {
+  const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Months are 0-indexed, so add 1
+  const day = date.getDate().toString().padStart(2, '0');
+  const year = date.getFullYear().toString().slice(-2); // Get the last two digits of the year
+
+  return `${month}${day}${year}`;
+}
 
 // CALCULATIONS
 
@@ -179,7 +187,7 @@ const calculateBagData = (bag: CoffeeBag, sessions: BrewSession[]): CalculatedBa
 // DATA FETCHING HOOK
 
 const useCoffeeBagData = (bagId: number) => {
-  const [bag, setBag] = useState<CalculatedBagData | null>(null); 
+  const [bag, setBag] = useState<CalculatedBagData | null>(null);
   const [bestBrew, setBestBrew] = useState<BrewSession | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -189,55 +197,57 @@ const useCoffeeBagData = (bagId: number) => {
     setLoading(true);
     // API
     const fetchBrews = async () => {
-          try {
-          const token = session?.access_token;
+      try {
+        const token = session?.access_token;
 
-          await fetch("http://localhost:5000/api/brew/" + bagId, {
+        await fetch("http://localhost:5000/api/brew/" + bagId, {
           headers: {
-              Authorization: `Bearer ${token ?? ""}`,
+            Authorization: `Bearer ${token ?? ""}`,
           },
 
-          
 
-          }).then(resp => {
-            if (!resp.ok) return resp.text().then(msg => { throw new Error(msg) });
-            return resp.json();
 
-          }).then(data => {
+        }).then(resp => {
+          if (!resp.ok) return resp.text().then(msg => { throw new Error(msg) });
+          return resp.json();
 
-            return Promise.all([data, fetch("http://localhost:5000/api/coffee/" + bagId, {
-          headers: {
+        }).then(data => {
+
+          return Promise.all([data, fetch("http://localhost:5000/api/coffee/" + bagId, {
+            headers: {
               Authorization: `Bearer ${token ?? ""}`,
-          }}).then(r => r.json())])
-          })
+            }
+          }).then(r => r.json())])
+        })
           .then(combinedData => {
             console.log(combinedData);
             const data = combinedData[0];
             const bagData = combinedData[1].coffee;
 
-            const bagDataFormatted: CoffeeBag = {id: bagData.id,
+            const bagDataFormatted: CoffeeBag = {
+              id: bagData.id,
               name: bagData.name,
               weightTotal: bagData.weight,
               summaryNotes: "no notes"
             }
 
             const bagSessions: BrewSession[] = data.map((i: any) => ({
-                id: i.id || "id",
-                bagId: i.coffee_id,
-                rating: i.score || 0,
-                date: i.created_at,
-                brewMethod: "Pour-over",
-                brewTime: 215,
-                weightUsed: 200,
-                temperatureF: 180,
-                flavorProfile: {
-                  acidity: i.acidity || 2,
-                  clarity: i.clarity || 2,
-                  bitterness: i.bitterness || 2,
-                  sweetness: i.sweetness || 2,
-                  body: i.body || 2,
-                },
-                notes: [i.notes || "No notes"]
+              id: i.id || "id",
+              bagId: i.coffee_id,
+              rating: i.score || 0,
+              date: i.created_at,
+              brewMethod: "Pour-over",
+              brewTime: 215,
+              weightUsed: 200,
+              temperatureF: 180,
+              flavorProfile: {
+                acidity: i.acidity || 2,
+                clarity: i.clarity || 2,
+                bitterness: i.bitterness || 2,
+                sweetness: i.sweetness || 2,
+                body: i.body || 2,
+              },
+              notes: [i.notes || "No notes"]
             }));
 
             // CALCULATE ALL FIELDS FOR THE BAG SUMMARY
@@ -253,14 +263,14 @@ const useCoffeeBagData = (bagId: number) => {
 
           });
 
-        } catch (err: any) {
-          console.error("Error fetching recipes:", err);
-        } finally {
-          setLoading(false);
-        }
-        }
-      
-        fetchBrews();
+      } catch (err: any) {
+        console.error("Error fetching recipes:", err);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchBrews();
   }, [bagId]);
 
   return { bag, bestBrew, loading };
@@ -276,16 +286,16 @@ const StarRating: React.FC<{ rating: number }> = ({ rating }) => {
 
       {/* EMPTY/BACKGROUND STARS */}
       <div className="flex whitespace-nowrap text-cbg3">
-        <span className="text-3xl">★★★★★</span> 
+        <span className="text-3xl">★★★★★</span>
       </div>
 
       {/* FILLED (YELLOW) STARS */}
-      <div 
+      <div
         className="absolute top-0 left-0 flex overflow-hidden whitespace-nowrap text-caccent1"
-        style={{ width: `${fillPercentage}%` }} 
+        style={{ width: `${fillPercentage}%` }}
       >
         {/* RENDER STARS */}
-        <span className="text-3xl">★★★★★</span> 
+        <span className="text-3xl">★★★★★</span>
       </div>
 
     </div>
@@ -294,74 +304,74 @@ const StarRating: React.FC<{ rating: number }> = ({ rating }) => {
 
 
 const FlavorProfileChart: React.FC<{ profile: CalculatedBagData['averageFlavorProfile'] }> = ({ profile }) => {
-    const data = [
-        { subject: 'Acidity', A: profile.acidity, fullMark: 5 },
-        { subject: 'Clarity', A: profile.clarity, fullMark: 5 },
-        { subject: 'Bitterness', A: profile.bitterness, fullMark: 5 },
-        { subject: 'Sweetness', A: profile.sweetness, fullMark: 5 },
-        { subject: 'Body', A: profile.body, fullMark: 5 },
-    ];
+  const data = [
+    { subject: 'Acidity', A: profile.acidity, fullMark: 5 },
+    { subject: 'Clarity', A: profile.clarity, fullMark: 5 },
+    { subject: 'Bitterness', A: profile.bitterness, fullMark: 5 },
+    { subject: 'Sweetness', A: profile.sweetness, fullMark: 5 },
+    { subject: 'Body', A: profile.body, fullMark: 5 },
+  ];
 
-    return (
-        <div className="w-full mx-auto" style={{ height: '280px' }}>
-            <ResponsiveContainer width="100%" height="100%">
-                <RadarChart 
-                    cx="50%" 
-                    cy="50%" 
-                    outerRadius="80%" 
-                    data={data}
-                >
-                    {/* Draws the web lines. */}
-                    <PolarGrid stroke="#4B5563" /> 
-                    
-                    {/* Displays the labels. */}
-                    <PolarAngleAxis 
-                        dataKey="subject" 
-                        stroke="#D1D5DB" 
-                        tick={{ fill: '#D1D5DB', fontSize: 12 }} 
-                    />
-                    
-                    {/* Sets the range and displays the radius lines (0, 1, 2, 3, 4, 5). */}
-                    <PolarRadiusAxis 
-                        angle={90} 
-                        domain={[0, 5]} 
-                        tickCount={6} 
-                        stroke="#4B5563" 
-                        tick={{ fill: '#9CA3AF', fontSize: 10 }}
-                    />
-                    
-                    <Tooltip 
-                        contentStyle={{ 
-                            backgroundColor: '#374151', 
-                            borderColor: '#1F2937', 
-                            color: 'white' 
-                        }} 
-                    />
-                    
-                    {/* Defines the actual colored shape */}
-                    <Radar 
-                        name="Flavor Profile" 
-                        dataKey="A" 
-                        stroke="#60A5FA" // Border
-                        fill="#60A5FA"   // Fill
-                        fillOpacity={0.6} 
-                    />
-                </RadarChart>
-            </ResponsiveContainer>
-        </div>
-    );
+  return (
+    <div className="w-full mx-auto" style={{ height: '280px' }}>
+      <ResponsiveContainer width="100%" height="100%">
+        <RadarChart
+          cx="50%"
+          cy="50%"
+          outerRadius="80%"
+          data={data}
+        >
+          {/* Draws the web lines. */}
+          <PolarGrid stroke="#4B5563" />
+
+          {/* Displays the labels. */}
+          <PolarAngleAxis
+            dataKey="subject"
+            stroke="#D1D5DB"
+            tick={{ fill: '#D1D5DB', fontSize: 12 }}
+          />
+
+          {/* Sets the range and displays the radius lines (0, 1, 2, 3, 4, 5). */}
+          <PolarRadiusAxis
+            angle={90}
+            domain={[0, 5]}
+            tickCount={6}
+            stroke="#4B5563"
+            tick={{ fill: '#9CA3AF', fontSize: 10 }}
+          />
+
+          <Tooltip
+            contentStyle={{
+              backgroundColor: '#374151',
+              borderColor: '#1F2937',
+              color: 'white'
+            }}
+          />
+
+          {/* Defines the actual colored shape */}
+          <Radar
+            name="Flavor Profile"
+            dataKey="A"
+            stroke="#60A5FA" // Border
+            fill="#60A5FA"   // Fill
+            fillOpacity={0.6}
+          />
+        </RadarChart>
+      </ResponsiveContainer>
+    </div>
+  );
 };
 
 const CoffeeLoader: React.FC = () => (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-cbg1 text-white p-8">
-        <div className="relative w-16 h-16 mb-4">
-            <Coffee 
-                size={64} 
-                className="text-white absolute bottom-0" 
-            />
-        </div>
-        <div className="text-2xl font-light">Brewing up the data...</div>
+  <div className="flex flex-col items-center justify-center min-h-screen bg-cbg1 text-white p-8">
+    <div className="relative w-16 h-16 mb-4">
+      <Coffee
+        size={64}
+        className="text-white absolute bottom-0"
+      />
     </div>
+    <div className="text-2xl font-light">Brewing up the data...</div>
+  </div>
 );
 
 const Card: React.FC<{ children: React.ReactNode, className?: string }> = ({ children, className = '' }) => (
@@ -382,16 +392,16 @@ export const BagSummary: React.FC = () => {
 
   // BACK TO ALL SUMMARY BAGS SUMMARY PAGE? SET -1 FOR NOW
   const handleCancel = () => {
-    navigate(-1); 
+    navigate(-1);
   };
 
   const handleErrorBack = () => {
-    navigate('/viewcoffees'); 
+    navigate('/viewcoffees');
   };
-  
+
   // WHERE BAGS ARE STORED?
   const handleEdit = () => {
-      navigate(`/coffee/${bagId}/edit`); 
+    navigate(`/coffee/${bagId}/edit`);
   };
 
   // LOADING
@@ -410,18 +420,20 @@ export const BagSummary: React.FC = () => {
       </div>
     );
   }
-
+  const displayDate = new Date(bag.lastUsedDate || 0).toLocaleDateString()
+  const firstUsedDate = new Date(bag.firstUsedDate || 0).toLocaleDateString()
+  const brewedOnDate = new Date(bestBrew?.date || 0).toLocaleDateString()
   // RENDER PAGE CONTENT
   return (
     <div className="p-4 sm:p-8 text-white overflow-x-hidden">
-      
+
       {/* HEADER */}
       <div className="flex items-center justify-between p-4 mb-6 bg-cbg2 rounded-lg">
         <button onClick={handleCancel} className="text-lg text-ctext hover:text-white">Cancel</button>
         <h1 className="text-2xl font-bold">Bag Summary</h1>
         <button onClick={handleEdit} className="text-lg font-semibold text-caction hover:text-cactionHover">Edit</button>
       </div>
-      
+
       {/* MAIN GRID */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
@@ -443,7 +455,7 @@ export const BagSummary: React.FC = () => {
                 </tr>
                 <tr className={TABLE_ROW_BORDER}>
                   <td className={TABLE_CELL_LEFT}>Last Used</td>
-                  <td className={TABLE_CELL_RIGHT}>{bag.lastUsedDaysAgo} days ago</td>
+                  <td className={TABLE_CELL_RIGHT}>{bag.lastUsedDaysAgo || 0} days ago</td>
                 </tr>
                 <tr className={TABLE_ROW_BORDER}>
                   <td className={TABLE_CELL_LEFT}>Beans Remaining</td>
@@ -464,7 +476,7 @@ export const BagSummary: React.FC = () => {
           <Card>
             <h3 className="text-xl font-bold mb-4 text-center text-caccent2">Average Flavor Profile</h3>
             <div className='bg-cbg3 p-4 rounded'>
-                <FlavorProfileChart profile={bag.averageFlavorProfile} />
+              <FlavorProfileChart profile={bag.averageFlavorProfile} />
             </div>
           </Card>
 
@@ -493,7 +505,7 @@ export const BagSummary: React.FC = () => {
 
             {bestBrew && (
               <div className="grid grid-cols-2 gap-4 text-sm mb-6">
-                <p className="col-span-2 text-center text-ctext">Brewed on: {bestBrew.date}</p>
+                <p className="col-span-2 text-center text-ctext">Brewed on: {brewedOnDate}</p>
                 <div className="text-center">
                   <p className="font-bold text-lg">{bestBrew.brewMethod}</p>
                   <p className="text-ctext">Method</p>
@@ -516,7 +528,7 @@ export const BagSummary: React.FC = () => {
                     </tr>
                     <tr>
                       <td className={TABLE_CELL_LEFT}>Last Used Date</td>
-                      <td className={TABLE_CELL_RIGHT}>{bestBrew.date || 'N/A'}</td>
+                      <td className={TABLE_CELL_RIGHT}>{brewedOnDate || 'N/A'}</td>
                     </tr>
                     <tr>
                       <td className={TABLE_CELL_LEFT}>Beans Used</td>
@@ -590,11 +602,11 @@ export const BagSummary: React.FC = () => {
                 </tr>
                 <tr className={TABLE_ROW_BORDER}>
                   <td className={TABLE_CELL_LEFT}>First Used</td>
-                  <td className={TABLE_CELL_RIGHT}>{bag.firstUsedDate || 'N/A'}</td>
+                  <td className={TABLE_CELL_RIGHT}>{firstUsedDate || 'N/A'}</td>
                 </tr>
                 <tr className={TABLE_ROW_BORDER}>
                   <td className={TABLE_CELL_LEFT}>Last Used</td>
-                  <td className={TABLE_CELL_RIGHT}>{bag.lastUsedDate || 'N/A'}</td>
+                  <td className={TABLE_CELL_RIGHT}>{displayDate || 'N/A'}</td>
                 </tr>
                 <tr className={TABLE_ROW_BORDER}>
                   <td className={TABLE_CELL_LEFT}>Bag Weight</td>
