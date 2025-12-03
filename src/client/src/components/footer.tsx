@@ -27,8 +27,8 @@ const Footer = () => {
         return 'dynamic-fab';
       case '/brewresults':
         return 'brews';
-      case '/summary':
-        return 'summary-new';
+      case '/account':
+        return 'account';
       case '/coffee/new':
         return 'dynamic-fab';
       default:
@@ -36,6 +36,9 @@ const Footer = () => {
           return 'dynamic-fab';
         }
         else if (path.startsWith('/coffee/') && path.endsWith('/edit')) {
+          return 'dynamic-fab';
+        }
+        else if (path.startsWith('/summary/')) {
           return 'dynamic-fab';
         }
         return ''; 
@@ -79,7 +82,7 @@ const Footer = () => {
         return {
           Icon: Home,
           text: 'Dashboard',
-          link: '/summary',
+          link: '/viewcoffees',
           value: 'view-stats',
         };
       case '/summary':
@@ -104,6 +107,14 @@ const Footer = () => {
             text: 'Back',
             link: '/viewcoffees',
             value: 'back-coffee-edit',
+          };
+        }
+        else if (path.startsWith('/summary/')) {
+          return {
+            Icon: ChevronLeft,
+            text: 'Back',
+            link: '/viewcoffees',
+            value: 'back-bag-summary',
           };
         }
         return {
@@ -195,7 +206,7 @@ const Footer = () => {
                 {/* ACCOUNT */}
                 <Link to='/account' className="flex-grow h-full flex items-center justify-center">
                   <TabsTrigger
-                    value='summary-new'
+                    value='account'
                     className="rounded-none h-full w-full bg-cbg2 text-ctext hover:bg-cbg3 data-[state=active]:text-cactive data-[state=active]:bg-cbg3 ring-none outline-none flex flex-col justify-center transition-colors"
                   >
                     <User className="h-5 w-5 mb-0.5" />
