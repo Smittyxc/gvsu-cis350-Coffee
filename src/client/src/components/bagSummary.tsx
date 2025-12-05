@@ -80,6 +80,7 @@ const parseMDY = (dateStr: string): Date => {
   return new Date(`${parts[2]}/${parts[0]}/${parts[1]}`);
 };
 
+/*
 function formatDateToMMDDYY(date: Date) {
   const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Months are 0-indexed, so add 1
   const day = date.getDate().toString().padStart(2, '0');
@@ -87,6 +88,7 @@ function formatDateToMMDDYY(date: Date) {
 
   return `${month}${day}${year}`;
 }
+*/
 
 // CALCULATIONS
 
