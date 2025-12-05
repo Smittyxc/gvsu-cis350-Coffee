@@ -81,10 +81,10 @@ const Timer = () => {
   const bgColor = color[step.type as StepType]
 
   return (
-    <div className='w-full min-h-screen flex flex-col items-center justify-between  gap-4'>
+    <div className='w-full min-h-screen flex flex-col items-center justify-between gap-4 bg-cbg2'>
       <Header />
-      <div className='w-2/3 h-full bg-gray-200 shadow-md border-gray-200 rounded-2xl'>
-        <div className='flex justify-center p-2 text-6xl font-mono'>
+      <div className='w-2/3 h-full bg-cbg3 shadow-md border-gray-200 rounded-2xl'>
+        <div className='flex justify-center p-2 text-6xl font-mono text-white'>
           <span>{String(minutes).padStart(2, '0')}</span>:<span>{String(seconds).padStart(2, '0')}</span>
         </div>
       </div>
