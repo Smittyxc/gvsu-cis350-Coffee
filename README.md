@@ -11,7 +11,7 @@ In the world of specialty coffee, enthusiasts go to great lengths to perfect the
 # Run Instructions
 1. Navigate to server directory (/GVSU-CIS350-COFFEE/src/server/)
 2. Run the command 'npm install' to download necessary packages defined in package.json
-3. Navigate to the client directory (/GVSU-CIS350=COFFEE/src/client/)
+3. Navigate to the client directory (/GVSU-CIS350-COFFEE/src/client/)
 4. Again, run 'npm install' in console to download dependencies.
 5. Start the frontend with command 'npm run dev'
 6. Navigate back to server directory and start server with 'npm start'
